@@ -1,0 +1,549 @@
+Scientific name,English name,European population status (BiE4) (* = marginal species with small populations but not decreasing),SPEC category (BiE4),2021 European Red List category and criteria,2022 Global IUCN Red List category,European breeding population size,European breeding population unit,European breeding population trend
+Coturnix coturnix,Common Quail,NT,SPEC 3,NT A2bcde+3bcde+4bcde,LC,"2,500,000–4,520,000",Calling males,Decreasing
+Tetraogallus caucasicus,Caucasian Snowcock,Rare,SPEC 2,LC,LC,"5,000–16,200",Pairs,Stable
+Tetraogallus caspius,Caspian Snowcock,Rare,SPEC 2,LC,LC,"4,200–10,400",Pairs,Decreasing
+Alectoris graeca,Rock Partridge,NT,SPEC 1,NT A2bcd+3bcd+4bcd,NT,"37,600–61,400",Pairs,Unknown
+Alectoris chukar,Chukar,SecureF,Non-SPEC,LC,LC,"678,000–1,950,000",Pairs,Unknown
+Alectoris barbara,Barbary Partridge,SecureF,Non-SPEC,LC,LC,"7,700–20,500",Pairs,Unknown
+Alectoris rufa,Red-legged Partridge,NT,SPEC 1,NT A2bcde+3bcde+4bcde,NT,"4,970,000–6,850,000",Pairs,Decreasing
+Ammoperdix griseogularis,See-see Partridge,VU,SPEC 3,VU C2a(ii),LC,"3,900–6,800",Pairs,Decreasing
+Francolinus francolinus,Black Francolin,SecureF,Non-SPEC,LC,LC,"10,700–18,900",Pairs,Fluctuating
+Phasianus colchicus,Common Pheasant,Secure,Non-SPEC,LC,LC,"4,800–8,200",Pairs,Stable
+Perdix perdix,Grey Partridge,Declining,SPEC 2,LC,LC,"1,140,000–1,880,000",Pairs,Decreasing
+Bonasa bonasia,Hazel Grouse,Depleted,SPEC 3,LC,LC,"2,000,000–3,480,000",Pairs,Unknown
+Lagopus lagopus,Willow Grouse,Depleted,SPEC 3,LC,LC,"1,280,000–2,030,000",Pairs,Stable
+Lagopus muta,Rock Ptarmigan,SecureF,Non-SPEC,LC,LC,"309,000–846,000",Pairs,Fluctuating
+Tetrao urogallus,Western Capercaillie,Declining,SPEC 3,LC,LC,"798,000–1,710,000",Calling males,Decreasing
+Lyrurus tetrix,Black Grouse,Depleted,SPEC 3,LC,LC,"1,210,000–1,880,000",Calling males,Unknown
+Lyrurus mlokosiewiczi,Caucasian Grouse,NT,SPEC 1,NT A3cde,NT,"14,100–28,800",Calling males,Unknown
+Oxyura leucocephala,White-headed Duck,VU,SPEC 1,VU C1+2a(i),EN,500–760,Pairs,Decreasing
+Cygnus olor,Mute Swan,Secure,Non-SPECe,LC,LC,"84,600–118,000",Pairs,Stable
+Cygnus cygnus,Whooper Swan,Secure,Non-SPECe,LC,LC,"33,400–50,600",Pairs,Increasing
+Cygnus columbianus,Tundra Swan,VU,SPEC 3,VU A4abcde,LC,"3,500–4,000",Pairs,Increasing
+Branta bernicla,Brent Goose,SecureF,Non-SPEC,LC,LC,"1,300–1,400",Pairs,Unknown
+Branta leucopsis,Barnacle Goose,SecureF,Non-SPECe,LC,LC,"359,000–544,000",Pairs,Increasing
+Branta ruficollis,Red-breasted Goose,VU,SPEC 1,VU A2bcd+3bcd+4bcd,VU,,,
+Branta canadensis,Canada Goose,Secure,Non-SPEC,LC,LC,"10,000–50,000",Pairs,Increasing
+Anser caerulescens,Snow Goose,Secure,Non-SPEC,LC,LC,"1,000–5,000",Pairs,Increasing
+Anser anser,Greylag Goose,Secure,Non-SPECe,LC,LC,"277,000–398,000",Pairs,Increasing
+Anser fabalis,Bean Goose,Secure,Non-SPECe,LC,LC,"183,000–208,000",Pairs,Stable
+Anser brachyrhynchus,Pink-footed Goose,Secure,Non-SPECe,LC,LC,"68,500–128,000",Pairs,Increasing
+Anser albifrons,Greater White-fronted Goose,Secure,Non-SPECe,LC,LC,"280,000–331,000",Pairs,Stable
+Anser erythropus,Lesser White-fronted Goose,VU,SPEC 1,VU D1,VU,170–270,Pairs,Increasing
+Clangula hyemalis,Long-tailed Duck,Declining,SPEC 1,LC,VU,"181,000–251,000",Pairs,Decreasing
+Somateria spectabilis,King Eider,Secure,Non-SPECe,LC,LC,"8,500–18,100",Pairs,Unknown
+Somateria mollissima,Common Eider,EN,SPEC 1,EN A4abcde,NT,"613,000–814,000",Pairs,Decreasing
+Polysticta stelleri,Steller's Eider,Rare,SPEC 1,LC,VU,,,
+Melanitta fusca,Velvet Scoter,VU,SPEC 1,VU A2abcde,VU,"18,400–40,200",Pairs,Decreasing
+Melanitta nigra,Common Scoter,Depleted,SPEC 2,LC,LC,"22,600–35,600",Pairs,Unknown
+Bucephala clangula,Common Goldeneye,Secure,Non-SPEC,LC,LC,"385,000–495,000",Pairs,Decreasing
+Bucephala islandica,Barrow's Goldeneye,NT,SPEC 3,NT D2,LC,800–900,Pairs,Stable
+Mergellus albellus,Smew,SecureF,Non-SPEC,LC,LC,"10,800–17,000",Pairs,Stable
+Mergus merganser,Goosander,Secure,Non-SPEC,LC,LC,"81,000–134,000",Pairs,Increasing
+Mergus serrator,Red-breasted Merganser,NT,SPEC 3,NT A2bcde+4bcde,LC,"70,900–141,000",Pairs,Decreasing
+Histrionicus histrionicus,Harlequin Duck,Rare,SPEC 3,LC,LC,"7,000–9,000",Pairs,Stable
+Tadorna tadorna,Common Shelduck,Secure,Non-SPEC,LC,LC,"52,100–76,600",Pairs,Decreasing
+Tadorna ferruginea,Ruddy Shelduck,SecureF,Non-SPEC,LC,LC,"17,700–32,100",Pairs,Unknown
+Marmaronetta angustirostris,Marbled Teal,VU,SPEC 1,VU D1,VU,"380–1,100",Pairs,Stable
+Netta rufina,Red-crested Pochard,SecureF,Non-SPEC,LC,LC,"34,600–51,600",Pairs,Decreasing
+Aythya ferina,Common Pochard,VU,SPEC 1,VU A2abcde+3bcde+4abcde,VU,"89,700–151,000",Pairs,Decreasing
+Aythya nyroca,Ferruginous Duck,SecureF,SPEC 1,LC,NT,"9,000–23,500",Pairs,Unknown
+Aythya fuligula,Tufted Duck,NT,SPEC 3,NT A2bcde,LC,"439,000–618,000",Pairs,Decreasing
+Aythya marila,Greater Scaup,Declining,SPEC 3,LC,LC,"48,200–84,800",Pairs,Decreasing
+Spatula querquedula,Garganey,Declining,SPEC 3,LC,LC,"340,000–460,000",Pairs,Decreasing
+Spatula clypeata,Northern Shoveler,Declining,SPEC 3,LC,LC,"147,000–196,000",Pairs,Decreasing
+Mareca strepera,Gadwall,SecureF,Non-SPEC,LC,LC,"82,400–131,000",Pairs,Increasing
+Mareca penelope,Eurasian Wigeon,Secure,Non-SPECe,LC,LC,"225,000–367,000",Pairs,Decreasing
+Anas platyrhynchos,Mallard,Declining,SPEC 3,LC,LC,"3,250,000–5,010,000",Pairs,Stable
+Anas acuta,Northern Pintail,VU,SPEC 3,VU A2bcde+A3bcde+A4bcde,LC,"155,000–201,000",Pairs,Decreasing
+Anas crecca,Common Teal,Secure,Non-SPEC,LC,LC,"770,000–1,220,000",Pairs,Unknown
+Tachybaptus ruficollis,Little Grebe,Secure,Non-SPEC,LC,LC,"104,000–195,000",Pairs,Stable
+Podiceps grisegena,Red-necked Grebe,VU,SPEC 3,VU A2bcde+4bcde,LC,"15,600–29,300",Pairs,Decreasing
+Podiceps cristatus,Great Crested Grebe,Secure,Non-SPECe,LC,LC,"386,000–530,000",Pairs,Stable
+Podiceps auritus,Horned Grebe,NT,SPEC 1,NT C1,VU,"7,100–9,600",Pairs,Decreasing
+Podiceps nigricollis,Black-necked Grebe,VU,SPEC 3,VU A2bce+4bce,LC,"35,500–57,900",Pairs,Decreasing
+Phoenicopterus roseus,Greater Flamingo,SecureF,Non-SPEC,LC,LC,"35,900–133,000",Pairs,Increasing
+Columba livia,Rock Dove,Secure,Non-SPEC,LC,LC,"3,420,000–7,070,000",Pairs,Unknown
+Columba oenas,Stock Dove,Secure,Non-SPECe,LC,LC,"683,000–1,150,000",Pairs,Increasing
+Columba palumbus,Common Woodpigeon,Secure,Non-SPECe,LC,LC,"20,700,000–28,800,000",Pairs,Increasing
+Columba trocaz,Madeira Laurel-pigeon,Rare,SPEC 2,LC,LC,"10,000–14,000",Individuals,Increasing
+Columba bollii,Dark-tailed Laurel-pigeon,Rare,SPEC 2,LC,LC,"2,500–10,000",Individuals,Unknown
+Columba junoniae,White-tailed Laurel-pigeon,NT,SPEC 1,NT B1ab(iii)+2ab(iii),NT,"1,000–2,500",Individuals,Unknown
+Streptopelia turtur,European Turtle-dove,VU,SPEC 1,VU A2bcde+4bcde,VU,"2,510,000–4,760,000",Pairs,Decreasing
+Streptopelia decaocto,Eurasian Collared-dove,Secure,Non-SPEC,LC,LC,"8,960,000–22,100,000",Pairs,Stable
+Spilopelia senegalensis,Laughing Dove,Secure,Non-SPEC,LC,LC,"70,700–164,000",Pairs,Increasing
+Pterocles orientalis,Black-bellied Sandgrouse,EN,SPEC 3,EN A2bcde+4bcde,LC,"7,400–18,900",Pairs,Decreasing
+Pterocles alchata,Pin-tailed Sandgrouse,Rare,SPEC 3,LC,LC,"7,500–9,400",Pairs,Stable
+Caprimulgus ruficollis,Red-necked Nightjar,NT,SPEC 1,NT A2bc+3bc+4bc,NT,"101,000–135,000",Calling males,Decreasing
+Caprimulgus europaeus,European Nightjar,SecureF,Non-SPEC,LC,LC,"597,000–1,110,000",Calling males,Unknown
+Tachymarptis melba,Alpine Swift,Secure,Non-SPEC,LC,LC,"323,000–726,000",Pairs,Unknown
+Apus caffer,White-rumped Swift,Secure*,Non-SPEC,NT° D1,LC,250–350,Pairs,Increasing
+Apus affinis,Little Swift,NT,SPEC 3,NT A2b; C1,LC,"770–2,400",Pairs,Decreasing
+Apus unicolor,Plain Swift,SecureF,Non-SPECe,LC,LC,"7,500–20,000",Pairs,Unknown
+Apus pallidus,Pallid Swift,Secure,Non-SPEC,LC,LC,"76,100–212,000",Pairs,Unknown
+Apus apus,Common Swift,NT,SPEC 3,NT A2bc+3bc+4bc,LC,"16,100,000–28,400,000",Pairs,Decreasing
+Clamator glandarius,Great Spotted Cuckoo,VU,SPEC 3,VU A2bcd+3bcd+4bcd,LC,"146,000–158,000",Pairs,Decreasing
+Cuculus canorus,Common Cuckoo,Secure,Non-SPEC,LC,LC,"4,320,000–6,800,000",Calling males,Decreasing
+Cuculus optatus,Oriental Cuckoo,Secure,Non-SPEC,LC,LC,"120,000–155,000",Pairs,Unknown
+Rallus aquaticus,Western Water Rail,Secure,Non-SPECe,LC,LC,"157,000–327,000",Pairs,Unknown
+Crex crex,Corncrake,SecureF,Non-SPECe,LC,LC,"1,150,000–1,720,000",Calling males,Decreasing
+Porzana porzana,Spotted Crake,Declining,SPEC 2,LC,LC,"100,000–145,000",Calling males,Decreasing
+Zapornia parva,Little Crake,Secure,Non-SPECe,LC,LC,"41,000–102,000",Calling males,Unknown
+Zapornia pusilla,Baillon's Crake,Rare,SPEC 3,LC,LC,"1,000–2,400",Calling males,Unknown
+Porphyrio porphyrio,Purple Swamphen,SecureF,Non-SPEC,LC,LC,"15,200–56,900",Pairs,Fluctuating
+Gallinula chloropus,Common Moorhen,Secure,Non-SPEC,LC,LC,"896,000–1,340,000",Pairs,Decreasing
+Fulica cristata,Red-knobbed Coot,CR,SPEC 3,CR C2a(ii),LC,21–45,Pairs,Decreasing
+Fulica atra,Common Coot,NT,SPEC 3,NT A2abcde+4abcde,LC,"1,010,000–1,680,000",Pairs,Decreasing
+Leucogeranus leucogeranus,Siberian Crane,NE,SPEC 1,NE,CR,,,
+Anthropoides virgo,Demoiselle Crane,EN,SPEC 3,EN A2bcd+3bcd+4bcd,LC,"4,600–6,000",Pairs,Decreasing
+Grus grus,Common Crane,SecureF,Non-SPECe,LC,LC,"154,000–212,000",Pairs,Increasing
+Tetrax tetrax,Little Bustard,VU,SPEC 1,VU A2bcde+4bcde,NT,"194,000–280,000",Individuals,Decreasing
+Otis tarda,Great Bustard,Declining,SPEC 1,LC,VU,"35,200–41,800",Individuals,Decreasing
+Chlamydotis undulata,African Houbara,VU,SPEC 1,VU D1,VU,610–620,Individuals,Increasing
+Chlamydotis macqueenii,Asian Houbara,NE,SPEC 1,NE,VU,,,
+Gavia stellata,Red-throated Loon,SecureF,Non-SPEC,LC,LC,"45,500–72,800",Pairs,Unknown
+Gavia arctica,Arctic Loon,Declining,SPEC 3,LC,LC,"71,000–97,000",Pairs,Decreasing
+Gavia immer,Common Loon,Rare,SPEC 3,LC,LC,"800–1,500",Pairs,Unknown
+Gavia adamsii,Yellow-billed Loon,VU,SPEC 1,VU D1,NT,,,
+Pelagodroma marina,White-faced Storm-petrel,EN,SPEC 3,"EN B2ab(iii,v)",LC,"77,800–111,000",Pairs,Decreasing
+Hydrobates pelagicus,European Storm-petrel,SecureF,Non-SPECe,LC,LC,"405,000–424,000",Pairs,Unknown
+Hydrobates castro,Band-rumped Storm-petrel,Rare,SPEC 3,LC,LC,"6,600–7,200",Pairs,Unknown
+Hydrobates monteiroi,Monteiro's Storm-petrel,VU,SPEC 1,VU D1+2,VU,360–390,Pairs,Unknown
+Hydrobates leucorhous,Leach's Storm-petrel,NT,SPEC 1,NT B2ab(v),VU,"58,600–87,600",Pairs,Decreasing
+Fulmarus glacialis,Northern Fulmar,VU,SPEC 3,VU A4abcde,LC,"3,170,000–3,830,000",Pairs,Decreasing
+Pterodroma deserta,Desertas Petrel,VU,SPEC 1,VU D1+2,VU,160–180,Pairs,Stable
+Pterodroma madeira,Zino's Petrel,EN,SPEC 1,EN D,EN,60–80,Pairs,Stable
+Ardenna grisea,Sooty Shearwater,NE,SPEC 1,NE,NT,,,
+Calonectris diomedea,Scopoli's Shearwater,Secure,Non-SPEC,LC,LC,"28,500–47,200",Pairs,Unknown
+Calonectris borealis,Cory's Shearwater,SecureF,Non-SPECe,LC,LC,"251,000–253,000",Pairs,Unknown
+Puffinus puffinus,Manx Shearwater,SecureF,Non-SPECe,LC,LC,"346,000–390,000",Pairs,Unknown
+Puffinus yelkouan,Yelkouan Shearwater,VU,SPEC 1,VU A2abcde,VU,"23,500–40,900",Pairs,Unknown
+Puffinus mauretanicus,Balearic Shearwater,CR,SPEC 1,CR A4abcde,CR,"2,900–3,000",Pairs,Decreasing
+Puffinus lherminieri,Audubon's Shearwater,NT,SPEC 3,NT B2ab(v); C1+2a(i),LC,"2,500–5,900",Pairs,Unknown
+Bulweria bulwerii,Bulwer's Petrel,SecureF,Non-SPEC,LC,LC,"46,000–51,100",Pairs,Unknown
+Ciconia nigra,Black Stork,SecureF,Non-SPECe,LC,LC,"10,100–16,200",Pairs,Unknown
+Ciconia ciconia,White Stork,SecureF,Non-SPECe,LC,LC,"251,000–282,000",Pairs,Increasing
+Platalea leucorodia,Eurasian Spoonbill,SecureF,Non-SPECe,LC,LC,"11,900–18,200",Pairs,Increasing
+Geronticus eremita,Northern Bald Ibis,Regionally Extinct,SPEC 1,Regionally Extinct,EN,60–70,Pairs,Unknown
+Plegadis falcinellus,Glossy Ibis,SecureF,Non-SPEC,LC,LC,"30,100–59,700",Pairs,Increasing
+Botaurus stellaris,Eurasian Bittern,SecureF,Non-SPEC,LC,LC,"73,700–103,000",Calling males,Stable
+Ixobrychus minutus,Common Little Bittern,SecureF,Non-SPEC,LC,LC,"85,900–151,000",Pairs,Stable
+Nycticorax nycticorax,Black-crowned Night-heron,SecureF,Non-SPEC,LC,LC,"57,300–84,400",Pairs,Stable
+Ardeola ralloides,Squacco Heron,SecureF,Non-SPEC,LC,LC,"18,300–33,500",Pairs,Stable
+Bubulcus ibis,Cattle Egret,Secure,Non-SPEC,LC,LC,"73,500–91,700",Pairs,Increasing
+Ardea cinerea,Grey Heron,Secure,Non-SPEC,LC,LC,"246,000–350,000",Pairs,Decreasing
+Ardea purpurea,Purple Heron,SecureF,Non-SPEC,LC,LC,"28,800–48,700",Pairs,Increasing
+Ardea alba,Great White Egret,Secure,Non-SPEC,LC,LC,"39,900–65,700",Pairs,Increasing
+Egretta garzetta,Little Egret,Secure,Non-SPEC,LC,LC,"60,800–94,900",Pairs,Decreasing
+Pelecanus crispus,Dalmatian Pelican,Rare,SPEC 1,LC,NT,"3,700–4,700",Pairs,Increasing
+Pelecanus onocrotalus,Great White Pelican,SecureF,Non-SPEC,LC,LC,"9,300–20,400",Pairs,Increasing
+Morus bassanus,Northern Gannet,SecureF,Non-SPECe,LC,LC,"410,000–412,000",Pairs,Increasing
+Microcarbo pygmaeus,Pygmy Cormorant,SecureF,Non-SPECe,LC,LC,"42,300–55,500",Pairs,Increasing
+Gulosus aristotelis,European Shag,SecureF,Non-SPECe,LC,LC,"71,200–81,000",Pairs,Decreasing
+Phalacrocorax carbo,Great Cormorant,Secure,Non-SPECe,LC,LC,"414,000–515,000",Pairs,Increasing
+Anhinga rufa,African Darter,Regionally Extinct,SPEC 3,Regionally Extinct,LC,,,
+Burhinus oedicnemus,Eurasian Thick-knee,Declining,SPEC 3,LC,LC,"61,600–96,500",Pairs,Decreasing
+Haematopus meadewaldoi,Canarian Oystercatcher,Extinct,EX,Extinct,EX,,,
+Haematopus ostralegus,Eurasian Oystercatcher,VU,SPEC 1,VU A4abcde,NT,"263,000–346,000",Pairs,Decreasing
+Recurvirostra avosetta,Pied Avocet,SecureF,Non-SPEC,LC,LC,"40,600–77,400",Pairs,Decreasing
+Himantopus himantopus,Black-winged Stilt,Secure,Non-SPEC,LC,LC,"50,700–135,000",Pairs,Increasing
+Pluvialis squatarola,Grey Plover,Secure,Non-SPEC,LC,LC,"13,000–23,000",Pairs,Unknown
+Pluvialis apricaria,Eurasian Golden Plover,Secure,Non-SPECe,LC,LC,"833,000–1,160,000",Pairs,Stable
+Eudromias morinellus,Eurasian Dotterel,Depleted,SPEC 3,LC,LC,"10,500–21,600",Males,Unknown
+Charadrius hiaticula,Common Ringed Plover,Secure,Non-SPECe,LC,LC,"130,000–200,000",Pairs,Increasing
+Charadrius dubius,Little Ringed Plover,Secure,Non-SPEC,LC,LC,"212,000–317,000",Pairs,Decreasing
+Charadrius alexandrinus,Kentish Plover,Declining,SPEC 3,LC,LC,"17,400–33,700",Pairs,Decreasing
+Charadrius leschenaultii,Greater Sandplover,NT,SPEC 3,NT D1,LC,"650–1,200",Pairs,Decreasing
+Charadrius asiaticus,Caspian Plover,SecureF*,Non-SPEC,EN? D,LC,3–30,Pairs,Unknown
+Vanellus vanellus,Northern Lapwing,VU,SPEC 1,VU A2bcde,NT,"1,590,000–2,300,000",Pairs,Decreasing
+Vanellus spinosus,Spur-winged Lapwing,SecureF,Non-SPEC,LC,LC,"1,000–1,700",Pairs,Unknown
+Vanellus indicus,Red-wattled Lapwing,SecureF*,Non-SPEC,VU?? D1,LC,20–30,Pairs,Unknown
+Vanellus gregarius,Sociable Lapwing,CR,SPEC 1,"CR A2bcd+3bcd+4bcd;C1+2a(i,ii);D",CR,3–10,Pairs,Decreasing
+Vanellus leucurus,White-tailed Lapwing,Secure,Non-SPEC,LC,LC,"1,100–10,200",Pairs,Stable
+Numenius phaeopus,Whimbrel,Secure,Non-SPECe,LC,LC,"337,000–387,000",Pairs,Unknown
+Numenius tenuirostris,Slender-billed Curlew,CR,SPEC 1,CR (PE) D,CR,,,
+Numenius arquata,Eurasian Curlew,NT,SPEC 1,NT A2bcde+4bcde,NT,"202,000–277,000",Pairs,Decreasing
+Limosa lapponica,Bar-tailed Godwit,SecureF,SPEC 1,LC,NT,"4,500–11,000",Pairs,Increasing
+Limosa limosa,Black-tailed Godwit,NT,SPEC 1,NT A2bcde,NT,"136,000–167,000",Pairs,Stable
+Arenaria interpres,Ruddy Turnstone,Declining,SPEC 3,LC,LC,"34,600–68,900",Pairs,Decreasing
+Calidris canutus,Red Knot,SecureF,SPEC 1,LC,NT,"15,000–30,100",Pairs,Stable
+Calidris pugnax,Ruff,NT,SPEC 2,NT A2abcde+3bcde+4abcde,LC,"513,000–1,380,000",Individuals,Decreasing
+Calidris falcinellus,Broad-billed Sandpiper,VU,SPEC 2,VU A2bc+3bc+4bc,LC,"20,200–35,400",Pairs,Decreasing
+Calidris ferruginea,Curlew Sandpiper,SecureF*,SPEC 1,VU D1,NT,,,
+Calidris temminckii,Temminck's Stint,Depleted,SPEC 3,LC,LC,"83,300–124,000",Pairs,Unknown
+Calidris alba,Sanderling,Secure,Non-SPEC,LC,LC,"25,000–50,100",Pairs,Stable
+Calidris alpina,Dunlin,Depleted,SPEC 3,LC,LC,"460,000–546,000",Pairs,Unknown
+Calidris maritima,Purple Sandpiper,Depleted,SPEC 2,LC,LC,"38,200–60,300",Pairs,Unknown
+Calidris bairdii,Baird's Sandpiper,Secure,Non-SPEC,LC°°,LC,100–500,Pairs,Unknown
+Calidris minuta,Little Stint,Secure,Non-SPEC,LC,LC,"80,200–122,000",Individuals,Unknown
+Scolopax rusticola,Eurasian Woodcock,Declining,SPEC 3,LC,LC,"4,890,000–6,750,000",Calling males,Decreasing
+Gallinago stenura,Pintail Snipe,Secure,Non-SPEC,LC,LC,"10,000–19,000",Pairs,Unknown
+Gallinago megala,Swinhoe's Snipe,Secure*,Non-SPEC,NT???,LC,10–30,Pairs,Unknown
+Gallinago media,Great Snipe,Declining,SPEC 1,LC,NT,"52,000–90,100",Calling males,Decreasing
+Gallinago gallinago,Common Snipe,VU,SPEC 3,VU A2bcde+3bcde+4bcde,LC,"2,630,000–3,630,000",Pairs,Decreasing
+Lymnocryptes minimus,Jack Snipe,Depleted,SPEC 3,LC,LC,"15,200–38,900",Pairs,Unknown
+Phalaropus lobatus,Red-necked Phalarope,Depleted,SPEC 3,LC,LC,"275,000–417,000",Males,Unknown
+Phalaropus fulicarius,Red Phalarope,Secure,Non-SPEC,LC,LC,"15,200–31,100",Pairs,Unknown
+Xenus cinereus,Terek Sandpiper,Secure,Non-SPEC,LC,LC,"40,100–60,300",Pairs,Decreasing
+Actitis hypoleucos,Common Sandpiper,SecureF,Non-SPEC,LC,LC,"1,030,000–1,490,000",Pairs,Decreasing
+Tringa ochropus,Green Sandpiper,Secure,Non-SPEC,LC,LC,"591,000–924,000",Pairs,Unknown
+Tringa erythropus,Spotted Redshank,Depleted,SPEC 3,LC,LC,"18,900–40,700",Pairs,Unknown
+Tringa nebularia,Common Greenshank,Secure,Non-SPEC,LC,LC,"226,000–471,000",Pairs,Increasing
+Tringa totanus,Common Redshank,VU,SPEC 2,VU A2bcde+4bcde,LC,"261,000–347,000",Pairs,Decreasing
+Tringa glareola,Wood Sandpiper,SecureF,Non-SPEC,LC,LC,"1,040,000–1,460,000",Pairs,Unknown
+Tringa stagnatilis,Marsh Sandpiper,Secure,Non-SPEC,LC,LC,"9,100–14,400",Pairs,Decreasing
+Turnix sylvaticus,Common Buttonquail,Regionally Extinct,SPEC 3,Regionally Extinct,LC,,,
+Cursorius cursor,Cream-coloured Courser,NT,SPEC 3,NT D1,LC,"1,300–1,600",Individuals,Unknown
+Glareola pratincola,Collared Pratincole,SecureF,Non-SPEC,LC,LC,"8,700–17,500",Pairs,Decreasing
+Glareola nordmanni,Black-winged Pratincole,Rare,SPEC 1,LC,NT,"6,000–12,100",Pairs,Stable
+Hydrocoloeus minutus,Little Gull,SecureF,Non-SPEC,LC,LC,"32,100–62,200",Pairs,Unknown
+Rhodostethia rosea,Ross's Gull,Secure*,Non-SPEC,EN? D,LC,5,Pairs,Fluctuating
+Xema sabini,Sabine's Gull,Secure,Non-SPEC,LC,LC,"1,000–1,100",Pairs,Increasing
+Pagophila eburnea,Ivory Gull,VU,SPEC 1,VU C1,NT,"4,300–5,800",Pairs,Decreasing
+Rissa tridactyla,Black-legged Kittiwake,VU,SPEC 1,VU A2abcd+3bcd+4abcd,VU,"1,620,000–1,730,000",Pairs,Decreasing
+Larus genei,Slender-billed Gull,VU,SPEC 3,VU A4bcde,LC,"30,500–36,600",Pairs,Unknown
+Larus ridibundus,Black-headed Gull,Declining,SPEC 2,LC,LC,"1,400,000–2,060,000",Pairs,Decreasing
+Larus ichthyaetus,Pallas's Gull,Secure,Non-SPEC,LC,LC,"17,300–28,200",Pairs,Unknown
+Larus melanocephalus,Mediterranean Gull,Secure,Non-SPECe,LC,LC,"64,400–102,000",Pairs,Decreasing
+Larus audouinii,Audouin's Gull,VU,SPEC 1,VU A3bce+4abce,VU,"15,700–21,000",Pairs,Decreasing
+Larus canus,Mew Gull,SecureF,Non-SPECe,LC,LC,"964,000–1,300,000",Pairs,Unknown
+Larus fuscus,Lesser Black-backed Gull,Secure,Non-SPEC,LC,LC,"369,000–414,000",Pairs,Decreasing
+Larus argentatus,European Herring Gull,Declining,SPEC 2,LC,LC,"531,000–608,000",Pairs,Decreasing
+Larus armenicus,Armenian Gull,SecureF,Non-SPECe,LC,LC,"22,200–35,900",Pairs,Unknown
+Larus michahellis,Yellow-legged Gull,Secure,Non-SPECe,LC,LC,"415,000–555,000",Pairs,Unknown
+Larus cachinnans,Caspian Gull,Secure,Non-SPECe,LC,LC,"115,000–200,000",Pairs,Increasing
+Larus glaucoides,Iceland Gull,Secure,Non-SPECe,LC,LC,"50,000–100,000",Pairs,Stable
+Larus hyperboreus,Glaucous Gull,Secure,Non-SPEC,LC,LC,"34,600–123,000",Pairs,Stable
+Larus marinus,Great Black-backed Gull,Secure,Non-SPECe,LC,LC,"86,400–108,000",Pairs,Unknown
+Onychoprion fuscatus,Sooty Tern,Secure*,Non-SPEC,VU?? D1,LC,1,Pairs,Unknown
+Sternula albifrons,Little Tern,SecureF,Non-SPEC,LC,LC,"33,400–50,300",Pairs,Unknown
+Gelochelidon nilotica,Common Gull-billed Tern,SecureF,Non-SPEC,LC,LC,"13,300–18,700",Pairs,Stable
+Hydroprogne caspia,Caspian Tern,Rare,SPEC 3,LC,LC,"6,300–10,000",Pairs,Stable
+Chlidonias hybrida,Whiskered Tern,SecureF,Non-SPEC,LC,LC,"58,900–147,000",Pairs,Increasing
+Chlidonias leucopterus,White-winged Tern,Secure,Non-SPEC,LC,LC,"88,000–216,000",Pairs,Unknown
+Chlidonias niger,Black Tern,Depleted,SPEC 3,LC,LC,"112,000–178,000",Pairs,Unknown
+Sterna dougallii,Roseate Tern,Rare,SPEC 3,LC,LC,"2,400–3,100",Pairs,Increasing
+Sterna hirundo,Common Tern,Secure,Non-SPEC,LC,LC,"440,000–714,000",Pairs,Unknown
+Sterna paradisaea,Arctic Tern,Secure,Non-SPEC,LC,LC,"531,000–754,000",Pairs,Stable
+Thalasseus sandvicensis,Sandwich Tern,SecureF,Non-SPECe,LC,LC,"80,200–160,000",Pairs,Fluctuating
+Stercorarius longicaudus,Long-tailed Jaeger,Secure,Non-SPEC,LC,LC,"36,600–80,100",Pairs,Fluctuating
+Stercorarius parasiticus,Arctic Jaeger,EN,SPEC 3,EN A4bcde,LC,"27,100–41,500",Pairs,Decreasing
+Stercorarius pomarinus,Pomarine Jaeger,Secure,Non-SPEC,LC,LC,"2,500–4,100",Pairs,Unknown
+Catharacta skua,Great Skua,Secure,Non-SPECe,LC,LC,"12,900–15,000",Pairs,Increasing
+Fratercula arctica,Atlantic Puffin,EN,SPEC 1,EN A2abcde+4abcde,VU,"3,700,000–4,120,000",Pairs,Decreasing
+Cepphus grylle,Black Guillemot,SecureF,Non-SPECe,LC,LC,"368,000–397,000",Individuals,Unknown
+Alca torda,Razorbill,SecureF,Non-SPECe,LC,LC,"519,000–1,070,000",Individuals,Increasing
+Pinguinus impennis,Great Auk,Extinct,EX,Extinct,EX,,,
+Alle alle,Little Auk,Secure,Non-SPECe,LC,LC,"38,000,000–38,500,000",Pairs,Unknown
+Uria lomvia,Thick-billed Murre,Depleted,SPEC 3,LC,LC,"1,700,000–2,280,000",Pairs,Unknown
+Uria aalge,Common Murre,SecureF,Non-SPEC,LC,LC,"2,990,000–4,430,000",Individuals,Increasing
+Tyto alba,Common Barn-owl,SecureF,Non-SPEC,LC,LC,"82,300–178,000",Pairs,Decreasing
+Surnia ulula,Northern Hawk-owl,Secure,Non-SPEC,LC,LC,"10,400–46,200",Pairs,Increasing
+Glaucidium passerinum,Eurasian Pygmy-owl,Secure,Non-SPEC,LC,LC,"82,900–157,000",Pairs,Stable
+Athene noctua,Little Owl,SecureF,Non-SPEC,LC,LC,"577,000–1,070,000",Pairs,Unknown
+Aegolius funereus,Boreal Owl,Secure,Non-SPEC,LC,LC,"94,600–236,000",Pairs,Fluctuating
+Otus scops,Eurasian Scops-owl,SecureF,Non-SPECe,LC,LC,"223,000–375,000",Pairs,Stable
+Otus cyprius,Cyprus Scops-owl,Rare,SPEC 2,LC,LC,"3,000–5,000",Pairs,Stable
+Otus brucei,Pallid Scops-owl,SecureF*,Non-SPEC,EN D,LC,50–250,Pairs,Stable
+Asio otus,Northern Long-eared Owl,Secure,Non-SPEC,LC,LC,"312,000–512,000",Pairs,Unknown
+Asio flammeus,Short-eared Owl,SecureF,Non-SPEC,LC,LC,"84,900–142,000",Pairs,Fluctuating
+Strix aluco,Tawny Owl,Secure,Non-SPECe,LC,LC,"632,000–932,000",Pairs,Stable
+Strix uralensis,Ural Owl,Secure,Non-SPEC,LC,LC,"80,300–132,000",Pairs,Increasing
+Strix nebulosa,Great Grey Owl,Rare,SPEC 3,LC,LC,"6,200–10,000",Pairs,Stable
+Bubo scandiacus,Snowy Owl,Rare,SPEC 1,LC,VU,"1,200–2,700",Pairs,Stable
+Bubo bubo,Eurasian Eagle-owl,SecureF,Non-SPEC,LC,LC,"18,500–29,800",Pairs,Increasing
+Ketupa zeylonensis,Brown Fish-owl,EN,SPEC 3,EN D,LC,50–80,Pairs,Unknown
+Pandion haliaetus,Osprey,SecureF,Non-SPEC,LC,LC,"9,600–13,600",Pairs,Increasing
+Elanus caeruleus,Black-winged Kite,SecureF,Non-SPEC,LC,LC,"1,300–2,900",Pairs,Stable
+Pernis apivorus,European Honey-buzzard,Secure,Non-SPECe,LC,LC,"120,000–175,000",Pairs,Stable
+Gypaetus barbatus,Bearded Vulture,NT,SPEC 1,NT D1,NT,630–960,Pairs,Increasing
+Neophron percnopterus,Egyptian Vulture,VU,SPEC 1,VU C1,EN,"3,000–4,500",Pairs,Decreasing
+Circaetus gallicus,Short-toed Snake-eagle,SecureF,Non-SPEC,LC,LC,"9,900–16,000",Pairs,Increasing
+Gyps rueppelli,Rüppell's Vulture,NE,SPEC 1,NE,CR,,,
+Gyps fulvus,Griffon Vulture,SecureF,Non-SPEC,LC,LC,"34,800–44,700",Pairs,Increasing
+Aegypius monachus,Cinereous Vulture,Rare,SPEC 1,LC,NT,"2,900–3,400",Pairs,Increasing
+Clanga pomarina,Lesser Spotted Eagle,SecureF,Non-SPECe,LC,LC,"17,100–23,100",Pairs,Increasing
+Clanga clanga,Greater Spotted Eagle,VU,SPEC 1,VU A2abcde+3bcde+4abcde,VU,"960–1,300",Pairs,Unknown
+Aquila nipalensis,Steppe Eagle,CR,SPEC 1,CR A2abcd+3bcd+4abcd,EN,"750–1,200",Pairs,Decreasing
+Aquila adalberti,Spanish Imperial Eagle,VU,SPEC 1,VU D1,VU,530–540,Pairs,Increasing
+Aquila heliaca,Eastern Imperial Eagle,Rare,SPEC 1,LC,VU,"1,900–3,000",Pairs,Increasing
+Aquila chrysaetos,Golden Eagle,SecureF,Non-SPEC,LC,LC,"9,600–12,800",Pairs,Increasing
+Aquila fasciata,Bonelli's Eagle,Depleted,SPEC 3,LC,LC,"1,000–1,300",Pairs,Stable
+Hieraaetus pennatus,Booted Eagle,SecureF,Non-SPEC,LC,LC,"23,300–30,300",Pairs,Increasing
+Circus aeruginosus,Western Marsh-harrier,Secure,Non-SPEC,LC,LC,"151,000–243,000",Breeding females,Stable
+Circus cyaneus,Hen Harrier,Declining,SPEC 3,LC,LC,"56,300–86,600",Breeding females,Decreasing
+Circus macrourus,Pallid Harrier,Rare,SPEC 1,LC,NT,"1,000–2,200",Pairs,Stable
+Circus pygargus,Montagu's Harrier,Secure,Non-SPECe,LC,LC,"69,700–110,000",Breeding females,Decreasing
+Accipiter badius,Shikra,Secure*,Non-SPEC,NT? D1,LC,100–510,Pairs,Stable
+Accipiter brevipes,Levant Sparrowhawk,Rare,SPEC 2,LC,LC,"3,800–7,700",Pairs,Stable
+Accipiter nisus,Eurasian Sparrowhawk,Secure,Non-SPEC,LC,LC,"364,000–571,000",Pairs,Stable
+Accipiter gentilis,Northern Goshawk,Declining,SPEC 3,LC,LC,"117,000–190,000",Pairs,Decreasing
+Haliaeetus albicilla,White-tailed Sea-eagle,SecureF,Non-SPECe,LC,LC,"10,400–14,600",Pairs,Increasing
+Milvus milvus,Red Kite,SecureF,Non-SPECe,LC,LC,"32,500–38,300",Pairs,Increasing
+Milvus migrans,Black Kite,SecureF,Non-SPEC,LC,LC,"186,000–254,000",Pairs,Increasing
+Buteo lagopus,Rough-legged Buzzard,Depleted,SPEC 3,LC,LC,"28,800–58,200",Pairs,Stable
+Buteo buteo,Eurasian Buzzard,Secure,Non-SPECe,LC,LC,"882,000–1,230,000",Pairs,Stable
+Buteo rufinus,Long-legged Buzzard,SecureF,Non-SPEC,LC,LC,"13,800–22,900",Pairs,Increasing
+Upupa epops,Common Hoopoe,SecureF,Non-SPEC,LC,LC,"1,370,000–3,210,000",Pairs,Stable
+Merops persicus,Blue-cheeked Bee-eater,Secure,Non-SPEC,LC,LC,"8,400–27,800",Pairs,Increasing
+Merops apiaster,European Bee-eater,SecureF,Non-SPEC,LC,LC,"3,680,000–5,600,000",Pairs,Stable
+Coracias garrulus,European Roller,Declining,SPEC 2,LC,LC,"51,000–104,000",Pairs,Decreasing
+Alcedo atthis,Common Kingfisher,SecureF,Non-SPEC,LC,LC,"89,700–220,000",Pairs,Decreasing
+Ceryle rudis,Pied Kingfisher,VU,SPEC 3,VU D1,LC,300–500,Pairs,Decreasing
+Halcyon smyrnensis,White-breasted Kingfisher,VU,SPEC 3,VU D1,LC,150–250,Pairs,Decreasing
+Jynx torquilla,Eurasian Wryneck,SecureF,Non-SPEC,LC,LC,"795,000–1,520,000",Pairs,Stable
+Picus canus,Grey-faced Woodpecker,SecureF,Non-SPEC,LC,LC,"182,000–305,000",Pairs,Increasing
+Picus viridis,Eurasian Green Woodpecker,SecureF,Non-SPECe,LC,LC,"603,000–1,030,000",Pairs,Stable
+Picus sharpei,Iberian Green Woodpecker,Declining,SPEC 2,LC,LC,"244,000–469,000",Pairs,Decreasing
+Dryocopus martius,Black Woodpecker,Secure,Non-SPEC,LC,LC,"622,000–1,140,000",Pairs,Unknown
+Picoides tridactylus,Three-toed Woodpecker,SecureF,Non-SPEC,LC,LC,"301,000–559,000",Pairs,Unknown
+Leiopicus medius,Middle Spotted Woodpecker,Secure,Non-SPECe,LC,LC,"401,000–695,000",Pairs,Increasing
+Dryobates minor,Lesser Spotted Woodpecker,Secure,Non-SPEC,LC,LC,"757,000–1,510,000",Pairs,Increasing
+Dendrocopos leucotos,White-backed Woodpecker,Secure,Non-SPEC,LC,LC,"210,000–411,000",Pairs,Decreasing
+Dendrocopos syriacus,Syrian Woodpecker,Secure,Non-SPECe,LC,LC,"322,000–767,000",Pairs,Unknown
+Dendrocopos major,Great Spotted Woodpecker,Secure,Non-SPEC,LC,LC,"8,630,000–13,700,000",Pairs,Stable
+Falco naumanni,Lesser Kestrel,Depleted,SPEC 3,LC,LC,"32,900–42,600",Pairs,Stable
+Falco tinnunculus,Common Kestrel,Declining,SPEC 3,LC,LC,"411,000–631,000",Pairs,Decreasing
+Falco vespertinus,Red-footed Falcon,VU,SPEC 1,VU A2abcde+4abcde,VU,"57,800–84,800",Pairs,Decreasing
+Falco eleonorae,Eleonora's Falcon,SecureF,Non-SPECe,LC,LC,"14,200–14,500",Pairs,Stable
+Falco columbarius,Merlin,VU,SPEC 3,VU A2bce,LC,"20,000–41,700",Pairs,Decreasing
+Falco subbuteo,Eurasian Hobby,Secure,Non-SPEC,LC,LC,"140,000–219,000",Pairs,Stable
+Falco biarmicus,Lanner Falcon,EN,SPEC 3,EN C2a(i),LC,240–350,Pairs,Decreasing
+Falco cherrug,Saker Falcon,EN,SPEC 1,EN C1,EN,430–630,Pairs,Decreasing
+Falco rusticolus,Gyrfalcon,Rare,SPEC 3,LC,LC,"1,000–1,800",Pairs,Stable
+Falco peregrinus,Peregrine Falcon,SecureF,Non-SPEC,LC,LC,"16,100–31,100",Pairs,Increasing
+Oriolus oriolus,Eurasian Golden Oriole,Secure,Non-SPECe,LC,LC,"4,370,000–7,260,000",Pairs,Stable
+Lanius collurio,Red-backed Shrike,SecureF,Non-SPECe,LC,LC,"8,210,000–13,000,000",Pairs,Decreasing
+Lanius minor,Lesser Grey Shrike,Declining,SPEC 2,LC,LC,"376,000–803,000",Pairs,Decreasing
+Lanius excubitor,Great Grey Shrike,Declining,SPEC 3,LC,LC,"64,400–125,000",Pairs,Decreasing
+Lanius meridionalis,Iberian Grey Shrike,VU,SPEC 1,VU A2abc+3bc+4abc,VU,"360,000–607,000",Pairs,Decreasing
+Lanius senator,Woodchat Shrike,NT,SPEC 1,NT A2bcde+3bcde+4bcde,NT,"1,930,000–3,120,000",Pairs,Decreasing
+Lanius nubicus,Masked Shrike,SecureF,Non-SPECe,LC,LC,"36,200–107,000",Pairs,Unknown
+Pyrrhocorax pyrrhocorax,Red-billed Chough,SecureF,Non-SPEC,LC,LC,"42,300–98,100",Pairs,Unknown
+Pyrrhocorax graculus,Yellow-billed Chough,Secure,Non-SPEC,LC,LC,"109,000–275,000",Pairs,Unknown
+Perisoreus infaustus,Siberian Jay,Depleted,SPEC 3,LC,LC,"213,000–415,000",Pairs,Unknown
+Cyanopica cooki,Iberian Azure-winged Magpie,Secure,Non-SPECe,LC,LC,"356,000–896,000",Pairs,Increasing
+Garrulus glandarius,Eurasian Jay,Secure,Non-SPEC,LC,LC,"6,040,000–11,600,000",Pairs,Stable
+Pica pica,Eurasian Magpie,Secure,Non-SPEC,LC,LC,"9,650,000–15,700,000",Pairs,Stable
+Nucifraga caryocatactes,Northern Nutcracker,Secure,Non-SPEC,LC,LC,"298,000–608,000",Pairs,Stable
+Corvus monedula,Eurasian Jackdaw,Secure,Non-SPECe,LC,LC,"8,920,000–18,100,000",Pairs,Increasing
+Corvus frugilegus,Rook,VU,SPEC 3,VU A2bcde+4bcde,LC,"5,730,000–10,700,000",Pairs,Decreasing
+Corvus corax,Common Raven,Secure,Non-SPEC,LC,LC,"590,000–1,790,000",Pairs,Increasing
+Corvus corone,Carrion Crow,Secure,Non-SPEC,LC,LC,"8,140,000–13,800,000",Pairs,Stable
+Periparus ater,Coal Tit,Secure,Non-SPEC,LC,LC,"15,700,000–27,900,000",Pairs,Stable
+Lophophanes cristatus,Crested Tit,Declining,SPEC 2,LC,LC,"4,610,000–8,220,000",Pairs,Decreasing
+Poecile lugubris,Sombre Tit,Depleted,SPEC 2,LC,LC,"451,000–1,340,000",Pairs,Unknown
+Poecile hyrcanus,Caspian Tit,SecureF,Non-SPEC,LC,LC,"500–2,500",Pairs,Stable
+Poecile palustris,Marsh Tit,SecureF,Non-SPECe,LC,LC,"3,740,000–6,620,000",Pairs,Stable
+Poecile montanus,Willow Tit,Declining,SPEC 3,LC,LC,"7,000,000–12,700,000",Pairs,Decreasing
+Poecile cinctus,Siberian Tit,Declining,SPEC 3,LC,LC,"253,000–548,000",Pairs,Decreasing
+Cyanistes caeruleus,Eurasian Blue Tit,Secure,Non-SPECe,LC,LC,"29,800,000–47,600,000",Pairs,Stable
+Cyanistes teneriffae,African Blue Tit,Secure,Non-SPEC,LC,LC,"20,300–101,000",Pairs,Unknown
+Cyanistes cyanus,Azure Tit,NT,SPEC 3,NT C1,LC,"2,500–7,900",Pairs,Decreasing
+Parus major,Great Tit,Secure,Non-SPEC,LC,LC,"63,600,000–103,000,000",Pairs,Stable
+Remiz pendulinus,Eurasian Penduline-tit,Secure,Non-SPECe,LC,LC,"259,000–470,000",Pairs,Increasing
+Ammomanes deserti,Desert Lark,EN,SPEC 3,EN D,LC,20–100,Pairs,Decreasing
+Chersophilus duponti,Dupont's Lark,VU,SPEC 1,VU A2bc+3bc+4bc; C1+2a(i),VU,"2,300–2,400",Pairs,Decreasing
+Alaudala rufescens,Lesser Short-toed Lark,SecureF,Non-SPEC,LC,LC,"852,000–1,540,000",Pairs,Decreasing
+Melanocorypha bimaculata,Bimaculated Lark,Secure,Non-SPEC,LC,LC,"1,000,000–2,010,000",Pairs,Unknown
+Melanocorypha calandra,Calandra Lark,Declining,SPEC 3,LC,LC,"9,940,000–19,200,000",Pairs,Decreasing
+Melanocorypha yeltoniensis,Black Lark,EN,SPEC 3,EN D,LC,30–80,Pairs,Decreasing
+Calandrella brachydactyla,Greater Short-toed Lark,Depleted,SPEC 3,LC,LC,"4,650,000–8,700,000",Pairs,Unknown
+Eremophila alpestris,Horned Lark,Secure,Non-SPEC,LC,LC,"2,060,000–6,110,000",Pairs,Unknown
+Lullula arborea,Woodlark,SecureF,Non-SPECe,LC,LC,"2,140,000–4,570,000",Pairs,Decreasing
+Alauda leucoptera,White-winged Lark,Secure,Non-SPEC,LC,LC,"20,000–55,000",Pairs,Stable
+Alauda arvensis,Eurasian Skylark,Declining,SPEC 3,LC,LC,"43,900,000–65,700,000",Pairs,Decreasing
+Galerida theklae,Thekla's Lark,SecureF,Non-SPEC,LC,LC,"1,750,000–2,850,000",Pairs,Increasing
+Galerida cristata,Crested Lark,Declining,SPEC 3,LC,LC,"17,100,000–23,800,000",Pairs,Decreasing
+Panurus biarmicus,Bearded Reedling,Secure,Non-SPEC,LC,LC,"171,000–392,000",Pairs,Increasing
+Cisticola juncidis,Zitting Cisticola,Secure,Non-SPEC,LC,LC,"1,130,000–1,840,000",Pairs,Stable
+Prinia gracilis,Graceful Prinia,SecureF,Non-SPEC,LC,LC,"1,000–4,000",Pairs,Unknown
+Iduna caligata,Booted Warbler,Secure,Non-SPEC,LC,LC,"400,000–502,000",Pairs,Increasing
+Iduna rama,Sykes's Warbler,Secure,Non-SPEC,LC,LC,"4,000–7,100",Pairs,Unknown
+Iduna pallida,Olivaceous Warbler,SecureF,Non-SPEC,LC,LC,"3,250,000–6,770,000",Pairs,Unknown
+Iduna opaca,Isabelline Warbler,Rare,SPEC 3,LC,LC,"5,000",Pairs,Stable
+Hippolais languida,Upcher's Warbler,Secure,Non-SPEC,LC,LC,"18,400–45,100",Pairs,Unknown
+Hippolais olivetorum,Olive-tree Warbler,SecureF,Non-SPECe,LC,LC,"10,700–23,900",Pairs,Stable
+Hippolais polyglotta,Melodious Warbler,Secure,Non-SPECe,LC,LC,"2,130,000–3,540,000",Pairs,Increasing
+Hippolais icterina,Icterine Warbler,Secure,Non-SPECe,LC,LC,"2,360,000–4,220,000",Pairs,Decreasing
+Acrocephalus paludicola,Aquatic Warbler,VU,SPEC 1,"VU B2ab(i,ii,iii,iv,v) ",VU,"9,100–14,300",Calling males,Decreasing
+Acrocephalus melanopogon,Moustached Warbler,Secure,Non-SPEC,LC,LC,"36,900–93,800",Pairs,Stable
+Acrocephalus schoenobaenus,Sedge Warbler,Secure,Non-SPECe,LC,LC,"4,580,000–6,810,000",Pairs,Unknown
+Acrocephalus dumetorum,Blyth's Reed-warbler,Secure,Non-SPEC,LC,LC,"3,120,000–5,420,000",Pairs,Increasing
+Acrocephalus palustris,Marsh Warbler,Secure,Non-SPECe,LC,LC,"5,850,000–8,490,000",Pairs,Unknown
+Acrocephalus scirpaceus,Common Reed-warbler,Secure,Non-SPEC,LC,LC,"1,940,000–3,320,000",Pairs,Stable
+Acrocephalus agricola,Paddyfield Warbler,Secure,Non-SPEC,LC,LC,"233,000–352,000",Pairs,Stable
+Acrocephalus arundinaceus,Great Reed-warbler,Secure,Non-SPECe,LC,LC,"2,380,000–4,440,000",Pairs,Stable
+Locustella lanceolata,Lanceolated Warbler,Secure,Non-SPEC,LC,LC,"20,000–30,000",Pairs,Unknown
+Locustella luscinioides,Savi's Warbler,Secure,Non-SPECe,LC,LC,"374,000–652,000",Pairs,Unknown
+Locustella fluviatilis,River Warbler,Declining,SPEC 2,LC,LC,"1,390,000–2,480,000",Pairs,Decreasing
+Locustella naevia,Common Grasshopper-warbler,Secure,Non-SPECe,LC,LC,"638,000–1,130,000",Pairs,Decreasing
+Delichon urbicum,Northern House Martin,Depleted,SPEC 2,LC,LC,"11,500,000–24,100,000",Pairs,Stable
+Cecropis daurica,Red-rumped Swallow,Secure,Non-SPEC,LC,LC,"1,430,000–3,340,000",Pairs,Increasing
+Hirundo rustica,Barn Swallow,Declining,SPEC 3,LC,LC,"25,900,000–44,800,000",Pairs,Decreasing
+Ptyonoprogne rupestris,Eurasian Crag Martin,Secure,Non-SPEC,LC,LC,"210,000–408,000",Pairs,Stable
+Riparia riparia,Collared Sand Martin,SecureF,Non-SPEC,LC,LC,"6,700,000–9,870,000",Pairs,Decreasing
+Pycnonotus xanthopygos,White-spectacled Bulbul,Secure,Non-SPEC,LC,LC,"6,000–18,000",Pairs,Unknown
+Phylloscopus orientalis,Eastern Bonelli's Warbler,Secure,Non-SPECe,LC,LC,"29,200–97,700",Pairs,Unknown
+Phylloscopus bonelli,Western Bonelli's Warbler,SecureF,Non-SPECe,LC,LC,"2,400,000–3,180,000",Pairs,Increasing
+Phylloscopus sibilatrix,Wood Warbler,Declining,SPEC 2,LC,LC,"8,100,000–14,300,000",Pairs,Decreasing
+Phylloscopus inornatus,Yellow-browed Warbler,Secure,Non-SPEC,LC,LC,"20,000–30,000",Pairs,Unknown
+Phylloscopus trochilus,Willow Warbler,Declining,SPEC 3,LC,LC,"53,300,000–80,300,000",Pairs,Decreasing
+Phylloscopus ibericus,Iberian Chiffchaff,Secure,Non-SPECe,LC,LC,"462,000–768,000",Pairs,Stable
+Phylloscopus collybita,Common Chiffchaff,Secure,Non-SPECe,LC,LC,"36,000,000–56,700,000",Pairs,Stable
+Phylloscopus tristis,Siberian Chiffchaff,Secure,Non-SPEC,LC,LC,"300,000",Pairs,Unknown
+Phylloscopus canariensis,Canary Islands Chiffchaff,Secure,Non-SPECe,LC,LC,"20,000–100,000",Pairs,Unknown
+Phylloscopus sindianus,Mountain Chiffchaff,SecureF,Non-SPEC,LC,LC,"106,000–322,000",Pairs,Unknown
+Phylloscopus nitidus,Green Warbler,Secure,Non-SPECe,LC,LC,"467,000–932,000",Pairs,Increasing
+Phylloscopus trochiloides,Greenish Warbler,Secure,Non-SPEC,LC,LC,"4,040,000–7,630,000",Pairs,Increasing
+Phylloscopus borealis,Arctic Warbler,Secure,Non-SPEC,LC,LC,"3,000,000–4,010,000",Pairs,Increasing
+Cettia cetti,Cetti's Warbler,Secure,Non-SPEC,LC,LC,"2,040,000–3,280,000",Pairs,Stable
+Aegithalos caudatus,Long-tailed Tit,Secure,Non-SPEC,LC,LC,"8,190,000–14,600,000",Pairs,Stable
+Sylvia atricapilla,Eurasian Blackcap,Secure,Non-SPECe,LC,LC,"44,200,000–68,900,000",Pairs,Increasing
+Sylvia borin,Garden Warbler,Secure,Non-SPECe,LC,LC,"11,600,000–19,500,000",Pairs,Decreasing
+Curruca nana,Asian Desert Warbler,SecureF*,Non-SPEC,VU? D1,LC,40–70,Pairs,Unknown
+Curruca nisoria,Barred Warbler,Secure,Non-SPECe,LC,LC,"579,000–1,060,000",Pairs,Increasing
+Curruca hortensis,Western Orphean Warbler,Depleted,SPEC 3,LC,LC,"123,000–247,000",Pairs,Increasing
+Curruca crassirostris,Eastern Orphean Warbler,Secure,Non-SPEC,LC,LC,"65,900–206,000",Pairs,Unknown
+Curruca curruca,Lesser Whitethroat,Secure,Non-SPEC,LC,LC,"4,870,000–8,320,000",Pairs,Stable
+Curruca mystacea,Menetries's Warbler,Secure,Non-SPEC,LC,LC,"53,800–127,000",Pairs,Increasing
+Curruca melanothorax,Cyprus Warbler,Depleted,SPEC 2,LC,LC,"60,000–90,000",Pairs,Stable
+Curruca melanocephala,Sardinian Warbler,Secure,Non-SPECe,LC,LC,"7,730,000–16,100,000",Pairs,Stable
+Curruca cantillans,Subalpine Warbler,Secure,Non-SPECe,LC,LC,"3,520,000–5,320,000",Pairs,Increasing
+Curruca subalpina,Moltoni's Warbler,Secure,Non-SPECe,LC,LC,"51,000–133,000",Pairs,Increasing
+Curruca ruppeli,RÃ¼ppell's Warbler,Secure,Non-SPECe,LC,LC,"103,000–511,000",Pairs,Unknown
+Curruca communis,Common Whitethroat,Secure,Non-SPECe,LC,LC,"19,600,000–29,600,000",Pairs,Increasing
+Curruca conspicillata,Spectacled Warbler,Secure,Non-SPEC,LC,LC,"163,000–446,000",Pairs,Stable
+Curruca sarda,Marmora's Warbler,Secure,Non-SPECe,LC,LC,"60,000–65,000",Pairs,Unknown
+Curruca balearica,Balearic Warbler,Secure,Non-SPECe,LC,LC,"14,000–25,000",Pairs,Stable
+Curruca undata,Dartford Warbler,NT,SPEC 1,NT A2bc+3bc+4bc,NT,"597,000–1,430,000",Pairs,Decreasing
+Argya altirostris,Iraq Babbler,Secure*,Non-SPEC,NT?? D,LC,40–80,Pairs,Unknown
+Certhia brachydactyla,Short-toed Treecreeper,Secure,Non-SPECe,LC,LC,"5,060,000–8,390,000",Pairs,Increasing
+Certhia familiaris,Eurasian Treecreeper,Secure,Non-SPEC,LC,LC,"5,490,000–9,570,000",Pairs,Increasing
+Sitta europaea,Eurasian Nuthatch,Secure,Non-SPEC,LC,LC,"9,510,000–17,400,000",Pairs,Stable
+Sitta whiteheadi,Corsican Nuthatch,VU,SPEC 1,VU C2a(ii),VU,"1,500–2,200",Pairs,Decreasing
+Sitta krueperi,Krueper's Nuthatch,SecureF,Non-SPECe,LC,LC,"128,000–472,000",Pairs,Unknown
+Sitta neumayer,Western Rock Nuthatch,Secure,Non-SPECe,LC,LC,"1,010,000–5,060,000",Pairs,Unknown
+Sitta tephronota,Eastern Rock Nuthatch,Secure,Non-SPEC,LC,LC,"16,700–53,400",Pairs,Unknown
+Tichodroma muraria,Wallcreeper,Depleted,SPEC 3,LC,LC,"13,100–48,500",Pairs,Unknown
+Troglodytes troglodytes,Northern Wren,Secure,Non-SPEC,LC,LC,"33,200,000–56,500,000",Pairs,Increasing
+Cinclus cinclus,White-throated Dipper,Secure,Non-SPEC,LC,LC,"111,000–274,000",Pairs,Decreasing
+Sturnus vulgaris,Common Starling,SecureF,Non-SPEC,LC,LC,"26,600,000–47,200,000",Pairs,Stable
+Sturnus unicolor,Spotless Starling,Secure,Non-SPECe,LC,LC,"23,800,000–30,700,000",Pairs,Decreasing
+Pastor roseus,Rosy Starling,Secure,Non-SPEC,LC,LC,"50,700–202,000",Pairs,Fluctuating
+Zoothera aurea,White's Thrush,Secure,Non-SPEC,LC,LC,"10,000–17,000",Pairs,Unknown
+Turdus viscivorus,Mistle Thrush,Secure,Non-SPECe,LC,LC,"3,650,000–6,760,000",Pairs,Stable
+Turdus philomelos,Song Thrush,Secure,Non-SPECe,LC,LC,"23,600,000–39,000,000",Pairs,Stable
+Turdus iliacus,Redwing,Declining,SPEC 1,LC,NT,"8,140,000–14,100,000",Pairs,Decreasing
+Turdus merula,Eurasian Blackbird,Secure,Non-SPECe,LC,LC,"58,100,000–88,000,000",Pairs,Increasing
+Turdus pilaris,Fieldfare,Secure,Non-SPECe,LC,LC,"11,500,000–22,400,000",Pairs,Stable
+Turdus torquatus,Ring Ouzel,Secure,Non-SPECe,LC,LC,"276,000–579,000",Pairs,Stable
+Turdus atrogularis,Black-throated Thrush,Secure,Non-SPEC,LC,LC,"25,000–40,000",Pairs,Unknown
+Cercotrichas galactotes,Rufous-tailed Scrub-robin,SecureF,Non-SPEC,LC,LC,"135,000–388,000",Pairs,Decreasing
+Muscicapa striata,Spotted Flycatcher,SecureF,Non-SPECe,LC,LC,"10,300,000–18,700,000",Pairs,Decreasing
+Erithacus rubecula,European Robin,Secure,Non-SPECe,LC,LC,"54,500,000–84,000,000",Pairs,Stable
+Irania gutturalis,White-throated Robin,Secure,Non-SPEC,LC,LC,"404,000–907,000",Pairs,Unknown
+Cyanecula svecica,Bluethroat,Secure,Non-SPEC,LC,LC,"3,960,000–7,400,000",Pairs,Stable
+Luscinia luscinia,Thrush Nightingale,Secure,Non-SPECe,LC,LC,"4,390,000–7,140,000",Pairs,Increasing
+Luscinia megarhynchos,Common Nightingale,Secure,Non-SPECe,LC,LC,"10,200,000–15,400,000",Pairs,Stable
+Calliope calliope,Siberian Rubythroat,Secure,Non-SPEC,LC,LC,"900–1,600",Pairs,Unknown
+Tarsiger cyanurus,Orange-flanked Bush-robin,Secure,Non-SPEC,LC,LC,"240,000–446,000",Pairs,Increasing
+Ficedula parva,Red-breasted Flycatcher,Secure,Non-SPECe,LC,LC,"1,790,000–3,440,000",Pairs,Increasing
+Ficedula semitorquata,Semi-collared Flycatcher,SecureF,Non-SPECe,LC,LC,"30,100–149,000",Pairs,Unknown
+Ficedula hypoleuca,European Pied Flycatcher,Declining,SPEC 2,LC,LC,"7,750,000–12,500,000",Pairs,Decreasing
+Ficedula albicollis,Collared Flycatcher,Secure,Non-SPECe,LC,LC,"1,600,000–2,570,000",Pairs,Stable
+Phoenicurus ochruros,Black Redstart,Secure,Non-SPEC,LC,LC,"6,590,000–10,700,000",Pairs,Stable
+Phoenicurus phoenicurus,Common Redstart,SecureF,Non-SPECe,LC,LC,"5,250,000–9,780,000",Pairs,Increasing
+Phoenicurus erythrogastrus,White-winged Redstart,NT,SPEC 3,NT C1,LC,"1,700–7,500",Pairs,Decreasing
+Monticola saxatilis,Rufous-tailed Rock-thrush,Depleted,SPEC 3,LC,LC,"89,500–286,000",Pairs,Unknown
+Monticola solitarius,Blue Rock-thrush,SecureF,Non-SPEC,LC,LC,"100,000–232,000",Pairs,Unknown
+Saxicola rubetra,Whinchat,SecureF,Non-SPECe,LC,LC,"7,730,000–10,600,000",Pairs,Decreasing
+Saxicola dacotiae,Fuerteventura Stonechat,NT,SPEC 1,"NT B1ab(ii,iii); C2a(ii)",NT,"13,300–15,500",Individuals,Unknown
+Saxicola torquatus,Common Stonechat,SecureF,Non-SPEC,LC,LC,"5,920,000–9,160,000",Pairs,Decreasing
+Oenanthe oenanthe,Northern Wheatear,SecureF,Non-SPEC,LC,LC,"5,410,000–14,700,000",Pairs,Unknown
+Oenanthe isabellina,Isabelline Wheatear,Secure,Non-SPEC,LC,LC,"2,310,000–6,580,000",Pairs,Unknown
+Oenanthe deserti,Desert Wheatear,Secure*,Non-SPEC,NT? D1 ,LC,"110–1,100",Pairs,Unknown
+Oenanthe hispanica,Black-eared Wheatear,Depleted,SPEC 2,LC,LC,"1,260,000–3,630,000",Pairs,Unknown
+Oenanthe cypriaca,Cyprus Wheatear,SecureF,Non-SPECe,LC,LC,"50,000–100,000",Pairs,Increasing
+Oenanthe pleschanka,Pied Wheatear,Secure,Non-SPEC,LC,LC,"27,200–49,900",Pairs,Unknown
+Oenanthe leucura,Black Wheatear,Depleted,SPEC 3,LC,LC,"4,000–16,100",Pairs,Uncertain
+Oenanthe finschii,Finsch's Wheatear,Secure,Non-SPEC,LC,LC,"102,000–309,000",Pairs,Unknown
+Oenanthe chrysopygia,Red-tailed Wheatear,Secure*,Non-SPEC,VU? D1,LC,45–60,Pairs,Stable
+Oenanthe xanthoprymna,Kurdish Wheatear,Rare,SPEC 3,LC,LC,"1,000–6,000",Pairs,Unknown
+Regulus regulus,Goldcrest,Declining,SPEC 2,LC,LC,"14,500,000–25,200,000",Pairs,Decreasing
+Regulus madeirensis,Madeira Firecrest,Secure,Non-SPECe,LC,LC,"50,000–100,000",Pairs,Increasing
+Regulus ignicapilla,Common Firecrest,Secure,Non-SPECe,LC,LC,"4,560,000–8,110,000",Pairs,Increasing
+Bombycilla garrulus,Bohemian Waxwing,Secure,Non-SPEC,LC,LC,"650,000–1,270,000",Pairs,Increasing
+Prunella collaris,Alpine Accentor,Depleted,SPEC 3,LC,LC,"102,000–190,000",Pairs,Stable
+Prunella montanella,Siberian Accentor,Secure,Non-SPEC,LC,LC,"12,200–23,000",Pairs,Unknown
+Prunella modularis,Dunnock,Declining,SPEC 2,LC,LC,"11,000,000–18,500,000",Pairs,Decreasing
+Prunella atrogularis,Black-throated Accentor,Rare,SPEC 3,LC,LC,"1,500–2,400",Pairs,Unknown
+Prunella ocularis,Radde's Accentor,SecureF,Non-SPEC,LC,LC,"14,900–38,200",Pairs,Unknown
+Passer domesticus,House Sparrow,Declining,SPEC 3,LC,LC,"135,000,000–189,000,000",Pairs,Decreasing
+Passer italiae,Italian Sparrow,VU,SPEC 1,VU A2bce + 3bce + 4bce,VU,"2,120,000–3,450,000",Pairs,Decreasing
+Passer hispaniolensis,Spanish Sparrow,Secure,Non-SPEC,LC,LC,"3,780,000–9,960,000",Pairs,Unknown
+Passer moabiticus,Dead Sea Sparrow,SecureF,Non-SPEC,LC,LC,"1,000–3,000",Pairs,Unknown
+Passer montanus,Eurasian Tree Sparrow,Declining,SPEC 3,LC,LC,"26,800,000–38,000,000",Pairs,Decreasing
+Carpospiza brachydactyla,Pale Sparrow,Secure,Non-SPEC,LC,LC,"6,300–12,100",Pairs,Stable
+Petronia petronia,Rock Sparrow,Secure,Non-SPEC,LC,LC,"2,160,000–4,670,000",Pairs,Increasing
+Gymnoris xanthocollis,Chestnut-shouldered Bush-sparrow,Secure,Non-SPEC,LC,LC,"500–2,000",Pairs,Unknown
+Montifringilla nivalis,White-winged Snowfinch,Secure,Non-SPEC,LC,LC,"127,000–560,000",Pairs,Unknown
+Anthus trivialis,Tree Pipit,Declining,SPEC 3,LC,LC,"19,400,000–35,100,000",Pairs,Decreasing
+Anthus hodgsoni,Olive-backed Pipit,Secure,Non-SPEC,LC,LC,"80,000–140,000",Pairs,Unknown
+Anthus cervinus,Red-throated Pipit,Secure,Non-SPEC,LC,LC,"1,100,000–2,120,000",Pairs,Unknown
+Anthus pratensis,Meadow Pipit,Declining,SPEC 2,LC,LC,"11,000,000–14,900,000",Pairs,Decreasing
+Anthus spinoletta,Water Pipit,Declining,SPEC 3,LC,LC,"1,050,000–2,640,000",Pairs,Decreasing
+Anthus petrosus,Rock Pipit,Secure,Non-SPECe,LC,LC,"167,000–286,000",Pairs,Unknown
+Anthus berthelotii,Berthelot's Pipit,Secure,Non-SPECe,LC,LC,"30,000–150,000",Pairs,Unknown
+Anthus campestris,Tawny Pipit,SecureF,Non-SPEC,LC,LC,"1,120,000–2,030,000",Pairs,Unknown
+Motacilla flava,Western Yellow Wagtail,Declining,SPEC 3,LC,LC,"13,300,000–18,000,000",Pairs,Decreasing
+Motacilla cinerea,Grey Wagtail,Secure,Non-SPEC,LC,LC,"1,120,000–2,380,000",Pairs,Stable
+Motacilla citreola,Citrine Wagtail,Secure,Non-SPEC,LC,LC,"401,000–574,000",Pairs,Increasing
+Motacilla alba,White Wagtail,Secure,Non-SPEC,LC,LC,"15,100,000–25,600,000",Pairs,Stable
+Fringilla coelebs,Common Chaffinch,Secure,Non-SPECe,LC,LC,"154,000,000–231,000,000",Pairs,Stable
+Fringilla teydea,Tenerife Blue Chaffinch,NT,SPEC 1,NT D2,NT,"1,000–2,500",Pairs,Increasing
+Fringilla polatzeki,Gran Canaria Blue Chaffinch,EN,SPEC 1,EN D,EN,430,Individuals,Increasing
+Fringilla montifringilla,Brambling,Declining,SPEC 3,LC,LC,"7,030,000–13,000,000",Pairs,Decreasing
+Coccothraustes coccothraustes,Hawfinch,Secure,Non-SPECe,LC,LC,"3,640,000–6,020,000",Pairs,Increasing
+Carpodacus erythrinus,Common Rosefinch,SecureF,Non-SPEC,LC,LC,"3,410,000–6,990,000",Pairs,Decreasing
+Carpodacus rubicilla,Great Rosefinch,Rare,SPEC 3,LC,LC,"2,900–11,800",Pairs,Unknown
+Pinicola enucleator,Pine Grosbeak,Secure,Non-SPEC,LC,LC,"127,000–224,000",Pairs,Stable
+Pyrrhula murina,Azores Bullfinch,VU,SPEC 1,VU D1+2,VU,250–850,Pairs,Stable
+Pyrrhula pyrrhula,Eurasian Bullfinch,Secure,Non-SPEC,LC,LC,"4,890,000–8,640,000",Pairs,Increasing
+Rhodopechys sanguineus,Eurasian Crimson-winged Finch,Secure,Non-SPEC,LC,LC,"53,600–206,000",Pairs,Unknown
+Bucanetes githagineus,Trumpeter Finch,SecureF,Non-SPEC,LC,LC,"10,600–22,000",Pairs,Unknown
+Bucanetes mongolicus,Mongolian Finch,Secure,Non-SPEC,LC,LC,"580–1,600",Pairs,Unknown
+Rhodospiza obsoleta,Desert Finch,Secure,Non-SPEC,LC,LC,"3,000–6,200",Pairs,Fluctuating
+Chloris chloris,European Greenfinch,Secure,Non-SPECe,LC,LC,"20,700,000–32,200,000",Pairs,Decreasing
+Linaria flavirostris,Twite,Depleted,SPEC 3,LC,LC,"79,800–274,000",Pairs,Unknown
+Linaria cannabina,Common Linnet,SecureF,Non-SPECe,LC,LC,"17,900,000–32,200,000",Pairs,Increasing
+Acanthis flammea,Redpoll,Secure,Non-SPEC,LC,LC,"4,500,000–9,550,000",Pairs,Increasing
+Loxia pytyopsittacus,Parrot Crossbill,Secure,Non-SPECe,LC,LC,"208,000–479,000",Pairs,Fluctuating
+Loxia scotica,Scottish Crossbill,Rare,SPEC 2,LC,LC,"4,000–11,400",Pairs,Unknown
+Loxia curvirostra,Red Crossbill,Secure,Non-SPEC,LC,LC,"2,800,000–7,100,000",Pairs,Stable
+Loxia leucoptera,Two-barred Crossbill,Secure,Non-SPEC,LC,LC,"102,000–307,000",Pairs,Stable
+Carduelis carduelis,European Goldfinch,Secure,Non-SPECe,LC,LC,"28,000,000–44,400,000",Pairs,Increasing
+Carduelis citrinella,Citril Finch,Secure,Non-SPECe,LC,LC,"251,000–285,000",Pairs,Fluctuating
+Carduelis corsicana,Corsican Finch,Secure,Non-SPECe,LC,LC,"13,000–25,500",Pairs,Unknown
+Serinus serinus,European Serin,SecureF,Non-SPECe,LC,LC,"17,600,000–28,000,000",Pairs,Decreasing
+Serinus canaria,Island Canary,Secure,Non-SPECe,LC,LC,"1,190,000–2,490,000",Pairs,Stable
+Serinus pusillus,Red-fronted Serin,Secure,Non-SPEC,LC,LC,"297,000–958,000",Pairs,Unknown
+Spinus spinus,Eurasian Siskin,Secure,Non-SPECe,LC,LC,"6,880,000–12,900,000",Pairs,Stable
+Calcarius lapponicus,Lapland Longspur,Depleted,SPEC 3,LC,LC,"1,560,000–2,590,000",Pairs,Unknown
+Plectrophenax nivalis,Snow Bunting,Depleted,SPEC 3,LC,LC,"1,250,000–2,470,000",Pairs,Unknown
+Emberiza melanocephala,Black-headed Bunting,SecureF,Non-SPECe,LC,LC,"2,470,000–8,940,000",Pairs,Unknown
+Emberiza bruniceps,Red-headed Bunting,Secure,Non-SPEC,LC,LC,"4,200–12,500",Pairs,Increasing
+Emberiza calandra,Corn Bunting,SecureF,Non-SPECe,LC,LC,"21,100,000–33,900,000",Pairs,Decreasing
+Emberiza cia,Rock Bunting,SecureF,Non-SPEC,LC,LC,"1,940,000–4,290,000",Pairs,Decreasing
+Emberiza buchanani,Grey-necked Bunting,Secure,Non-SPEC,LC,LC,"6,900–20,200",Pairs,Unknown
+Emberiza cineracea,Cinereous Bunting,NT,SPEC 1,NT C1,NT,"2,600–5,200",Pairs,Decreasing
+Emberiza hortulana,Ortolan Bunting,Declining,SPEC 2,LC,LC,"3,610,000–5,630,000",Pairs,Decreasing
+Emberiza caesia,Cretzschmar's Bunting,Secure,Non-SPECe,LC,LC,"115,000–226,000",Pairs,Unknown
+Emberiza cirlus,Cirl Bunting,Secure,Non-SPECe,LC,LC,"2,450,000–4,580,000",Pairs,Decreasing
+Emberiza citrinella,Yellowhammer,Declining,SPEC 2,LC,LC,"19,500,000–27,000,000",Pairs,Decreasing
+Emberiza leucocephalos,Pine Bunting,Regionally Extinct,SPEC 3,Regionally Extinct,LC,,,
+Emberiza schoeniclus,Reed Bunting,Secure,Non-SPEC,LC,LC,"4,750,000–8,320,000",Pairs,Decreasing
+Emberiza pallasi,Pallas's Bunting,Secure,Non-SPEC,LC,LC,"10,000–17,000",Pairs,Unknown
+Emberiza aureola,Yellow-breasted Bunting,CR,SPEC 1,CR A2bcd+3bcd+4bcd,CR,"600–1,300",Pairs,Decreasing
+Emberiza rustica,Rustic Bunting,Declining,SPEC 1,LC,VU,"417,000–819,000",Pairs,Decreasing
+Emberiza pusilla,Little Bunting,Secure,Non-SPEC,LC,LC,"2,510,000–3,540,000",Pairs,Unknown
