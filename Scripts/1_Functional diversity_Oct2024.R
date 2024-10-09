@@ -17,11 +17,13 @@ library(FD)
 # clean environment
 rm(list = ls())
 
+setwd("~/GitHub/BiodiversityFacets")
+
 # load Spanish UTM grid
 malla <- st_read("Spatial_Data/Malla_municipios/Malla10x10_Ter_p.shp")
 
 # load atlas data (2014-2018)
-atlas16 <- read.csv("Data/SteppedBirdLIst Atlas 2014_­2018.csv", stringsAsFactors = F)
+atlas16 <- read.csv("Data/Atlas_CP.csv", stringsAsFactors = F)
 
 #Converting atlas16 into a spatial layer
 Atlas16_shp <- left_join(malla[, c("UTMCODE", "CUADRICULA", "XCENTROIDE", "YCENTROIDE")], atlas16, 
@@ -72,10 +74,17 @@ Communities1 <- na.omit(Communities1)
 
 # Number of species per UTM
 species_count <- aggregate(Communities1$species, by=list(Communities1$UTM), FUN=length)
+species_count0  <- species_count
+names (species_count0)[1] = "UTMCODE"
+names (species_count0)[2] = "species"
 
-# Selecting only UTM cells with 3 or more species. This is done because the number of species per UTM 
-# must be higher than the number of axes to compute the convex hull in FD analyses. I am using 2 axes,therefore 
-# FD indices are not calculated in UTM cells with less than 3 species.
+Atlas_Ebird1 <- left_join(malla[, c("UTMCODE", "XCENTROIDE", "YCENTROIDE", "Area_km2")], species_count0, by = "UTMCODE")
+# Saving FD indexes as spatial data
+write_sf(Atlas_Ebird1, "Spatial_Data/Richness/TDindex.shp")
+
+# Selecting only UTM cells with 5 or more species. This is done because the number of species per UTM 
+# must be higher than the number of axes to compute the convex hull in FD analyses. I am using 4 axes,therefore 
+# FD indices are not calculated in UTM cells with less than 5 species.
 Communities1_1 <- Communities1[Communities1$UTM %in% species_count[species_count$x >= 5,]$Group.1,]
 
 # Transposing species column to become names of columns, and assigning a 1 or 0 for presence or absence in each cell.
@@ -135,6 +144,10 @@ traits_cat <- read.csv("Data/Traits_categories.csv", stringsAsFactors = F)
 #Setting species names as row names
 rownames(Species_traits_imp) <- Species_traits_imp$ESP_LAT
 Species_traits_imp$ESP_LAT <- NULL 
+
+#########################################################################
+#####################CALCULATING FD (FRic) WITH mFD PACKAGE ############# 
+#########################################################################
 
 # Species traits summary:
 species_traits_summ <- mFD::sp.tr.summary(
@@ -201,35 +214,11 @@ FDindex <- left_join(malla[, c("UTMCODE", "CUADRICULA", "XCENTROIDE", "YCENTROID
 sum(is.na(FDindex$fric))
 
 # Saving FD indexes as spatial data
-write_sf(FDindex, "Spatial_Data/Richness/FuncDiversity.shp")
+write_sf(FDindex, "Spatial_Data/Richness/FuncDiversity_mFD.shp")
 
-# Including Spain provinces
-provinces <- mapSpain::esp_get_prov()
-provinces <- provinces[!provinces$iso2.prov.name.es %in% c("Santa Cruz de Tenerife", "Las Palmas"),]
-
-mapTD_FD1 <- mapTD_FD + 
-  geom_sf(data = provinces, fill = NA, color = "black", linewidth = 0.5) +
-  annotation_north_arrow(location = "tr", which_north = "grid", 
-                         pad_x = unit(0, "in"), pad_y = unit(0.05, "in"),
-                         style = north_arrow_fancy_orienteering())
-
-legendTDFD <- bi_legend(pal = "DkBlue2",
-                      dim = 3,
-                      xlab = "TD ",
-                      ylab = "FD ",
-                      size = 13)
-
-TDFDmap <- ggdraw() +
-  draw_plot(mapTD_FD1, 0, 0, 0.8, 1) +
-  draw_plot(legendTDFD, 0.8, 0, 0.2, 1) 
-
-#Exporting figure
-ggsave("Figures/TDvsFDmap.png", TDFDmap, wi = 20, he = 20, un = "cm", dpi = 300)
-
-
-###################################
-###  Calculating FRic WITH FD PACKAGE
-###################################
+#########################################################################
+#####################CALCULATING FD (FRic) WITH FD PACKAGE ############# 
+#########################################################################
 
 FDindexes_FD <- dbFD(
   Species_traits_imp, Communities2, w.abun=FALSE, 
@@ -242,9 +231,27 @@ FDindexes_FD$x.values
 FD_package  <- as.data.frame(FDindexes_FD)
 
 unique(length(FDindexes_FD$FRic))
-###################################
-###  Null model permutations to calculate SESFRic######
-###################################
+
+# Converting row names (UTM) into a column:
+FD_package_0 <- rownames_to_column(FD_package, "CUADRICULA")
+
+######################################################
+###Are FRic values obtained with mFD and FD different?###
+############################################################
+
+FRics_bothpackages <- left_join(FDindex[, c("UTMCODE", "CUADRICULA", "fric", "sp_richn")],  FD_package_0, 
+                     by = c("CUADRICULA"))
+
+FRics_bothpackages1 <- subset(FRics_bothpackages, !is.na(sp_richn))
+
+FRics_bothpackages1_matrix <- FRics_bothpackages1[, c("fric", "FRic")]
+FRics_bothpackages1_matrix$geometry <- NULL
+cor(FRics_bothpackages1_matrix)
+#FRic values from mFD and FD packages are highly correlated: 0.95
+
+######################################################################
+###  Null model permutations to calculate SESFRic#####################
+######################################################################
 
 set.seed(1)
 null.model.type <- "independentswap" # available methods: "independentswap", "frequency", "richness", "trialswap"
