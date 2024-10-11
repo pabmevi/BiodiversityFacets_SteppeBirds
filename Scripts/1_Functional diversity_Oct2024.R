@@ -75,10 +75,10 @@ Communities1 <- na.omit(Communities1)
 # Number of species per UTM
 species_count <- aggregate(Communities1$species, by=list(Communities1$UTM), FUN=length)
 species_count0  <- species_count
-names (species_count0)[1] = "UTMCODE"
+names (species_count0)[1] = "CUADRICULA"
 names (species_count0)[2] = "species"
 
-Atlas_Ebird1 <- left_join(malla[, c("UTMCODE", "XCENTROIDE", "YCENTROIDE", "Area_km2")], species_count0, by = "UTMCODE")
+Atlas_Ebird1 <- left_join(malla[, c("UTMCODE", "CUADRICULA", "XCENTROIDE", "YCENTROIDE", "Area_km2")], species_count0, by = "CUADRICULA")
 # Saving FD indexes as spatial data
 write_sf(Atlas_Ebird1, "Spatial_Data/Richness/TDindex.shp")
 
