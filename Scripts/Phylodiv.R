@@ -122,9 +122,42 @@ phylodiv_null <- rownames_to_column(phylodiv_null, "UTMCODE")
 
 
 #Converting Index values into a spatial layer
-phylodiv <- left_join(malla[, c("UTMCODE", "CUADRICULA")],  phylodiv_null, 
+phylodiv1 <- left_join(malla[, c("UTMCODE", "CUADRICULA")],  phylodiv_null, 
                      by = c("CUADRICULA"="UTMCODE"))
 
-# Saving FD indexes as spatial data
-write_sf(phylodiv, "Spatial_Data/Richness/PhylDiversity_sizeeffect.shp")
+#Loading the 3 diversity facets
+TD <- st_read("Spatial_Data/Richness/TDindex.shp")
+FD <- st_read("Spatial_Data/Richness/FDindex_SES.shp")
+PD <- phylodiv1
 
+FD$geometry  <- NULL
+PD$geometry  <- NULL
+
+TD <- TD %>%
+  filter(species >= 5)
+
+FD <- FD %>%
+  filter(nbsp >= 5)
+
+PD <- PD %>%
+  filter(ntaxa >= 5)
+
+datos <- merge(TD, FD, by = "UTMCODE")
+datosMAP <- merge(datos, PD, by = "UTMCODE")
+
+datosMAP <- datosMAP[, c("UTMCODE","species", "FRic", "SESFRic", "pd.obs.z", "pd.obs")]
+datosMAP <- st_transform(datosMAP, 25830) 
+
+datosMAP$area_cell <- st_area(datosMAP)
+
+#Removing units from rows
+datosMAP <- drop_units(datosMAP)
+names(datosMAP)[5] <- "SESPD"
+names(datosMAP)[6] <- "PD"
+#Now I want to analyse the correlation of TD, FD, and PD. 
+
+forcorrmatrix <- datosMAP[, c("species", "FRic", "SESFRic", "SESPD", "PD")]
+forcorrmatrix$geometry <- NULL
+corrmatrix <- cor(forcorrmatrix, use = "complete.obs") #Very high correlation between TD - FD = 81%, and TD - PD = 94%.
+
+write_sf(datosMAP, "Spatial_Data/3facets.shp")

@@ -6,7 +6,7 @@ library(sf)
 library(mapSpain)
 library(units)
 library(writexl)
-setwd("~/GitHub/SteppeBirdHotspots")
+setwd("~/GitHub/BiodiversityFacets")
 
 ####################################################################
 ############### Overlapping the 3 indexes############################
@@ -14,7 +14,7 @@ setwd("~/GitHub/SteppeBirdHotspots")
 # clean environment
 rm(list = ls())
 
-TD <- st_read("Spatial_Data/Richness/At_Eb2023_p.shp")
+TD <- st_read("Spatial_Data/Richness/TDindex.shp")
 FD <- st_read("Spatial_Data/Richness/FDindex_SES.shp")
 PD <- st_read("Spatial_Data/Richness/PhylDiversity_sizeeffect.shp")
 
@@ -123,7 +123,7 @@ PVint2$overlapSES <- with(PVint2, ifelse(top_sp_richn & top_SESfric & top_SESPD,
                                                                ifelse(top_sp_richn, "Top 30% sp_richn",
                                                                       ifelse(top_SESfric, "Top 30% SES_fric",
                                                                              ifelse(top_SESPD, "Top 30% SES_PD", "Outside hotspots"))))))))
-# Ordenar los niveles de la variable overlapSES
+# Sorting overlapSES levels
 PVint2$overlapSES <- factor(PVint2$overlap, levels = c("Hotspot", "Top 30% sp_richn and SES_fric", 
                                                     "Top 30% sp_richn and SES_PD", "Top 30% SES_fric and SES_PD", 
                                                     "Top 30% sp_richn", "Top 30% SES_fric", "Top 30% SES_PD", 
@@ -138,7 +138,7 @@ PVint2$overlap <- with(PVint2, ifelse(top_sp_richn & top_fric & top_PD, "Hotspot
                                                                   ifelse(top_fric, "Top 30% fric",
                                                                          ifelse(top_PD, "Top 30% PD", "Outside hotspots"))))))))
 
-# Ordenar los niveles de la variable overlap
+# Sorting overlap levels
 PVint2$overlap <- factor(PVint2$overlap, levels = c("Hotspot", "Top 30% sp_richn and fric", 
                                                        "Top 30% sp_richn and PD", "Top 30% fric and PD", 
                                                        "Top 30% sp_richn", "Top 30% fric", "Top 30% PD", 
@@ -180,14 +180,14 @@ mapa <- tm_shape(PVint2) +
 
 tmap_save(mapa, filename = "Figures/3facetshotsp.png")
 
-# Variables en terciles
+# Variables in terciles
 terciles <- quantile(PVint2$PercPV_cell, probs = c(0, 0.33, 0.67, 1), na.rm = TRUE)
 
-# Crear la nueva columna categorica basada en los terciles
+# Creating the new column to show high, medium and low occupacy of PV plants inside each cell based on terciles.
 PVint2 <- PVint2 %>%
   mutate(PV_occupancy = cut(PercPV_cell, breaks = terciles, labels = c("low", "medium", "high"), include.lowest = TRUE))
 
-# Creating a new variable to represent overlapping
+# New variable to represent overlapping (high is for the overlap of the 3 indexes, medium for the overlap of any 2 indexes, and low for 1 index)
 PVint2$div_cat <- with(PVint2, ifelse(top_sp_richn & top_SESfric & top_SESPD, "high",
                                           ifelse(top_sp_richn & top_SESfric, "medium",
                                                  ifelse(top_sp_richn & top_SESPD, "medium",
@@ -206,13 +206,13 @@ PVint2 <- PVint2 %>%
     div_cat == "medium" & !is.na(PV_occupancy) ~ "moderate conflict",
     div_cat == "low" & !is.na(PV_occupancy) ~ "conflict",
     div_cat == "high" & is.na(PV_occupancy) ~ "no-go",
-    TRUE ~ "no conflict"  # Optional: fill with NA if no condition is met
+    TRUE ~ "Outside hotspots"  # Optional: fill with NA if no condition is met
   ))
 # Ordenar los niveles de la variable overlap
 PVint2$conflict <- factor(PVint2$conflict, levels = c("strong conflict", "moderate conflict", 
-                                                    "conflict", "no-go", "no conflict"))
+                                                    "conflict", "no-go", "Outside hotspots"))
 # Colours for each overlapping category 
-colors <- c("strong conflict" = "black", "moderate conflict" = "orange", "conflict" = "wheat", "no-go" = "honeydew4", "no conflict" = "white")
+colors <- c("strong conflict" = "black", "moderate conflict" = "orange", "conflict" = "wheat", "no-go" = "honeydew4", "Outside hotspots" = "white")
 
 # Final map
 mapconflict <- tm_shape(PVint2) +
@@ -227,6 +227,108 @@ mapconflict <- tm_shape(PVint2) +
   tm_compass(type = "arrow", position = c("right", "top"))
 
 tmap_save(mapconflict, filename = "Figures/3facetsSESconflict.png")
+
+
+# I am assigning 9 levels of conflict based on 3, 2 and 1 facet diverse cells, and the occupancy levels of PV plants per cell (high, medium and low). 
+
+PVint2 <- PVint2 %>%
+  mutate(extendedconflicts = case_when(
+    div_cat == "high" & PV_occupancy == "high" ~ "Strong conflict 3", # 3 facet biodiverse areas and high PV plants occupancy
+    div_cat == "high" & PV_occupancy == "medium" ~ "Strong conflict 2", # 3 facet biodiverse areas and medium PV plants occupancy
+    div_cat == "high" & PV_occupancy == "low" ~ "Strong conflict 1", # 3 facet biodiverse areas and low PV plants occupancy
+    div_cat == "medium" & PV_occupancy == "high" ~ "Moderate conflict 3", # 2 facet biodiverse areas and high PV plants occupancy
+    div_cat == "medium" & PV_occupancy == "medium" ~ "Moderate conflict 2", # 2 facet biodiverse areas and medium PV plants occupancy
+    div_cat == "medium" & PV_occupancy == "low" ~ "Moderate conflict 1", # 3 facet biodiverse areas and high PV plants occupancy
+    div_cat == "low" & PV_occupancy == "high" ~ "Conflict 3", # 3 facet biodiverse areas and high PV plants occupancy
+    div_cat == "low" & PV_occupancy == "medium" ~ "Conflict 2", # 3 facet biodiverse areas and high PV plants occupancy
+    div_cat == "low" & PV_occupancy == "low" ~ "Conflict 1", # 3 facet biodiverse areas and high PV plants occupancy
+    TRUE ~ "Outside hotspots"  # Optional: fill with NA if no condition is met
+  ))
+
+# Sorting conflict levels
+PVint2$extendedconflicts <- factor(PVint2$extendedconflicts, levels = c("Strong conflict 3", "Strong conflict 2", 
+                                                        "Strong conflict 1", "Moderate conflict 3", "Moderate conflict 2", "Moderate conflict 1",
+                                                        "Conflict 3", "Conflict 2", "Conflict 1", "Outside hotspots"))
+# Colours for each overlapping category 
+colors <- c("Strong conflict 3" = "black", "Strong conflict 2" = "gray21", "Strong conflict 1"  = "gray41", "Moderate conflict 3" = "sienna1", 
+            "Moderate conflict 2" = "lightsalmon", "Moderate conflict 1" = "tan", "Conflict 3" = "khaki3", "Conflict 2" = "peachpuff3", 
+            "Conflict 1" = "wheat", "Outside hotspots" = "white")
+
+# Crear una variable numérica para el conflicto
+PVint2 <- PVint2 %>%
+  mutate(conflict_level = case_when(
+    extendedconflicts == "Strong conflict 3" ~ 9,
+    extendedconflicts == "Strong conflict 2" ~ 8,
+    extendedconflicts == "Strong conflict 1" ~ 7,
+    extendedconflicts == "Moderate conflict 3" ~ 6,
+    extendedconflicts == "Moderate conflict 2" ~ 5,
+    extendedconflicts == "Moderate conflict 1" ~ 4,
+    extendedconflicts == "Conflict 3" ~ 3,
+    extendedconflicts == "Conflict 2" ~ 2,
+    extendedconflicts == "Conflict 1" ~ 1,
+    TRUE ~ 0  # Para "Outside hotspots"
+  ))
+
+# Crear el mapa usando una escala continua de rojos
+mapextendedconflict <- tm_shape(PVint2) +
+  tm_fill(col = "conflict_level", palette = "Reds", title = "Conflict Level", style = "cont",
+  breaks = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)) +
+  tm_shape(prov) +
+  tm_borders() +
+  tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +
+  tm_compass(type = "arrow", position = c("right", "top"))
+
+
+# Guardar el mapa
+tmap_save(mapextendedconflict, filename = "Figures/extendedconflicts.png")
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Now creating risk maps for no-go areas. This is where no PV plants exist, but risk levels are assigned according to the diversity of the 3 facets
+#High diversity is where the 3 facets overlap, medium where 2 indexes overlap, and one represents for the top values of just one index.
+
+PVint2 <- PVint2 %>%
+  mutate(nogo_risk = case_when(
+    div_cat == "high" & is.na(PV_occupancy) ~ "no go: high risk", # 3 facet biodiverse areas where no PV plants exist
+    div_cat == "medium" & is.na(PV_occupancy) ~ "no go: moderate risk", # 2 facet biodiverse areas where no PV plants exist
+    div_cat == "low" & is.na(PV_occupancy) ~ "no go: risk", # 1 facet biodiverse areas where no PV plants exist
+    TRUE ~ "Outside hotspots"  # Optional: fill with NA if no condition is met
+  ))
+
+# Ordenar los niveles de la variable overlap
+PVint2$nogo_risk <- factor(PVint2$nogo_risk, levels = c("no go: high risk", "no go: moderate risk", 
+                                                      "no go: risk", "Outside hotspots"))
+# Colours for each overlapping category 
+colors <- c("no go: high risk" = "red", "no go: moderate risk" = "orange", "no go: risk" = "wheat", "Outside hotspots" = "white")
+
+# Final map
+mapnogo_risk <- tm_shape(PVint2) +
+  tm_fill(col = "nogo_risk", palette = colors, title = "", style = "cat")
+
+# Adding Spain borders to final map
+mapnogo_risk <- tm_shape(PVint2) +
+  tm_fill(col = "nogo_risk", palette = colors, title = "", style = "cat") +
+  tm_shape(prov) +
+  tm_borders() +
+  tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +
+  tm_compass(type = "arrow", position = c("right", "top"))
+
+tmap_save(mapnogo_risk, filename = "Figures/nogo_risks.png")
+
+
+
+
+
 
 forcorrmatrix <- PVint2[, c("species", "FRic", "SESFRic", "SESPD", "PD")]
 forcorrmatrix$geometry <- NULL
