@@ -14,47 +14,14 @@ setwd("~/GitHub/BiodiversityFacets")
 # clean environment
 rm(list = ls())
 
-TD <- st_read("Spatial_Data/Richness/TDindex.shp")
-FD <- st_read("Spatial_Data/Richness/FDindex_SES.shp")
-PD <- st_read("Spatial_Data/Richness/PhylDiversity_sizeeffect.shp")
-
 # Adding Autonomous communities from Spain
-comm <-esp_get_ccaa()
-comm <- comm[!comm$iso2.ccaa.name.es %in% c("Canarias"),]
-comm <- st_transform(comm, 25830) 
-
-prov <-esp_get_prov()
-prov <- prov[!prov$iso2.prov.name.es %in% c("Las Palmas", "Santa Cruz de Tenerife"),]
-prov <- st_transform(prov, 25830) 
-
-FD$geometry  <- NULL
-PD$geometry  <- NULL
-
-TD <- TD %>%
-  filter(species >= 5)
-
-FD <- FD %>%
-  filter(nbsp >= 5)
-
-PD <- PD %>%
-  filter(ntaxa >= 5)
-
-datos <- merge(TD, FD, by = "UTMCODE")
-datosMAP <- merge(datos, PD, by = "UTMCODE")
-
-datosMAP <- datosMAP[, c("UTMCODE","species", "FRic", "SESFRic", "pd_bs_z", "pd_obs")]
-datosMAP <- st_transform(datosMAP, 25830) 
-
-datosMAP$area_cell <- st_area(datosMAP)
-
-#Removing units from rows
-datosMAP <- drop_units(datosMAP)
+AC <-esp_get_ccaa()
+AC <- AC[!AC$iso2.ccaa.name.es %in% c("Canarias"),]
+AC <- st_transform(AC, 25830) 
 
 # load Spanish UTM grid
 malla <- st_read("Spatial_Data/Malla_municipios/Malla10x10_Ter_p.shp")
 malla <- st_transform(malla, 25830) 
-
-write_sf(datosMAP, "Spatial_Data/3facets.shp")
 
 ###########Using photovoltaic polygons areas to identify conflicts #################################
 ###################################################################################################
@@ -66,10 +33,6 @@ names(solar)[1] <- "area_PVplant"
 
 #Loading TD, FD, PD data per cell
 datosMAP <- st_read("Spatial_Data/3facets.shp")
-datosMAP$area_cell <- st_area(datosMAP)
-
-#Removing units from rows
-datosMAP <- drop_units(datosMAP)
 
 # Intersecting solar plants polygons and cells with 3 biodiv facets 
 PVint <- st_intersection(solar, datosMAP) 
@@ -93,8 +56,6 @@ PVint1_subset <- PVint1[, c("UTMCODE", "area_PVplant", "area_int", "PVarea_pcell
 
 # Merging the dataframe with intersection data to the one with TD, FD, and PD
 PVint11 <- merge(datosMAP, PVint1_subset, by = "UTMCODE", all.x = TRUE)
-names(PVint11)[5] <- "SESPD"
-names(PVint11)[6] <- "PD"
 
 ###########Using photovoltaic power per municipality to identify conflicts #################################
 ###################################################################################################
@@ -152,35 +113,35 @@ colores <- c("Hotspot" = "blue4", "Top 30% sp_richn and SES_fric" = "blue", "Top
 PVint2$overlapSES[is.na(PVint2$overlapSES)] <- "Outside hotspots"
 PVint2$overlap[is.na(PVint2$overlap)] <- "Outside hotspots"
 
-# Final map
+# Final map with TD, SESFRIC and SESPD
 mapaSES <- tm_shape(PVint2) +
   tm_fill(col = "overlapSES", palette = colores, title = "Index overlapping", style = "cat")
 
 # Adding Spain borders to final map
 mapaSES <- tm_shape(PVint2) +
   tm_fill(col = "overlapSES", palette = colores, title = "Index overlapping", style = "cat") +
-  tm_shape(prov) +
+  tm_shape(AC) +
   tm_borders() +
   tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +  # Agregar barra de escala con intervalos personalizados
   tm_compass(type = "arrow", position = c("right", "top"))
 
 tmap_save(mapaSES, filename = "Figures/3facetsSEShotsp.png")
 
-# Final map
+# Final map with TD, FRIC and PD
 mapa <- tm_shape(PVint2) +
   tm_fill(col = "overlap", palette = colores, title = "Index overlapping", style = "cat")
 
 # Adding Spain borders to final map
 mapa <- tm_shape(PVint2) +
   tm_fill(col = "overlap", palette = colores, title = "Index overlapping", style = "cat") +
-  tm_shape(prov) +
+  tm_shape(AC) +
   tm_borders() +
   tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +  # Agregar barra de escala con intervalos personalizados
   tm_compass(type = "arrow", position = c("right", "top"))
 
 tmap_save(mapa, filename = "Figures/3facetshotsp.png")
 
-# Variables in terciles
+# PV occupancy percentages in terciles
 terciles <- quantile(PVint2$PercPV_cell, probs = c(0, 0.33, 0.67, 1), na.rm = TRUE)
 
 # Creating the new column to show high, medium and low occupacy of PV plants inside each cell based on terciles.
@@ -196,73 +157,36 @@ PVint2$div_cat <- with(PVint2, ifelse(top_sp_richn & top_SESfric & top_SESPD, "h
                                                                       ifelse(top_SESfric, "low",
                                                                              ifelse(top_SESPD, "low", "NotA"))))))))
 
-# I am assigning 3 levels of conflict based on the presence or absence of PV plants in each cell. I am not taking into account
-# the area of each PV, just the presence or absence. If there is a PV in a cell with high TD, FD, and PD (hotspot), 
-# then strong conflict is assigned, high TD-PD, TD-FD, or FD-PD cells with PV plants are assigned as moderate conflict,
-# while cells with just one high diversity facet and the presence of PV plant are assigned the term "conflict". 
-PVint2 <- PVint2 %>%
-  mutate(conflict = case_when(
-    div_cat == "high" & !is.na(PV_occupancy) ~ "strong conflict",
-    div_cat == "medium" & !is.na(PV_occupancy) ~ "moderate conflict",
-    div_cat == "low" & !is.na(PV_occupancy) ~ "conflict",
-    div_cat == "high" & is.na(PV_occupancy) ~ "no-go",
-    TRUE ~ "Outside hotspots"  # Optional: fill with NA if no condition is met
-  ))
-# Ordenar los niveles de la variable overlap
-PVint2$conflict <- factor(PVint2$conflict, levels = c("strong conflict", "moderate conflict", 
-                                                    "conflict", "no-go", "Outside hotspots"))
-# Colours for each overlapping category 
-colors <- c("strong conflict" = "black", "moderate conflict" = "orange", "conflict" = "wheat", "no-go" = "honeydew4", "Outside hotspots" = "white")
-
-# Final map
-mapconflict <- tm_shape(PVint2) +
-  tm_fill(col = "conflict", palette = colors, title = "", style = "cat")
-
-# Adding Spain borders to final map
-mapconflict <- tm_shape(PVint2) +
-  tm_fill(col = "conflict", palette = colors, title = "", style = "cat") +
-  tm_shape(prov) +
-  tm_borders() +
-  tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +  # Agregar barra de escala con intervalos personalizados
-  tm_compass(type = "arrow", position = c("right", "top"))
-
-tmap_save(mapconflict, filename = "Figures/3facetsSESconflict.png")
-
-
-# I am assigning 9 levels of conflict based on 3, 2 and 1 facet diverse cells, and the occupancy levels of PV plants per cell (high, medium and low). 
+# Alternatively (possibly the best option), I am assigning 9 levels of conflict based on 3, 2 and 1 facet diverse cells, and the occupancy levels of PV plants per cell (high, medium and low). 
 
 PVint2 <- PVint2 %>%
   mutate(extendedconflicts = case_when(
-    div_cat == "high" & PV_occupancy == "high" ~ "Strong conflict 3", # 3 facet biodiverse areas and high PV plants occupancy
-    div_cat == "high" & PV_occupancy == "medium" ~ "Strong conflict 2", # 3 facet biodiverse areas and medium PV plants occupancy
-    div_cat == "high" & PV_occupancy == "low" ~ "Strong conflict 1", # 3 facet biodiverse areas and low PV plants occupancy
-    div_cat == "medium" & PV_occupancy == "high" ~ "Moderate conflict 3", # 2 facet biodiverse areas and high PV plants occupancy
-    div_cat == "medium" & PV_occupancy == "medium" ~ "Moderate conflict 2", # 2 facet biodiverse areas and medium PV plants occupancy
-    div_cat == "medium" & PV_occupancy == "low" ~ "Moderate conflict 1", # 3 facet biodiverse areas and high PV plants occupancy
-    div_cat == "low" & PV_occupancy == "high" ~ "Conflict 3", # 3 facet biodiverse areas and high PV plants occupancy
-    div_cat == "low" & PV_occupancy == "medium" ~ "Conflict 2", # 3 facet biodiverse areas and high PV plants occupancy
-    div_cat == "low" & PV_occupancy == "low" ~ "Conflict 1", # 3 facet biodiverse areas and high PV plants occupancy
+    div_cat == "high" & PV_occupancy == "high" ~ "Conflict 9", # 3 facet biodiverse areas and high PV plants occupancy
+    div_cat == "high" & PV_occupancy == "medium" ~ "Conflict 8", # 3 facet biodiverse areas and medium PV plants occupancy
+    div_cat == "high" & PV_occupancy == "low" ~ "Conflict 7", # 3 facet biodiverse areas and low PV plants occupancy
+    div_cat == "medium" & PV_occupancy == "high" ~ "Conflict 6", # 2 facet biodiverse areas and high PV plants occupancy
+    div_cat == "medium" & PV_occupancy == "medium" ~ "Conflict 5", # 2 facet biodiverse areas and medium PV plants occupancy
+    div_cat == "medium" & PV_occupancy == "low" ~ "Conflict 4", # 2 facet biodiverse areas and low PV plants occupancy
+    div_cat == "low" & PV_occupancy == "high" ~ "Conflict 3", # 1 facet biodiverse areas and high PV plants occupancy
+    div_cat == "low" & PV_occupancy == "medium" ~ "Conflict 2", # 1 facet biodiverse areas and medium PV plants occupancy
+    div_cat == "low" & PV_occupancy == "low" ~ "Conflict 1", # 1 facet biodiverse areas and low PV plants occupancy
     TRUE ~ "Outside hotspots"  # Optional: fill with NA if no condition is met
   ))
 
 # Sorting conflict levels
-PVint2$extendedconflicts <- factor(PVint2$extendedconflicts, levels = c("Strong conflict 3", "Strong conflict 2", 
-                                                        "Strong conflict 1", "Moderate conflict 3", "Moderate conflict 2", "Moderate conflict 1",
+PVint2$extendedconflicts <- factor(PVint2$extendedconflicts, levels = c("Conflict 9", "Conflict 8", 
+                                                        "Conflict 7", "Conflict 6", "Conflict 5", "Conflict 4",
                                                         "Conflict 3", "Conflict 2", "Conflict 1", "Outside hotspots"))
-# Colours for each overlapping category 
-colors <- c("Strong conflict 3" = "black", "Strong conflict 2" = "gray21", "Strong conflict 1"  = "gray41", "Moderate conflict 3" = "sienna1", 
-            "Moderate conflict 2" = "lightsalmon", "Moderate conflict 1" = "tan", "Conflict 3" = "khaki3", "Conflict 2" = "peachpuff3", 
-            "Conflict 1" = "wheat", "Outside hotspots" = "white")
 
-# Crear una variable numérica para el conflicto
+# Creating a numeric varible for the conflict
 PVint2 <- PVint2 %>%
   mutate(conflict_level = case_when(
-    extendedconflicts == "Strong conflict 3" ~ 9,
-    extendedconflicts == "Strong conflict 2" ~ 8,
-    extendedconflicts == "Strong conflict 1" ~ 7,
-    extendedconflicts == "Moderate conflict 3" ~ 6,
-    extendedconflicts == "Moderate conflict 2" ~ 5,
-    extendedconflicts == "Moderate conflict 1" ~ 4,
+    extendedconflicts == "Conflict 9" ~ 9,
+    extendedconflicts == "Conflict 8" ~ 8,
+    extendedconflicts == "Conflict 7" ~ 7,
+    extendedconflicts == "Conflict 6" ~ 6,
+    extendedconflicts == "Conflict 5" ~ 5,
+    extendedconflicts == "Conflict 4" ~ 4,
     extendedconflicts == "Conflict 3" ~ 3,
     extendedconflicts == "Conflict 2" ~ 2,
     extendedconflicts == "Conflict 1" ~ 1,
@@ -273,43 +197,30 @@ PVint2 <- PVint2 %>%
 mapextendedconflict <- tm_shape(PVint2) +
   tm_fill(col = "conflict_level", palette = "Reds", title = "Conflict Level", style = "cont",
   breaks = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)) +
-  tm_shape(prov) +
+  tm_shape(AC) +
   tm_borders() +
   tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +
   tm_compass(type = "arrow", position = c("right", "top"))
 
-
 # Guardar el mapa
 tmap_save(mapextendedconflict, filename = "Figures/extendedconflicts.png")
-
-
-
-
-
-
-
-
-
-
-
-
 
 #Now creating risk maps for no-go areas. This is where no PV plants exist, but risk levels are assigned according to the diversity of the 3 facets
 #High diversity is where the 3 facets overlap, medium where 2 indexes overlap, and one represents for the top values of just one index.
 
 PVint2 <- PVint2 %>%
   mutate(nogo_risk = case_when(
-    div_cat == "high" & is.na(PV_occupancy) ~ "no go: high risk", # 3 facet biodiverse areas where no PV plants exist
-    div_cat == "medium" & is.na(PV_occupancy) ~ "no go: moderate risk", # 2 facet biodiverse areas where no PV plants exist
-    div_cat == "low" & is.na(PV_occupancy) ~ "no go: risk", # 1 facet biodiverse areas where no PV plants exist
+    div_cat == "high" & is.na(PV_occupancy) ~ "no go: very high risk", # 3 facet biodiverse areas where no PV plants exist
+    div_cat == "medium" & is.na(PV_occupancy) ~ "no go: high risk", # 2 facet biodiverse areas where no PV plants exist
+    div_cat == "low" & is.na(PV_occupancy) ~ "no go: moderate risk", # 1 facet biodiverse areas where no PV plants exist
     TRUE ~ "Outside hotspots"  # Optional: fill with NA if no condition is met
   ))
 
 # Ordenar los niveles de la variable overlap
-PVint2$nogo_risk <- factor(PVint2$nogo_risk, levels = c("no go: high risk", "no go: moderate risk", 
-                                                      "no go: risk", "Outside hotspots"))
+PVint2$nogo_risk <- factor(PVint2$nogo_risk, levels = c("no go: very high risk", "no go: high risk", 
+                                                      "no go: moderate risk", "Outside hotspots"))
 # Colours for each overlapping category 
-colors <- c("no go: high risk" = "red", "no go: moderate risk" = "orange", "no go: risk" = "wheat", "Outside hotspots" = "white")
+colors <- c("no go: very high risk" = "red", "no go: high risk" = "orange", "no go: moderate risk" = "wheat", "Outside hotspots" = "white")
 
 # Final map
 mapnogo_risk <- tm_shape(PVint2) +
@@ -318,23 +229,12 @@ mapnogo_risk <- tm_shape(PVint2) +
 # Adding Spain borders to final map
 mapnogo_risk <- tm_shape(PVint2) +
   tm_fill(col = "nogo_risk", palette = colors, title = "", style = "cat") +
-  tm_shape(prov) +
+  tm_shape(AC) +
   tm_borders() +
   tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +
   tm_compass(type = "arrow", position = c("right", "top"))
 
 tmap_save(mapnogo_risk, filename = "Figures/nogo_risks.png")
-
-
-
-
-
-
-forcorrmatrix <- PVint2[, c("species", "FRic", "SESFRic", "SESPD", "PD")]
-forcorrmatrix$geometry <- NULL
-corrmatrix <- cor(forcorrmatrix, use = "complete.obs")
-
-#Very high correlation between TD - FD = 80%, and TD - PD = 93%.
 
 #I want separate maps for the top 30% of each diversity facet
 
@@ -352,7 +252,7 @@ mapTopTD <- tm_shape(PVint2) +
 # Adding Spain borders to final map
 mapTopTD <- tm_shape(PVint2) +
   tm_fill(col = "top_sp_richn", palette = colors1, title = "Top 30% TD", style = "cat") +
-  tm_shape(prov) +
+  tm_shape(AC) +
   tm_borders() +
   tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +  # Agregar barra de escala con intervalos personalizados
   tm_layout(legend.show = FALSE)+
@@ -374,7 +274,7 @@ mapTopFD <- tm_shape(PVint2) +
 # Adding Spain borders to final map
 mapTopFD <- tm_shape(PVint2) +
   tm_fill(col = "top_SESfric", palette = colors2, title = "", style = "cat") +
-  tm_shape(prov) +
+  tm_shape(AC) +
   tm_borders() +
   tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +  # Agregar barra de escala con intervalos personalizados
   tm_layout(legend.show = FALSE)+
@@ -396,7 +296,7 @@ mapTopFD1 <- tm_shape(PVint2) +
 # Adding Spain borders to final map
 mapTopFD <- tm_shape(PVint2) +
   tm_fill(col = "top_fric", palette = colors2, title = "", style = "cat") +
-  tm_shape(prov) +
+  tm_shape(AC) +
   tm_borders() +
   tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +  # Agregar barra de escala con intervalos personalizados
   tm_layout(legend.show = FALSE)+
@@ -418,7 +318,7 @@ mapTopPD <- tm_shape(PVint2) +
 # Adding Spain borders to final map
 mapTopPD <- tm_shape(PVint2) +
   tm_fill(col = "top_SESPD", palette = colors3, title = "", style = "cat") +
-  tm_shape(prov) +
+  tm_shape(AC) +
   tm_borders() +
   tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +  
   tm_layout(legend.show = FALSE)+
@@ -440,7 +340,7 @@ mapTopPD <- tm_shape(PVint2) +
 # Adding Spain borders to final map
 mapTopPD <- tm_shape(PVint2) +
   tm_fill(col = "top_PD", palette = colors3, title = "", style = "cat") +
-  tm_shape(prov) +
+  tm_shape(AC) +
   tm_borders() +
   tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +  
   tm_layout(legend.show = FALSE)+
@@ -448,164 +348,366 @@ mapTopPD <- tm_shape(PVint2) +
 
 tmap_save(mapTopPD, filename = "Figures/mapTopPD.png")
 
-# I want to know the number of hotspot cells inside each province, and their corresponding percentage in relation to 
-# the number of cells per province and in relation to the total hotspot cells in Spain. Also the corresponding areas. 
+# I want to know the number of hotspot cells inside each AC, and their corresponding percentage in relation to 
+# the number of cells per AC and in relation to the total hotspot cells in Spain. Also the corresponding areas. 
 
 #Selecting only hotspot cells
 
-Hotspotcells <- subset(PVint2, overlapSES == "Hotspot") #There are 242 hotspot cells in Spain
+Hotspotcells <- subset(PVint2, overlapSES == "Hotspot") #There are 240 hotspot cells in Spain
 
-# Spatial intersect between provinces and hotspot cells
-hotsp_prov_int <- st_intersection(Hotspotcells, prov)
+# Spatial intersect between ACs and hotspot cells
+hotsp_AC_int <- st_intersection(Hotspotcells, AC)
 
 #Calculating the area of each intersection section
-hotsp_prov_int$areainthots_prov <- st_area(hotsp_prov_int)
+hotsp_AC_int$areainthots_AC <- st_area(hotsp_AC_int)
 
-# Spatial intersect between provinces and malla to know the number of cells per province
-prov_int <- st_intersection(malla, prov)
+# Spatial intersect between ACs and malla to know the number of cells per AC
+AC_int <- st_intersection(malla, AC)
 
-cells_perprovince <- prov_int %>% 
-  group_by(prov.shortname.en) %>% 
+cells_perAC <- AC_int %>% 
+  group_by(ccaa.shortname.en) %>% 
   summarize(UTMCODE = n())
 
-names(cells_perprovince)[2]="N cells"
-cells_perprovince$geometry <- NULL
+names(cells_perAC)[2]="N cells"
+cells_perAC$geometry <- NULL
 
-hotspots_perprovince <- hotsp_prov_int %>% 
-  group_by(prov.shortname.en) %>% 
+hotspots_perAC <- hotsp_AC_int %>% 
+  group_by(ccaa.shortname.en) %>% 
   summarize(UTMCODE = n())
 
-names(hotspots_perprovince)[2]="N hotspot cells"
+names(hotspots_perAC)[2]="N hotspot cells"
 
-#Percentage of hotspot cells in relation to the number of cells per province
-Province_stats <- merge(cells_perprovince, hotspots_perprovince, by="prov.shortname.en")
+#Percentage of hotspot cells in relation to the number of cells per AC
+AC_stats <- merge(cells_perAC, hotspots_perAC, by="ccaa.shortname.en")
 
-Province_stats$Perc_hotp_prov <- Province_stats$`N hotspot cells`*100/Province_stats$`N cells`
+AC_stats$Perc_hotp_AC <- AC_stats$`N hotspot cells`*100/AC_stats$`N cells`
 
 #Percentage of hotspot cells in relation to the total number of hotspot cells in Spain
-Province_stats$Perc_hotp_Spain <- Province_stats$`N hotspot cells`*100/242
+AC_stats$Perc_hotp_Spain <- AC_stats$`N hotspot cells`*100/240
 
-#As one hotspot cell may fall in different provinces, calculating areas could be more precise. 
+#As one hotspot cell may fall in different ACs, calculating areas could be more precise. 
 
 # Calculating the total area from hotspots cells
 areaHots <- st_area(Hotspotcells)
-sum(areaHots) #The 242 hotspot cells equal to 24018154101 [m^2] or 24018.15 km2
+sum(areaHots) #The 240 hotspot cells equal to 23844622279 [m^2] or 23844.62 km2
 
-# Calculating the area from each province 
-prov$areaprovince <- st_area(prov)
+# Calculating the area from each AC 
+AC$areaAC <- st_area(AC)
 
-#Summing the total hotspot area per province 
-areas_prov_hotsp <- hotsp_prov_int %>% 
-  group_by(prov.shortname.en) %>% 
-  summarize(Hotsarea_pprov = sum(areainthots_prov)) 
+#Summing the total hotspot area per AC 
+areas_AC_hotsp <- hotsp_AC_int %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(Hotsarea_pAC = sum(areainthots_AC)) 
 
-areas_prov_hotsp$geometry <- NULL
+areas_AC_hotsp$geometry <- NULL
 
-areas_prov_hotsp1 <- merge(areas_prov_hotsp, prov[,c("prov.shortname.en", "areaprovince")], by="prov.shortname.en" ) 
-areas_prov_hotsp1 <- drop_units(areas_prov_hotsp1)
-Province_stats <- merge(Province_stats, areas_prov_hotsp1, by="prov.shortname.en" ) 
-Province_stats <- drop_units(Province_stats)
-Province_stats$geometry.x <- NULL
+areas_AC_hotsp1 <- merge(areas_AC_hotsp, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en" ) 
 
-Province_stats$per_hotareaprov <- Province_stats$Hotsarea_pprov*100/Province_stats$areaprovince
-Province_stats$per_hotareaSpain <- Province_stats$Hotsarea_pprov*100/24018154101 
+areas_AC_hotsp1 <- drop_units(areas_AC_hotsp1)
 
-# I want to know the number of conflict cells inside each province, and their corresponding percentage in relation to 
-# the number of cells per province and in relation to the total conflict cells in Spain. Also the corresponding areas. 
+AC_stats <- merge(AC_stats, areas_AC_hotsp1, by="ccaa.shortname.en" ) 
+AC_stats <- drop_units(AC_stats)
+AC_stats$geometry.x <- NULL
+
+AC_stats$per_hotareaAC <- AC_stats$Hotsarea_pAC*100/AC_stats$areaAC
+AC_stats$per_hotareaSpain <- AC_stats$Hotsarea_pAC*100/23844622279 
+
+# I want to know the number of conflict cells inside each AC, and their corresponding percentage in relation to 
+# the number of cells per AC and in relation to the total conflict cells in Spain. Also the corresponding areas. 
 
 #Selecting only strong conflict cells
 
-stconflictcells <- subset(PVint2, conflict == "strong conflict") #There are 143 strong conflict cells in Spain
+Conflictcells9 <- subset(PVint2, extendedconflicts == "Conflict 9") #There are 55 conflict 9 cells in Spain
+Conflictcells8 <- subset(PVint2, extendedconflicts == "Conflict 8") #There are 46 conflict 8 cells in Spain
+Conflictcells7 <- subset(PVint2, extendedconflicts == "Conflict 7") #There are 41 conflict 7 cells in Spain
 
-# Spatial intersect between provinces and hotspot cells
-stconflict_prov_int <- st_intersection(stconflictcells, prov)
+# Spatial intersect between ACs/AC and hotspot cells
+conflict_AC_int9 <- st_intersection(Conflictcells9, AC)
+conflict_AC_int8 <- st_intersection(Conflictcells8, AC)
+conflict_AC_int7 <- st_intersection(Conflictcells7, AC)
 
 #Calculating the area of each intersection section
-stconflict_prov_int$areaintconf_prov <- st_area(stconflict_prov_int)
+conflict_AC_int9$areaintconf_AC9 <- st_area(conflict_AC_int9)
+conflict_AC_int8$areaintconf_AC8 <- st_area(conflict_AC_int8)
+conflict_AC_int7$areaintconf_AC7 <- st_area(conflict_AC_int7)
 
-stconflict_perprovince <- stconflict_prov_int %>% 
-  group_by(prov.shortname.en) %>% 
+conflict_perAC9 <- conflict_AC_int9 %>% 
+  group_by(ccaa.shortname.en) %>% 
   summarize(UTMCODE = n())
 
-names(stconflict_perprovince)[2]="N strong conflict cells"
+conflict_perAC8 <- conflict_AC_int8 %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(UTMCODE = n())
 
-#Percentage of conflict cells in relation to the number of cells per province
-Province_stats1 <- merge(Province_stats, stconflict_perprovince, by="prov.shortname.en", all.x=TRUE)
-Province_stats1$Perc_stconf_prov <- Province_stats1$`N strong conflict cells`*100/Province_stats$`N cells`
+conflict_perAC7 <- conflict_AC_int7 %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(UTMCODE = n())
 
-#Percentage of conflict cells in relation to the total number of conflict cells in Spain
-Province_stats1$Perc_stconf_Spain <- Province_stats1$`N strong conflict cells`*100/143
+names(conflict_perAC9)[2]="N conflict cells 9"
+names(conflict_perAC8)[2]="N conflict cells 8"
+names(conflict_perAC7)[2]="N conflict cells 7"
 
-Province_stats1$geometry.x <- NULL
-Province_stats1$geometry.y <- NULL
+#Percentage of strong conflict cells (3, 2 or 1 level) in relation to the number of cells per AC
+AC_confstats9 <- merge(AC_stats, conflict_perAC9, by="ccaa.shortname.en", all.x=TRUE)
+AC_confstats8 <- merge(AC_stats, conflict_perAC8, by="ccaa.shortname.en", all.x=TRUE)
+AC_confstats7 <- merge(AC_stats, conflict_perAC7, by="ccaa.shortname.en", all.x=TRUE)
 
-#As one conflict cell may fall in different provinces, calculating areas could be more precise. 
+#Percentage of strong conflict cells (3, 2 or 1 level) in relation to the total number of strong conflict cells (3, 2 or 1 level) in Spain
+AC_confstats9$Perc_conf_Spain9 <- AC_confstats9$`N conflict cells 9`*100/55
+AC_confstats8$Perc_conf_Spain8 <- AC_confstats8$`N conflict cells 8`*100/46
+AC_confstats7$Perc_conf_Spain7 <- AC_confstats7$`N conflict cells 7`*100/41
+
+AC_confstats9$geometry.x <- NULL
+AC_confstats9$geometry.y <- NULL
+
+AC_confstats8$geometry.x <- NULL
+AC_confstats8$geometry.y <- NULL
+
+AC_confstats7$geometry.x <- NULL
+AC_confstats7$geometry.y <- NULL
+
+#As one conflict cell may fall in different ACs, calculating areas could be more precise. 
 
 # Calculating the total area from hotspots cells
-areaconflict <- st_area(stconflictcells)
-sum(areaconflict) #The 143 strong conflict cells equal to 14285812972 [m^2] or 14285.812972 km2
+areaconflict9 <- st_area(Conflictcells9)
+areaconflict8 <- st_area(Conflictcells8)
+areaconflict7 <- st_area(Conflictcells7)
 
-#Summing the total hotspot area per province 
-areas_prov_confl <- stconflict_prov_int %>% 
-  group_by(prov.shortname.en) %>% 
-  summarize(Confarea_pprov = sum(areaintconf_prov)) 
+areaconflict9sum  <- sum(areaconflict9) 
+areaconflict8sum  <- sum(areaconflict8) 
+areaconflict7sum  <- sum(areaconflict7) 
 
-areas_prov_confl$geometry <- NULL
+totalconfarea  <- (areaconflict9sum +areaconflict8sum +areaconflict7sum) 
+#The sum of the 142 strong conflict cells (9, 8 and 7) equal to 16454744256 [m^2] or 16454.74 km2
 
-areas_prov_confl1 <- merge(areas_prov_confl, prov[,c("prov.shortname.en", "areaprovince")], by="prov.shortname.en" ) 
-areas_prov_confl1 <- drop_units(areas_prov_confl1)
-Province_stats1 <- merge(Province_stats1, areas_prov_confl1[,c("prov.shortname.en", "Confarea_pprov")], by="prov.shortname.en", all.x=TRUE ) 
-Province_stats1 <- drop_units(Province_stats1)
+#Summing the total hotspot area per AC 
+areas_AC_confl9 <- conflict_AC_int9 %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(Confarea_pAC9 = sum(areaintconf_AC9)) 
 
-Province_stats1$per_confareaprov <- Province_stats1$Confarea_pprov*100/Province_stats1$areaprovince
-Province_stats1$per_confareaSpain <- Province_stats1$Confarea_pprov*100/14285812972 
+areas_AC_confl8 <- conflict_AC_int8 %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(Confarea_pAC8 = sum(areaintconf_AC8))
+
+areas_AC_confl7 <- conflict_AC_int7 %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(Confarea_pAC7 = sum(areaintconf_AC7))
+
+areas_AC_confl9$geometry <- NULL
+areas_AC_confl8$geometry <- NULL
+areas_AC_confl7$geometry <- NULL
+
+areas_AC_confl9_1 <- merge(areas_AC_confl9, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en" ) 
+areas_AC_confl9_1 <- drop_units(areas_AC_confl9_1)
+
+AC_confstats9 <- merge(AC_confstats9, areas_AC_confl9_1[,c("ccaa.shortname.en", "Confarea_pAC9")], by="ccaa.shortname.en", all.x=TRUE ) 
+AC_confstats9 <- drop_units(AC_confstats9)
+
+AC_confstats9$per_confareaAC9 <- AC_confstats9$Confarea_pAC*100/AC_confstats9$areaAC
+AC_confstats9$per_confareaSpain9 <- AC_confstats9$Confarea_pAC*100/5484914752 
+
+areas_AC_confl8_1 <- merge(areas_AC_confl8, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en" ) 
+areas_AC_confl8_1 <- drop_units(areas_AC_confl8_1)
+
+AC_confstats8 <- merge(AC_confstats8, areas_AC_confl8_1[,c("ccaa.shortname.en", "Confarea_pAC8")], by="ccaa.shortname.en", all.x=TRUE ) 
+AC_confstats8 <- drop_units(AC_confstats8)
+
+AC_confstats8$per_confareaAC8 <- AC_confstats8$Confarea_pAC*100/AC_confstats8$areaAC
+AC_confstats8$per_confareaSpain8 <- AC_confstats8$Confarea_pAC*100/4600617564 
+
+areas_AC_confl7_1 <- merge(areas_AC_confl7, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en" ) 
+areas_AC_confl7_1 <- drop_units(areas_AC_confl7_1)
+
+AC_confstats7 <- merge(AC_confstats7, areas_AC_confl7_1[,c("ccaa.shortname.en", "Confarea_pAC7")], by="ccaa.shortname.en", all.x=TRUE ) 
+AC_confstats7 <- drop_units(AC_confstats7)
+
+AC_confstats7$per_confareaAC7 <- AC_confstats7$Confarea_pAC*100/AC_confstats7$areaAC
+AC_confstats7$per_confareaSpain7 <- AC_confstats7$Confarea_pAC*100/4100189172 
 
 # No-go areas
 
 #Selecting only no-go cells
-nogocells <- subset(PVint2, conflict == "no-go") #There are 99 no-go cells in Spain
+Veryhigh_nogocells <- subset(PVint2, nogo_risk == "no go: very high risk") #There are 98 high no-go cells in Spain
+High_nogocells <- subset(PVint2, nogo_risk == "no go: high risk") #There are 374 moderate no-go cells in Spain
+moderate_nogocells <- subset(PVint2, nogo_risk == "no go: moderate risk") #There are 566 lower no-go cells in Spain
 
-# Spatial intersect between provinces and no-go cells
-nogo_prov_int <- st_intersection(nogocells, prov)
+# Spatial intersect between ACs and no-go cells
+nogo_AC_int_veryhigh <- st_intersection(Veryhigh_nogocells, AC)
 #Calculating the area of each intersection section
-nogo_prov_int$areaintnogo_prov <- st_area(nogo_prov_int)
+nogo_AC_int_veryhigh$areaintnogo_AC_vh <- st_area(nogo_AC_int_veryhigh)
 
-nogo_perprovince <- nogo_prov_int %>% 
-  group_by(prov.shortname.en) %>% 
+# Spatial intersect between ACs and no-go cells
+nogo_AC_int_high <- st_intersection(High_nogocells, AC)
+#Calculating the area of each intersection section
+nogo_AC_int_high$areaintnogo_AC_h <- st_area(nogo_AC_int_high)
+
+# Spatial intersect between ACs and no-go cells
+nogo_AC_int_moderate <- st_intersection(moderate_nogocells, AC)
+#Calculating the area of each intersection section
+nogo_AC_int_moderate$areaintnogo_AC_m <- st_area(nogo_AC_int_moderate)
+
+nogo_perAC_vh <- nogo_AC_int_veryhigh %>% 
+  group_by(ccaa.shortname.en) %>% 
   summarize(UTMCODE = n())
 
-names(nogo_perprovince)[2]="no-go cells"
+names(nogo_perAC_vh)[2]="very high no-go cells"
 
-#Percentage of no-go cells in relation to the number of cells per province
-Province_stats2 <- merge(Province_stats1, nogo_perprovince, by="prov.shortname.en", all.x=TRUE)
-Province_stats2$Perc_nogo_prov <- Province_stats2$`no-go cells`*100/Province_stats2$`N cells`
+nogo_perAC_h <- nogo_AC_int_high %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(UTMCODE = n())
 
-#Percentage of no-go cells in relation to the number of cells per province
-Province_stats2 <- merge(Province_stats1, nogo_perprovince, by="prov.shortname.en", all.x=TRUE)
-Province_stats2$Perc_nogo_prov <- Province_stats2$`no-go cells`*100/Province_stats2$`N cells`
-Province_stats2$Perc_nogo_Spain <- Province_stats2$`no-go cells`*100/99
+names(nogo_perAC_h)[2]="high no-go cells"
 
-Province_stats2$geometry <- NULL
+nogo_perAC_m <- nogo_AC_int_moderate %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(UTMCODE = n())
 
-#As one no-go cell may fall in different provinces, calculating areas could be more precise. 
+names(nogo_perAC_m)[2]="moderate no-go cells"
+
+#Percentage of no-go cells in relation to the number of cells per AC and number of cels in Spain
+ACnogo_stats3_1 <- merge(AC_confstats9, nogo_perAC_vh, by="ccaa.shortname.en", all.x=TRUE)
+ACnogo_stats3 <- ACnogo_stats3_1 %>%
+  left_join(cells_perAC %>% select(ccaa.shortname.en, `N cells`), by = "ccaa.shortname.en") %>%
+  mutate(`N cells` = coalesce(`N cells.x`,`N cells.y`)) %>%
+  select(-`N cells.x`, -`N cells.y`)
+ACnogo_stats3$Perc_nogo_AC_vh <- ACnogo_stats3$`very high no-go cells`*100/ACnogo_stats3$`N cells`
+ACnogo_stats3$Perc_nogo_Spain_vh <- ACnogo_stats3$`very high no-go cells`*100/98
+
+ACnogo_stats3$geometry <- NULL
+
+ACnogo_stats2_1 <- merge(AC_confstats8, nogo_perAC_h, by="ccaa.shortname.en", all.y=TRUE)
+ACnogo_stats2 <- ACnogo_stats2_1 %>%
+  left_join(cells_perAC %>% select(ccaa.shortname.en, `N cells`), by = "ccaa.shortname.en") %>%
+  mutate(`N cells` = coalesce(`N cells.x`,`N cells.y`)) %>%
+  select(-`N cells.x`, -`N cells.y`)
+ACnogo_stats2$Perc_nogo_AC_h <- ACnogo_stats2$`high no-go cells`*100/ACnogo_stats2$`N cells`
+ACnogo_stats2$Perc_nogo_Spain_h <- ACnogo_stats2$`high no-go cells`*100/374
+
+ACnogo_stats2$geometry <- NULL
+
+ACnogo_stats1_1 <- merge(AC_confstats7, nogo_perAC_m, by="ccaa.shortname.en", all.y=TRUE)
+ACnogo_stats1 <- ACnogo_stats1_1 %>%
+  left_join(cells_perAC %>% select(ccaa.shortname.en, `N cells`), by = "ccaa.shortname.en") %>%
+  mutate(`N cells` = coalesce(`N cells.x`,`N cells.y`)) %>%
+  select(-`N cells.x`, -`N cells.y`)
+ACnogo_stats1$Perc_nogo_AC_m <- ACnogo_stats1$`moderate no-go cells`*100/ACnogo_stats1$`N cells`
+ACnogo_stats1$Perc_nogo_Spain_m <- ACnogo_stats1$`moderate no-go cells`*100/566
+
+ACnogo_stats1$geometry <- NULL
+
+#As one no-go cell may fall in different ACs, calculating areas could be more precise. 
 
 # Calculating the total area from hotspots cells
-areanogo <- st_area(nogocells)
-sum(areanogo) #The 99 no-go cells equal to 9732341129 [m^2] or 9732.341129 km2
+areanogo_vh <- st_area(Veryhigh_nogocells)
+sum(areanogo_vh) #The 98 no-go cells equal to 9658900791 [m^2] 
 
-#Summing the total nogo area per province 
-areas_prov_nogo <- nogo_prov_int %>% 
-  group_by(prov.shortname.en) %>% 
-  summarize(nogoarea_pprov = sum(areaintnogo_prov)) 
+areanogo_h <- st_area(High_nogocells)
+sum(areanogo_h) #The 374 no-go cells equal to 36987363492 [m^2] 
 
-areas_prov_nogo$geometry <- NULL
+areanogo_m <- st_area(moderate_nogocells)
+sum(areanogo_m) #The 566 no-go cells equal to 55753073269 [m^2]
 
-areas_prov_nogo1 <- merge(areas_prov_nogo, prov[,c("prov.shortname.en", "areaprovince")], by="prov.shortname.en") 
-areas_prov_nogo1 <- drop_units(areas_prov_nogo1)
-Province_stats3 <- merge(Province_stats2, areas_prov_nogo1[,c("prov.shortname.en", "nogoarea_pprov")], by="prov.shortname.en", all.x=TRUE ) 
-Province_stats3 <- drop_units(Province_stats3)
+#Summing the total nogo area per AC 
+areas_AC_nogo_vh <- nogo_AC_int_veryhigh %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(nogoarea_pAC_vh = sum(areaintnogo_AC_vh)) 
 
-Province_stats3$per_nogoareaprov <- Province_stats3$nogoarea_pprov*100/Province_stats3$areaprovince
-Province_stats3$per_nogoareaSpain <- Province_stats3$nogoarea_pprov*100/9732341129 
+areas_AC_nogo_vh$geometry <- NULL
 
-write_xlsx(Province_stats3, 'Data/Province_stats_22july.xlsx') 
+#Summing the total nogo area per AC 
+areas_AC_nogo_h <- nogo_AC_int_high %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(nogoarea_pAC_h = sum(areaintnogo_AC_h)) 
+
+areas_AC_nogo_h$geometry <- NULL
+
+#Summing the total nogo area per AC 
+areas_AC_nogo_m <- nogo_AC_int_moderate %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(nogoarea_pAC_m = sum(areaintnogo_AC_m)) 
+
+areas_AC_nogo_m$geometry <- NULL
+
+areas_AC_nogo_vh <- merge(areas_AC_nogo_vh, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en") 
+areas_AC_nogo_vh <- drop_units(areas_AC_nogo_vh)
+
+areas_AC_nogo_h <- merge(areas_AC_nogo_h, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en") 
+areas_AC_nogo_h <- drop_units(areas_AC_nogo_h)
+
+areas_AC_nogo_m <- merge(areas_AC_nogo_m, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en") 
+areas_AC_nogo_m <- drop_units(areas_AC_nogo_m)
+
+AC_stats_total3 <- merge(ACnogo_stats3, areas_AC_nogo_vh[,c("ccaa.shortname.en", "nogoarea_pAC_vh")], by="ccaa.shortname.en", all.x=TRUE ) 
+AC_stats_total3 <- drop_units(AC_stats_total3)
+
+AC_stats_total3$per_nogoareaAC_vh <- AC_stats_total3$nogoarea_pAC*100/AC_stats_total3$areaAC
+AC_stats_total3$per_nogoareaSpain_vh <- AC_stats_total3$nogoarea_pAC*100/9658900791 
+
+AC_stats_total2 <- merge(ACnogo_stats2, areas_AC_nogo_h[,c("ccaa.shortname.en", "nogoarea_pAC_h")], by="ccaa.shortname.en", all.x=TRUE ) 
+AC_stats_total2 <- drop_units(AC_stats_total2)
+
+AC_stats_total2$per_nogoareaAC_h <- AC_stats_total2$nogoarea_pAC*100/AC_stats_total2$areaAC
+AC_stats_total2$per_nogoareaSpain_h <- AC_stats_total2$nogoarea_pAC*100/36987363492 
+
+AC_stats_total1 <- merge(ACnogo_stats1, areas_AC_nogo_m[,c("ccaa.shortname.en", "nogoarea_pAC_m")], by="ccaa.shortname.en", all.x=TRUE ) 
+AC_stats_total1 <- drop_units(AC_stats_total1)
+
+AC_stats_total1$per_nogoareaAC_m <- AC_stats_total1$nogoarea_pAC*100/AC_stats_total1$areaAC
+AC_stats_total1$per_nogoareaSpain_m <- AC_stats_total1$nogoarea_pAC*100/55753073269 
+
+# Merging AC_stats_total3, AC_stats_total2, and AC_stats_total1
+AC_stats_merged <- AC_stats_total1 %>%
+  full_join(AC_stats_total2, by = "ccaa.shortname.en")
+
+AC_stats_total <- AC_stats_merged %>%
+  full_join(AC_stats_total3, by = "ccaa.shortname.en")
+
+# Merging two columns in one to show N hotspot cells and percentage in relation to the number of cells in each AC
+AC_stats_total$`N_hotspot cells` <- paste(AC_stats_total$`N hotspot cells.x`, "[",round(AC_stats_total$Perc_hotp_AC.x,1),"%]", sep ="")
+
+# Calculating the % highest conflict cells (7, 8 and 9 conflict levels) in relation to the number of cells in each AC
+AC_stats_total$`Sum highest conflict cells` <- rowSums(AC_stats_total[, c("N conflict cells 7", "N conflict cells 8", "N conflict cells 9")], na.rm = TRUE)
+AC_stats_total$Perc_highestconf <- (AC_stats_total$`Sum highest conflict cells` / AC_stats_total$`N cells.x`) * 100
+AC_stats_total$`N highest conflict cells` <- paste(AC_stats_total$`Sum highest conflict cells`, "[",round(AC_stats_total$Perc_highestconf,1),"%]", sep ="")
+AC_stats_total$Highest_conf_Spain <- (AC_stats_total$`Sum highest conflict cells` / 142) * 100
+
+AC_stats_total$m_nogocells <- paste(AC_stats_total$`moderate no-go cells`, "[",round(AC_stats_total$Perc_nogo_AC_m,1),"%]", sep ="")
+AC_stats_total$h_nogocells <- paste(AC_stats_total$`high no-go cells`, "[",round(AC_stats_total$Perc_nogo_AC_h,1),"%]", sep ="")
+AC_stats_total$vh_nogocells <- paste(AC_stats_total$`very high no-go cells`, "[",round(AC_stats_total$Perc_nogo_AC_vh,1),"%]", sep ="")
+
+AC_stats_total$geometry.x.x <- NULL
+AC_stats_total$geometry.y.x <- NULL
+AC_stats_total$geometry.x.y <- NULL
+AC_stats_total$geometry.y.y <- NULL
+AC_stats_total$geometry.x <- NULL
+AC_stats_total$geometry.y <- NULL
+AC_stats_total$`N hotspot cells.y` <- NULL
+AC_stats_total$Perc_hotp_AC.y <- NULL
+AC_stats_total$Perc_hotp_Spain.y <- NULL
+AC_stats_total$Hotsarea_pAC.y <- NULL
+AC_stats_total$areaAC.y <- NULL
+AC_stats_total$per_hotareaAC.y <- NULL
+AC_stats_total$per_hotareaSpain.y <- NULL
+AC_stats_total$Hotsarea_pAC.y <- NULL
+AC_stats_total$Hotsarea_pAC.y <- NULL
+AC_stats_total$Hotsarea_pAC.y <- NULL
+AC_stats_total$Hotsarea_pAC.y <- NULL
+AC_stats_total$`N cells` <- NULL
+AC_stats_total$`N hotspot cells` <- NULL
+AC_stats_total$Perc_hotp_AC <- NULL
+AC_stats_total$Perc_hotp_Spain <- NULL
+AC_stats_total$Hotsarea_pAC <- NULL
+AC_stats_total$areaAC <- NULL
+AC_stats_total$per_hotareaAC <- NULL
+AC_stats_total$per_hotareaSpain <- NULL
+AC_stats_total$`N hotspot cells.x`<- NULL
+AC_stats_total$Perc_hotp_AC.x<- NULL
+AC_stats_total$`Sum highest conflict cells`<- NULL
+AC_stats_total$Perc_highestconf<- NULL
+AC_stats_total$`moderate no-go cells`<- NULL
+AC_stats_total$Perc_nogo_AC_m<- NULL
+AC_stats_total$`high no-go cells`<- NULL
+AC_stats_total$Perc_nogo_AC_h<- NULL
+AC_stats_total$`very high no-go cells`<- NULL
+AC_stats_total$Perc_nogo_AC_vh<- NULL
+write_xlsx(AC_stats_total, 'Data/AC_stats_5November.xlsx') 
