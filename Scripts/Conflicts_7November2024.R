@@ -6,6 +6,7 @@ library(sf)
 library(mapSpain)
 library(units)
 library(writexl)
+library(purrr)
 setwd("~/GitHub/BiodiversityFacets")
 
 ####################################################################
@@ -298,7 +299,7 @@ mapTopFD <- tm_shape(PVint2) +
   tm_fill(col = "top_fric", palette = colors2, title = "", style = "cat") +
   tm_shape(AC) +
   tm_borders() +
-  tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +  # Agregar barra de escala con intervalos personalizados
+  tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +  
   tm_layout(legend.show = FALSE)+
   tm_credits(text = "Top 30% SESFRic", position = c("center", "bottom"), size = 1.2) 
 
@@ -353,13 +354,19 @@ tmap_save(mapTopPD, filename = "Figures/mapTopPD.png")
 
 #Selecting only hotspot cells
 
-Hotspotcells <- subset(PVint2, overlapSES == "Hotspot") #There are 240 hotspot cells in Spain
+Hotspotcells <- subset(PVint2, div_cat == "high") #There are 240 hotspot cells in Spain
+Twofacetdiv <- subset(PVint2, div_cat == "medium") #There are 742 Twofacetdiv cells in Spain
+Onefacetdiv <- subset(PVint2, div_cat == "low") #There are 1037 Onefacetdiv cells in Spain
 
 # Spatial intersect between ACs and hotspot cells
 hotsp_AC_int <- st_intersection(Hotspotcells, AC)
+twofacet_AC_int <- st_intersection(Twofacetdiv, AC)
+onefacet_AC_int <- st_intersection(Onefacetdiv, AC)
 
 #Calculating the area of each intersection section
 hotsp_AC_int$areainthots_AC <- st_area(hotsp_AC_int)
+twofacet_AC_int$areainttwof_AC <- st_area(twofacet_AC_int)
+onefacet_AC_int$areaintonef_AC <- st_area(onefacet_AC_int)
 
 # Spatial intersect between ACs and malla to know the number of cells per AC
 AC_int <- st_intersection(malla, AC)
@@ -375,61 +382,93 @@ hotspots_perAC <- hotsp_AC_int %>%
   group_by(ccaa.shortname.en) %>% 
   summarize(UTMCODE = n())
 
+twofacet_perAC <- twofacet_AC_int %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(UTMCODE = n())
+
+onefacet_perAC <- onefacet_AC_int %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(UTMCODE = n())
+
 names(hotspots_perAC)[2]="N hotspot cells"
+names(twofacet_perAC)[2]="N twofacet cells"
+names(onefacet_perAC)[2]="N onefacet cells"
 
 #Percentage of hotspot cells in relation to the number of cells per AC
-AC_stats <- merge(cells_perAC, hotspots_perAC, by="ccaa.shortname.en")
+AC_stats1 <- merge(cells_perAC, hotspots_perAC, by="ccaa.shortname.en")
 
-AC_stats$Perc_hotp_AC <- AC_stats$`N hotspot cells`*100/AC_stats$`N cells`
+AC_stats1$Perc_hotp_AC <- AC_stats1$`N hotspot cells`*100/AC_stats1$`N cells`
 
 #Percentage of hotspot cells in relation to the total number of hotspot cells in Spain
-AC_stats$Perc_hotp_Spain <- AC_stats$`N hotspot cells`*100/240
+AC_stats1$Perc_hotp_Spain <- AC_stats1$`N hotspot cells`*100/240
 
-#As one hotspot cell may fall in different ACs, calculating areas could be more precise. 
+#Percentage of twofacet cells in relation to the number of cells per AC
+AC_stats2 <- merge(cells_perAC, twofacet_perAC, by="ccaa.shortname.en")
 
-# Calculating the total area from hotspots cells
-areaHots <- st_area(Hotspotcells)
-sum(areaHots) #The 240 hotspot cells equal to 23844622279 [m^2] or 23844.62 km2
+AC_stats2$Perc_twof_AC <- AC_stats2$`N twofacet cells`*100/AC_stats2$`N cells`
 
-# Calculating the area from each AC 
-AC$areaAC <- st_area(AC)
+#Percentage of twofacet cells in relation to the total number of twofacet cells in Spain
+AC_stats2$Perc_twof_Spain <- AC_stats2$`N twofacet cells`*100/742
 
-#Summing the total hotspot area per AC 
-areas_AC_hotsp <- hotsp_AC_int %>% 
-  group_by(ccaa.shortname.en) %>% 
-  summarize(Hotsarea_pAC = sum(areainthots_AC)) 
+#Percentage of onefacet cells in relation to the number of cells per AC
+AC_stats3 <- merge(cells_perAC, onefacet_perAC, by="ccaa.shortname.en")
 
-areas_AC_hotsp$geometry <- NULL
+AC_stats3$Perc_onef_AC <- AC_stats3$`N onefacet cells`*100/AC_stats3$`N cells`
 
-areas_AC_hotsp1 <- merge(areas_AC_hotsp, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en" ) 
+#Percentage of twofacet cells in relation to the total number of onefacet cells in Spain
+AC_stats3$Perc_onef_Spain <- AC_stats3$`N onefacet cells`*100/1037
 
-areas_AC_hotsp1 <- drop_units(areas_AC_hotsp1)
+AC_stats0 <- AC_stats1 %>%
+  full_join(AC_stats2, by = "ccaa.shortname.en")
 
-AC_stats <- merge(AC_stats, areas_AC_hotsp1, by="ccaa.shortname.en" ) 
-AC_stats <- drop_units(AC_stats)
-AC_stats$geometry.x <- NULL
+AC_stats0$`N cells.x`  <- NULL
+AC_stats0$`N cells.y`  <- NULL
+AC_stats0$geometry.x  <- NULL
+AC_stats0$geometry.y  <- NULL
 
-AC_stats$per_hotareaAC <- AC_stats$Hotsarea_pAC*100/AC_stats$areaAC
-AC_stats$per_hotareaSpain <- AC_stats$Hotsarea_pAC*100/23844622279 
+AC_stats <- AC_stats0 %>%
+  full_join(AC_stats3, by = "ccaa.shortname.en")
+
+AC_stats <- merge(cells_perAC, AC_stats, by="ccaa.shortname.en")
+AC_stats$`N cells.y`<- NULL
+names(AC_stats)[2] <- "N cells"
 
 # I want to know the number of conflict cells inside each AC, and their corresponding percentage in relation to 
 # the number of cells per AC and in relation to the total conflict cells in Spain. Also the corresponding areas. 
 
-#Selecting only strong conflict cells
+#Selecting only each category conflict cells
 
 Conflictcells9 <- subset(PVint2, extendedconflicts == "Conflict 9") #There are 55 conflict 9 cells in Spain
 Conflictcells8 <- subset(PVint2, extendedconflicts == "Conflict 8") #There are 46 conflict 8 cells in Spain
 Conflictcells7 <- subset(PVint2, extendedconflicts == "Conflict 7") #There are 41 conflict 7 cells in Spain
+Conflictcells6 <- subset(PVint2, extendedconflicts == "Conflict 6") #There are 141 conflict 7 cells in Spain
+Conflictcells5 <- subset(PVint2, extendedconflicts == "Conflict 5") #There are 118 conflict 7 cells in Spain
+Conflictcells4 <- subset(PVint2, extendedconflicts == "Conflict 4") #There are 109 conflict 7 cells in Spain
+Conflictcells3 <- subset(PVint2, extendedconflicts == "Conflict 3") #There are 177 conflict 7 cells in Spain
+Conflictcells2 <- subset(PVint2, extendedconflicts == "Conflict 2") #There are 165 conflict 7 cells in Spain
+Conflictcells1 <- subset(PVint2, extendedconflicts == "Conflict 1") #There are 129 conflict 7 cells in Spain
 
-# Spatial intersect between ACs/AC and hotspot cells
+# Spatial intersect between ACs and hotspot cells
 conflict_AC_int9 <- st_intersection(Conflictcells9, AC)
 conflict_AC_int8 <- st_intersection(Conflictcells8, AC)
 conflict_AC_int7 <- st_intersection(Conflictcells7, AC)
+conflict_AC_int6 <- st_intersection(Conflictcells6, AC)
+conflict_AC_int5 <- st_intersection(Conflictcells5, AC)
+conflict_AC_int4 <- st_intersection(Conflictcells4, AC)
+conflict_AC_int3 <- st_intersection(Conflictcells3, AC)
+conflict_AC_int2 <- st_intersection(Conflictcells2, AC)
+conflict_AC_int1 <- st_intersection(Conflictcells1, AC)
 
 #Calculating the area of each intersection section
 conflict_AC_int9$areaintconf_AC9 <- st_area(conflict_AC_int9)
 conflict_AC_int8$areaintconf_AC8 <- st_area(conflict_AC_int8)
 conflict_AC_int7$areaintconf_AC7 <- st_area(conflict_AC_int7)
+conflict_AC_int6$areaintconf_AC6 <- st_area(conflict_AC_int6)
+conflict_AC_int5$areaintconf_AC5 <- st_area(conflict_AC_int5)
+conflict_AC_int4$areaintconf_AC4 <- st_area(conflict_AC_int4)
+conflict_AC_int3$areaintconf_AC3 <- st_area(conflict_AC_int3)
+conflict_AC_int2$areaintconf_AC2 <- st_area(conflict_AC_int2)
+conflict_AC_int1$areaintconf_AC1 <- st_area(conflict_AC_int1)
 
 conflict_perAC9 <- conflict_AC_int9 %>% 
   group_by(ccaa.shortname.en) %>% 
@@ -443,86 +482,92 @@ conflict_perAC7 <- conflict_AC_int7 %>%
   group_by(ccaa.shortname.en) %>% 
   summarize(UTMCODE = n())
 
+conflict_perAC6 <- conflict_AC_int6 %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(UTMCODE = n())
+
+conflict_perAC5 <- conflict_AC_int5 %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(UTMCODE = n())
+
+conflict_perAC4 <- conflict_AC_int4 %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(UTMCODE = n())
+conflict_perAC3 <- conflict_AC_int3 %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(UTMCODE = n())
+
+conflict_perAC2 <- conflict_AC_int2 %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(UTMCODE = n())
+
+conflict_perAC1 <- conflict_AC_int1 %>% 
+  group_by(ccaa.shortname.en) %>% 
+  summarize(UTMCODE = n())
+
 names(conflict_perAC9)[2]="N conflict cells 9"
 names(conflict_perAC8)[2]="N conflict cells 8"
 names(conflict_perAC7)[2]="N conflict cells 7"
+names(conflict_perAC6)[2]="N conflict cells 6"
+names(conflict_perAC5)[2]="N conflict cells 5"
+names(conflict_perAC4)[2]="N conflict cells 4"
+names(conflict_perAC3)[2]="N conflict cells 3"
+names(conflict_perAC2)[2]="N conflict cells 2"
+names(conflict_perAC1)[2]="N conflict cells 1"
 
-#Percentage of strong conflict cells (3, 2 or 1 level) in relation to the number of cells per AC
+#Percentage of conflict cells in relation to the number of cells per AC
 AC_confstats9 <- merge(AC_stats, conflict_perAC9, by="ccaa.shortname.en", all.x=TRUE)
 AC_confstats8 <- merge(AC_stats, conflict_perAC8, by="ccaa.shortname.en", all.x=TRUE)
 AC_confstats7 <- merge(AC_stats, conflict_perAC7, by="ccaa.shortname.en", all.x=TRUE)
+AC_confstats6 <- merge(AC_stats, conflict_perAC6, by="ccaa.shortname.en", all.x=TRUE)
+AC_confstats5 <- merge(AC_stats, conflict_perAC5, by="ccaa.shortname.en", all.x=TRUE)
+AC_confstats4 <- merge(AC_stats, conflict_perAC4, by="ccaa.shortname.en", all.x=TRUE)
+AC_confstats3 <- merge(AC_stats, conflict_perAC3, by="ccaa.shortname.en", all.x=TRUE)
+AC_confstats2 <- merge(AC_stats, conflict_perAC2, by="ccaa.shortname.en", all.x=TRUE)
+AC_confstats1 <- merge(AC_stats, conflict_perAC1, by="ccaa.shortname.en", all.x=TRUE)
 
-#Percentage of strong conflict cells (3, 2 or 1 level) in relation to the total number of strong conflict cells (3, 2 or 1 level) in Spain
+#Percentage of conflict cells in relation to the total number of each categoryconflict cells in Spain
 AC_confstats9$Perc_conf_Spain9 <- AC_confstats9$`N conflict cells 9`*100/55
 AC_confstats8$Perc_conf_Spain8 <- AC_confstats8$`N conflict cells 8`*100/46
 AC_confstats7$Perc_conf_Spain7 <- AC_confstats7$`N conflict cells 7`*100/41
+AC_confstats6$Perc_conf_Spain6 <- AC_confstats6$`N conflict cells 6`*100/141
+AC_confstats5$Perc_conf_Spain5 <- AC_confstats5$`N conflict cells 5`*100/118
+AC_confstats4$Perc_conf_Spain4 <- AC_confstats4$`N conflict cells 4`*100/109
+AC_confstats3$Perc_conf_Spain3 <- AC_confstats3$`N conflict cells 3`*100/177
+AC_confstats2$Perc_conf_Spain2 <- AC_confstats2$`N conflict cells 2`*100/165
+AC_confstats1$Perc_conf_Spain1 <- AC_confstats1$`N conflict cells 1`*100/129
 
 AC_confstats9$geometry.x <- NULL
 AC_confstats9$geometry.y <- NULL
-
 AC_confstats8$geometry.x <- NULL
 AC_confstats8$geometry.y <- NULL
-
 AC_confstats7$geometry.x <- NULL
 AC_confstats7$geometry.y <- NULL
+AC_confstats6$geometry.x <- NULL
+AC_confstats6$geometry.y <- NULL
+AC_confstats5$geometry.x <- NULL
+AC_confstats5$geometry.y <- NULL
+AC_confstats4$geometry.x <- NULL
+AC_confstats4$geometry.y <- NULL
+AC_confstats3$geometry.x <- NULL
+AC_confstats3$geometry.y <- NULL
+AC_confstats2$geometry.x <- NULL
+AC_confstats2$geometry.y <- NULL
+AC_confstats1$geometry.x <- NULL
+AC_confstats1$geometry.y <- NULL
 
-#As one conflict cell may fall in different ACs, calculating areas could be more precise. 
+#Merging 1 to 9 conflict levels
+AC_confstats <- list(AC_confstats1, 
+                     AC_confstats2 %>% select(ccaa.shortname.en, `N conflict cells 2`, `Perc_conf_Spain2`), 
+                     AC_confstats3 %>% select(ccaa.shortname.en, `N conflict cells 3`, `Perc_conf_Spain3`), 
+                     AC_confstats4 %>% select(ccaa.shortname.en, `N conflict cells 4`, `Perc_conf_Spain4`), 
+                     AC_confstats5 %>% select(ccaa.shortname.en, `N conflict cells 5`, `Perc_conf_Spain5`), 
+                     AC_confstats6 %>% select(ccaa.shortname.en, `N conflict cells 6`, `Perc_conf_Spain6`), 
+                     AC_confstats7 %>% select(ccaa.shortname.en, `N conflict cells 7`, `Perc_conf_Spain7`), 
+                     AC_confstats8 %>% select(ccaa.shortname.en, `N conflict cells 8`, `Perc_conf_Spain8`),
+                     AC_confstats9 %>% select(ccaa.shortname.en, `N conflict cells 9`, `Perc_conf_Spain9`))
 
-# Calculating the total area from hotspots cells
-areaconflict9 <- st_area(Conflictcells9)
-areaconflict8 <- st_area(Conflictcells8)
-areaconflict7 <- st_area(Conflictcells7)
-
-areaconflict9sum  <- sum(areaconflict9) 
-areaconflict8sum  <- sum(areaconflict8) 
-areaconflict7sum  <- sum(areaconflict7) 
-
-totalconfarea  <- (areaconflict9sum +areaconflict8sum +areaconflict7sum) 
-#The sum of the 142 strong conflict cells (9, 8 and 7) equal to 16454744256 [m^2] or 16454.74 km2
-
-#Summing the total hotspot area per AC 
-areas_AC_confl9 <- conflict_AC_int9 %>% 
-  group_by(ccaa.shortname.en) %>% 
-  summarize(Confarea_pAC9 = sum(areaintconf_AC9)) 
-
-areas_AC_confl8 <- conflict_AC_int8 %>% 
-  group_by(ccaa.shortname.en) %>% 
-  summarize(Confarea_pAC8 = sum(areaintconf_AC8))
-
-areas_AC_confl7 <- conflict_AC_int7 %>% 
-  group_by(ccaa.shortname.en) %>% 
-  summarize(Confarea_pAC7 = sum(areaintconf_AC7))
-
-areas_AC_confl9$geometry <- NULL
-areas_AC_confl8$geometry <- NULL
-areas_AC_confl7$geometry <- NULL
-
-areas_AC_confl9_1 <- merge(areas_AC_confl9, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en" ) 
-areas_AC_confl9_1 <- drop_units(areas_AC_confl9_1)
-
-AC_confstats9 <- merge(AC_confstats9, areas_AC_confl9_1[,c("ccaa.shortname.en", "Confarea_pAC9")], by="ccaa.shortname.en", all.x=TRUE ) 
-AC_confstats9 <- drop_units(AC_confstats9)
-
-AC_confstats9$per_confareaAC9 <- AC_confstats9$Confarea_pAC*100/AC_confstats9$areaAC
-AC_confstats9$per_confareaSpain9 <- AC_confstats9$Confarea_pAC*100/5484914752 
-
-areas_AC_confl8_1 <- merge(areas_AC_confl8, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en" ) 
-areas_AC_confl8_1 <- drop_units(areas_AC_confl8_1)
-
-AC_confstats8 <- merge(AC_confstats8, areas_AC_confl8_1[,c("ccaa.shortname.en", "Confarea_pAC8")], by="ccaa.shortname.en", all.x=TRUE ) 
-AC_confstats8 <- drop_units(AC_confstats8)
-
-AC_confstats8$per_confareaAC8 <- AC_confstats8$Confarea_pAC*100/AC_confstats8$areaAC
-AC_confstats8$per_confareaSpain8 <- AC_confstats8$Confarea_pAC*100/4600617564 
-
-areas_AC_confl7_1 <- merge(areas_AC_confl7, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en" ) 
-areas_AC_confl7_1 <- drop_units(areas_AC_confl7_1)
-
-AC_confstats7 <- merge(AC_confstats7, areas_AC_confl7_1[,c("ccaa.shortname.en", "Confarea_pAC7")], by="ccaa.shortname.en", all.x=TRUE ) 
-AC_confstats7 <- drop_units(AC_confstats7)
-
-AC_confstats7$per_confareaAC7 <- AC_confstats7$Confarea_pAC*100/AC_confstats7$areaAC
-AC_confstats7$per_confareaSpain7 <- AC_confstats7$Confarea_pAC*100/4100189172 
+AC_confstats <- reduce(AC_confstats, function(x, y) full_join(x, y, by = "ccaa.shortname.en"))
 
 # No-go areas
 
@@ -595,119 +640,65 @@ ACnogo_stats1$Perc_nogo_Spain_m <- ACnogo_stats1$`moderate no-go cells`*100/566
 
 ACnogo_stats1$geometry <- NULL
 
-#As one no-go cell may fall in different ACs, calculating areas could be more precise. 
+#Merging 1 to 9 conflict levels
+ACnogo_stats <- list(ACnogo_stats1 %>% select(ccaa.shortname.en, `moderate no-go cells`, `Perc_nogo_AC_m`, `Perc_nogo_Spain_m`), 
+                     ACnogo_stats2 %>% select(ccaa.shortname.en, `high no-go cells`, `Perc_nogo_AC_h`, `Perc_nogo_Spain_h`), 
+                     ACnogo_stats3 %>% select(ccaa.shortname.en, `very high no-go cells`, `Perc_nogo_AC_vh`, `Perc_nogo_Spain_vh`))
 
-# Calculating the total area from hotspots cells
-areanogo_vh <- st_area(Veryhigh_nogocells)
-sum(areanogo_vh) #The 98 no-go cells equal to 9658900791 [m^2] 
+ACnogo_stats <- reduce(ACnogo_stats, function(x, y) full_join(x, y, by = "ccaa.shortname.en"))
 
-areanogo_h <- st_area(High_nogocells)
-sum(areanogo_h) #The 374 no-go cells equal to 36987363492 [m^2] 
+Finalstats  <- merge(AC_confstats, ACnogo_stats, by="ccaa.shortname.en")
 
-areanogo_m <- st_area(moderate_nogocells)
-sum(areanogo_m) #The 566 no-go cells equal to 55753073269 [m^2]
+# Merging two columns in one to show N hotspot/two facet and one facet cells and percentage in relation to the number of cells in each AC
+Finalstats$`N hotspot cells` <- paste(Finalstats$`N hotspot cells`, "[",round(Finalstats$Perc_hotp_AC,1),"%]", sep ="")
+Finalstats$`N twofacet cells` <- paste(Finalstats$`N twofacet cells`, "[",round(Finalstats$Perc_twof_AC,1),"%]", sep ="")
+Finalstats$`N onefacet cells` <- paste(Finalstats$`N onefacet cells`, "[",round(Finalstats$Perc_onef_AC,1),"%]", sep ="")
 
-#Summing the total nogo area per AC 
-areas_AC_nogo_vh <- nogo_AC_int_veryhigh %>% 
-  group_by(ccaa.shortname.en) %>% 
-  summarize(nogoarea_pAC_vh = sum(areaintnogo_AC_vh)) 
+Finalstats$Perc_hotp_AC <- NULL
+Finalstats$Perc_twof_AC <- NULL
+Finalstats$Perc_onef_AC <- NULL
 
-areas_AC_nogo_vh$geometry <- NULL
+# Merging two columns in one to show N no go cells and percentage in relation to the number of cells in each AC
+Finalstats$`moderate no-go cells` <- paste(Finalstats$`moderate no-go cells`, "[",round(Finalstats$Perc_nogo_AC_m,1),"%]", sep ="")
+Finalstats$`high no-go cells` <- paste(Finalstats$`high no-go cells`, "[",round(Finalstats$Perc_nogo_AC_h,1),"%]", sep ="")
+Finalstats$`very high no-go cells` <- paste(Finalstats$`very high no-go cells`, "[",round(Finalstats$Perc_nogo_AC_vh,1),"%]", sep ="")
 
-#Summing the total nogo area per AC 
-areas_AC_nogo_h <- nogo_AC_int_high %>% 
-  group_by(ccaa.shortname.en) %>% 
-  summarize(nogoarea_pAC_h = sum(areaintnogo_AC_h)) 
+Finalstats$Perc_nogo_AC_m <- NULL
+Finalstats$Perc_nogo_AC_h <- NULL
+Finalstats$Perc_nogo_AC_vh <- NULL
 
-areas_AC_nogo_h$geometry <- NULL
+# Calculating the % very high conflict cells (7, 8 and 9 conflict levels) in relation to the number of cells in each AC
+Finalstats$`Sum veryhigh conflict cells` <- rowSums(Finalstats[, c("N conflict cells 7", "N conflict cells 8", "N conflict cells 9")], na.rm = TRUE)
+Finalstats$Perc_veryhighconf <- (Finalstats$`Sum veryhigh conflict cells` / Finalstats$`N cells`) * 100
+Finalstats$`N veryhigh conflict cells` <- paste(Finalstats$`Sum veryhigh conflict cells`, "[",round(Finalstats$Perc_veryhighconf,1),"%]", sep ="")
+Finalstats$veryhigh_conf_Spain <- (Finalstats$`Sum veryhigh conflict cells` / 142) * 100
 
-#Summing the total nogo area per AC 
-areas_AC_nogo_m <- nogo_AC_int_moderate %>% 
-  group_by(ccaa.shortname.en) %>% 
-  summarize(nogoarea_pAC_m = sum(areaintnogo_AC_m)) 
+# Calculating the % high conflict cells (4,5, and 6 conflict levels) in relation to the number of cells in each AC
+Finalstats$`Sum high conflict cells` <- rowSums(Finalstats[, c("N conflict cells 4", "N conflict cells 5", "N conflict cells 6")], na.rm = TRUE)
+Finalstats$Perc_highconf <- (Finalstats$`Sum high conflict cells` / Finalstats$`N cells`) * 100
+Finalstats$`N high conflict cells` <- paste(Finalstats$`Sum high conflict cells`, "[",round(Finalstats$Perc_highconf,1),"%]", sep ="")
+Finalstats$High_conf_Spain <- (Finalstats$`Sum high conflict cells` / 368) * 100
 
-areas_AC_nogo_m$geometry <- NULL
+# Calculating the % moderate conflict cells (1,2, and 3 conflict levels) in relation to the number of cells in each AC
+Finalstats$`Sum moderate conflict cells` <- rowSums(Finalstats[, c("N conflict cells 1", "N conflict cells 2", "N conflict cells 3")], na.rm = TRUE)
+Finalstats$Perc_moderateconf <- (Finalstats$`Sum moderate conflict cells` / Finalstats$`N cells`) * 100
+Finalstats$`N moderate conflict cells` <- paste(Finalstats$`Sum moderate conflict cells`, "[",round(Finalstats$Perc_moderateconf,1),"%]", sep ="")
+Finalstats$moderate_conf_Spain <- (Finalstats$`Sum moderate conflict cells` / 471) * 100
 
-areas_AC_nogo_vh <- merge(areas_AC_nogo_vh, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en") 
-areas_AC_nogo_vh <- drop_units(areas_AC_nogo_vh)
+Finalstats$Perc_conf_Spain1<- NULL
+Finalstats$Perc_conf_Spain2<- NULL
+Finalstats$Perc_conf_Spain3<- NULL
+Finalstats$Perc_conf_Spain4<- NULL
+Finalstats$Perc_conf_Spain5<- NULL
+Finalstats$Perc_conf_Spain6<- NULL
+Finalstats$Perc_conf_Spain7<- NULL
+Finalstats$Perc_conf_Spain8<- NULL
+Finalstats$Perc_conf_Spain9<- NULL
+Finalstats$`Sum veryhigh conflict cells`<- NULL
+Finalstats$Perc_veryhighconf<- NULL
+Finalstats$`Sum high conflict cells`<- NULL
+Finalstats$Perc_highconf<- NULL
+Finalstats$`Sum moderate conflict cells`<- NULL
+Finalstats$Perc_moderateconf<- NULL
 
-areas_AC_nogo_h <- merge(areas_AC_nogo_h, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en") 
-areas_AC_nogo_h <- drop_units(areas_AC_nogo_h)
-
-areas_AC_nogo_m <- merge(areas_AC_nogo_m, AC[,c("ccaa.shortname.en", "areaAC")], by="ccaa.shortname.en") 
-areas_AC_nogo_m <- drop_units(areas_AC_nogo_m)
-
-AC_stats_total3 <- merge(ACnogo_stats3, areas_AC_nogo_vh[,c("ccaa.shortname.en", "nogoarea_pAC_vh")], by="ccaa.shortname.en", all.x=TRUE ) 
-AC_stats_total3 <- drop_units(AC_stats_total3)
-
-AC_stats_total3$per_nogoareaAC_vh <- AC_stats_total3$nogoarea_pAC*100/AC_stats_total3$areaAC
-AC_stats_total3$per_nogoareaSpain_vh <- AC_stats_total3$nogoarea_pAC*100/9658900791 
-
-AC_stats_total2 <- merge(ACnogo_stats2, areas_AC_nogo_h[,c("ccaa.shortname.en", "nogoarea_pAC_h")], by="ccaa.shortname.en", all.x=TRUE ) 
-AC_stats_total2 <- drop_units(AC_stats_total2)
-
-AC_stats_total2$per_nogoareaAC_h <- AC_stats_total2$nogoarea_pAC*100/AC_stats_total2$areaAC
-AC_stats_total2$per_nogoareaSpain_h <- AC_stats_total2$nogoarea_pAC*100/36987363492 
-
-AC_stats_total1 <- merge(ACnogo_stats1, areas_AC_nogo_m[,c("ccaa.shortname.en", "nogoarea_pAC_m")], by="ccaa.shortname.en", all.x=TRUE ) 
-AC_stats_total1 <- drop_units(AC_stats_total1)
-
-AC_stats_total1$per_nogoareaAC_m <- AC_stats_total1$nogoarea_pAC*100/AC_stats_total1$areaAC
-AC_stats_total1$per_nogoareaSpain_m <- AC_stats_total1$nogoarea_pAC*100/55753073269 
-
-# Merging AC_stats_total3, AC_stats_total2, and AC_stats_total1
-AC_stats_merged <- AC_stats_total1 %>%
-  full_join(AC_stats_total2, by = "ccaa.shortname.en")
-
-AC_stats_total <- AC_stats_merged %>%
-  full_join(AC_stats_total3, by = "ccaa.shortname.en")
-
-# Merging two columns in one to show N hotspot cells and percentage in relation to the number of cells in each AC
-AC_stats_total$`N_hotspot cells` <- paste(AC_stats_total$`N hotspot cells.x`, "[",round(AC_stats_total$Perc_hotp_AC.x,1),"%]", sep ="")
-
-# Calculating the % highest conflict cells (7, 8 and 9 conflict levels) in relation to the number of cells in each AC
-AC_stats_total$`Sum highest conflict cells` <- rowSums(AC_stats_total[, c("N conflict cells 7", "N conflict cells 8", "N conflict cells 9")], na.rm = TRUE)
-AC_stats_total$Perc_highestconf <- (AC_stats_total$`Sum highest conflict cells` / AC_stats_total$`N cells.x`) * 100
-AC_stats_total$`N highest conflict cells` <- paste(AC_stats_total$`Sum highest conflict cells`, "[",round(AC_stats_total$Perc_highestconf,1),"%]", sep ="")
-AC_stats_total$Highest_conf_Spain <- (AC_stats_total$`Sum highest conflict cells` / 142) * 100
-
-AC_stats_total$m_nogocells <- paste(AC_stats_total$`moderate no-go cells`, "[",round(AC_stats_total$Perc_nogo_AC_m,1),"%]", sep ="")
-AC_stats_total$h_nogocells <- paste(AC_stats_total$`high no-go cells`, "[",round(AC_stats_total$Perc_nogo_AC_h,1),"%]", sep ="")
-AC_stats_total$vh_nogocells <- paste(AC_stats_total$`very high no-go cells`, "[",round(AC_stats_total$Perc_nogo_AC_vh,1),"%]", sep ="")
-
-AC_stats_total$geometry.x.x <- NULL
-AC_stats_total$geometry.y.x <- NULL
-AC_stats_total$geometry.x.y <- NULL
-AC_stats_total$geometry.y.y <- NULL
-AC_stats_total$geometry.x <- NULL
-AC_stats_total$geometry.y <- NULL
-AC_stats_total$`N hotspot cells.y` <- NULL
-AC_stats_total$Perc_hotp_AC.y <- NULL
-AC_stats_total$Perc_hotp_Spain.y <- NULL
-AC_stats_total$Hotsarea_pAC.y <- NULL
-AC_stats_total$areaAC.y <- NULL
-AC_stats_total$per_hotareaAC.y <- NULL
-AC_stats_total$per_hotareaSpain.y <- NULL
-AC_stats_total$Hotsarea_pAC.y <- NULL
-AC_stats_total$Hotsarea_pAC.y <- NULL
-AC_stats_total$Hotsarea_pAC.y <- NULL
-AC_stats_total$Hotsarea_pAC.y <- NULL
-AC_stats_total$`N cells` <- NULL
-AC_stats_total$`N hotspot cells` <- NULL
-AC_stats_total$Perc_hotp_AC <- NULL
-AC_stats_total$Perc_hotp_Spain <- NULL
-AC_stats_total$Hotsarea_pAC <- NULL
-AC_stats_total$areaAC <- NULL
-AC_stats_total$per_hotareaAC <- NULL
-AC_stats_total$per_hotareaSpain <- NULL
-AC_stats_total$`N hotspot cells.x`<- NULL
-AC_stats_total$Perc_hotp_AC.x<- NULL
-AC_stats_total$`Sum highest conflict cells`<- NULL
-AC_stats_total$Perc_highestconf<- NULL
-AC_stats_total$`moderate no-go cells`<- NULL
-AC_stats_total$Perc_nogo_AC_m<- NULL
-AC_stats_total$`high no-go cells`<- NULL
-AC_stats_total$Perc_nogo_AC_h<- NULL
-AC_stats_total$`very high no-go cells`<- NULL
-AC_stats_total$Perc_nogo_AC_vh<- NULL
-write_xlsx(AC_stats_total, 'Data/AC_stats_5November.xlsx') 
+write_xlsx(Finalstats, 'Data/AC_stats_6November.xlsx') 
