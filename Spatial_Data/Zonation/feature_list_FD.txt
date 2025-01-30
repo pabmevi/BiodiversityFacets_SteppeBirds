@@ -1,0 +1,4 @@
+"weight" "filename"
+1.0 C:/Users/USUARIO/Documentos/GitHub/BiodiversityFacets/Spatial_Data/Zonation/FD.tif
+
+

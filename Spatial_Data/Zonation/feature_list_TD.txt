@@ -1,0 +1,4 @@
+"weight" "filename"
+1.0 C:/Users/USUARIO/Documentos/GitHub/BiodiversityFacets/Spatial_Data/Zonation/TD.tif
+0.5 C:/Users/USUARIO/Documentos/GitHub/BiodiversityFacets/Spatial_Data/Zonation/PV.tif
+
