@@ -372,11 +372,11 @@ p4 <- ggplot() +
                    pad_y = unit(0.5, "cm"), dist = 100, dist_unit = "km")
 
 # Prioritization maps for TD, FD, PD, and TD-FD-PD scenarios 
-png("four_maps1.png", width = 1600, height = 1600)
+png("Figures/Prioritization_scenarios.png", width = 1600, height = 1600)
 grid.arrange(p1, p2, p3, p4, nrow = 2)
 dev.off()
 
-pdf("four_maps1.pdf", width = 16, height = 16) 
+pdf("Figures/Prioritization_scenarios.pdf", width = 16, height = 16) 
 grid.arrange(p1, p2, p3, p4, nrow = 2) 
 dev.off ()
 
