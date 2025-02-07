@@ -14,6 +14,7 @@ library(tidyr)
 library(biscale)
 library(terra)
 library(cowplot)
+library(ggvenn)
 
 setwd("~/GitHub/BiodiversityFacets")
 
@@ -93,9 +94,9 @@ PVint2$overlapSES <- factor(PVint2$overlap, levels = c("Three-facet diverse", "T
                                                     "Outside top 30%"))
 
 # Colours for each overlapping category 
-colores <- c("Three-facet diverse" = "blue4", "Top 30% TD and FD" = "blue", "Top 30% sp_richn and fric" = "blue","Top 30% TD and PD" = "dodgerblue", 
-             "Top 30% sp_richn and PD" = "dodgerblue","Top 30% FD and PD" = "lightskyblue", "Top 30% fric and PD" = "lightskyblue", "Top 30% TD" = "cyan3", "Top 30% FD" = "paleturquoise3",
-             "Top 30% fric" = "paleturquoise3", "Top 30% PD" = "azure3", "Top 30% PD" = "azure3", "Outside top 30%" = "white")
+colores <- c("Three-facet diverse" = "darkred", "Top 30% TD and FD" = "#332288", "Top 30% TD and PD" = "#DDCC77", 
+             "Top 30% FD and PD" = "#CC79A7", "Top 30% TD" = "grey", "Top 30% FD" = "goldenrod3",
+             "Top 30% PD" = "slategray3", "Outside top 30%" = "white")
 
 PVint2$overlapSES[is.na(PVint2$overlapSES)] <- "Outside top 30%"
 
@@ -108,11 +109,38 @@ mapaSES <- tm_shape(PVint2) +
   tm_fill(col = "overlapSES", palette = colores, title = "Index overlapping", style = "cat") +
   tm_shape(AC) +
   tm_borders() +
-  tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +  # Agregar barra de escala con intervalos personalizados
+  tm_scale_bar(breaks = c(0, 50, 100, 150, 200), position = c("left", "bottom")) +  
   tm_compass(type = "arrow", position = c("right", "top"))
 
 tmap_save(mapaSES, filename = "Figures/3facetsSES_22decemb.png")
 tmap_save(mapaSES, filename = "Figures/3facetsSES_22decemb.pdf")
+
+# Generating a Venn diagramm overlapping three biodiversity facets
+# First countinng the quantity of overlapping cells 
+summary(PVint2$overlapSES) #Total cells 3838, however, 1819 are outside any top 30%, then cells in any top 30% count 2019
+#This means that to generate a venn diagramm with overlapping facets, I need to consider 2019 cells only.  
+# Top 30% TD, FD and PD count 240, this is 11.89% of 2019 cells, 
+# Top 30% TD and FD count 276, this is 13.67%
+# Top 30% TD and PD count 85, this is 4.21%
+# Top 30% FD and PD count 381, this is 18.87%
+# Top 30% TD count 337, this is 16.69%
+# Top 30% FD count 255, this is 12.63%
+# Top 30% PD count 445, this is 22.04%
+
+# Selecting only top cells for each facet
+venn_data <- list(
+  "TD" = PVint2$UTMCODE[PVint2$top_sp_richn == TRUE],
+  "FD" = PVint2$UTMCODE[PVint2$top_SESfric == TRUE],
+  "PD" = PVint2$UTMCODE[PVint2$top_SESPD == TRUE]
+)
+
+# Generating the venn diagram
+venn_plot <-ggvenn(venn_data, 
+       fill_color = c("grey", "goldenrod3", "slategray3"), 
+       stroke_size = 0.5, 
+       text_size = 4)
+
+ggsave("Figures/venn_diagram.png", plot = venn_plot, width = 8, height = 6)
 
 # I want to know the number of 3, 2 and 1 facet diverse cells in the study area. Just for curiosity intersecting with AC to know the number of diverse cells per AC. 
 
@@ -253,13 +281,9 @@ Hotsp_top30 <- calc(Hotsp_Zonation, fun = function(x) { ifelse(x >= Hotsp_percen
 Hotsp_top30_count <- freq(Hotsp_top30)
 
 print(Hotsp_top30_count)
-# Guardar el mapa binario como PNG sin título, ejes ni leyenda
-png("hotsp_top30_map_clean.png", width = 800, height = 800)
 
-# Plotear el mapa binario sin ejes, sin título, sin marco y sin leyenda
 plot(Hotsp_top30, axes = FALSE, box = FALSE, main = "", legend = FALSE, col = c("white", "red"))
 
-# Cerrar el dispositivo gráfico
 dev.off()
 
 #Now the map that contains TD
@@ -319,18 +343,24 @@ FDPD_top30 <- calc(FDPD_Zonation, fun = function(x) { ifelse(x >= FDPD_percentil
 TD_df <- as.data.frame(as(TD_top30, "SpatialPixelsDataFrame"))
 FD_df <- as.data.frame(as(FD_top30, "SpatialPixelsDataFrame"))
 PD_df <- as.data.frame(as(PD_top30, "SpatialPixelsDataFrame"))
+TDFD_df <- as.data.frame(as(TDFD_top30, "SpatialPixelsDataFrame"))
+TDPD_df <- as.data.frame(as(TDPD_top30, "SpatialPixelsDataFrame"))
+FDPD_df <- as.data.frame(as(FDPD_top30, "SpatialPixelsDataFrame"))
 Hotsp_df <- as.data.frame(as(Hotsp_top30, "SpatialPixelsDataFrame"))
 
 # As factors
 TD_df$layer <- factor(TD_df$layer)
 FD_df$layer <- factor(FD_df$layer)
 PD_df$layer <- factor(PD_df$layer)
+TDFD_df$layer <- factor(TDFD_df$layer)
+TDPD_df$layer <- factor(TDPD_df$layer)
+FDPD_df$layer <- factor(FDPD_df$layer)
 Hotsp_df$layer <- factor(Hotsp_df$layer)
 
 # One plot per map
 p1 <- ggplot() +
   geom_tile(data = TD_df, aes(x = x, y = y, fill = layer)) +
-  scale_fill_manual(values = c("white", "turquoise"), guide = "none") +
+  scale_fill_manual(values = c("white", "grey"), guide = "none") +
   geom_sf(data = AC, fill = NA, color = "black") +
   ggtitle("Prioritization TD") +
   theme_void() +
@@ -340,7 +370,7 @@ p1 <- ggplot() +
 
 p2 <- ggplot() +
   geom_tile(data = FD_df, aes(x = x, y = y, fill = layer)) +
-  scale_fill_manual(values = c("white", "paleturquoise3"), guide = "none") +
+  scale_fill_manual(values = c("white", "goldenrod3"), guide = "none") +
   geom_sf(data = AC, fill = NA, color = "black") +
   ggtitle("Prioritization FD") +
   theme_void() +
@@ -350,7 +380,7 @@ p2 <- ggplot() +
 
 p3 <- ggplot() +
   geom_tile(data = PD_df, aes(x = x, y = y, fill = layer)) +
-  scale_fill_manual(values = c("white", "grey"), guide = "none") +
+  scale_fill_manual(values = c("white", "slategray3"), guide = "none") +
   geom_sf(data = AC, fill = NA, color = "black") +
   ggtitle("Prioritization PD") +
   theme_void() +
@@ -359,25 +389,55 @@ p3 <- ggplot() +
   )
 
 p4 <- ggplot() +
+  geom_tile(data = TDFD_df, aes(x = x, y = y, fill = layer)) +
+  scale_fill_manual(values = c("white", "#332288"), guide = "none") +
+  geom_sf(data = AC, fill = NA, color = "black") +
+  ggtitle("Prioritization TD-FD") +
+  theme_void() +
+  theme(
+    plot.title = element_text(size = 30, face = "bold", hjust = 0.5)  # Centrar el título
+  ) 
+
+p5 <- ggplot() +
+  geom_tile(data = TDPD_df, aes(x = x, y = y, fill = layer)) +
+  scale_fill_manual(values = c("white", "#DDCC77"), guide = "none") +
+  geom_sf(data = AC, fill = NA, color = "black") +
+  ggtitle("Prioritization TD-PD") +
+  theme_void() +
+  theme(
+    plot.title = element_text(size = 30, face = "bold", hjust = 0.5)  # Centrar el título
+  ) 
+
+p6 <- ggplot() +
+  geom_tile(data = FDPD_df, aes(x = x, y = y, fill = layer)) +
+  scale_fill_manual(values = c("white", "#CC79A7"), guide = "none") +
+  geom_sf(data = AC, fill = NA, color = "black") +
+  ggtitle("Prioritization FD-PD") +
+  theme_void() +
+  theme(
+    plot.title = element_text(size = 30, face = "bold", hjust = 0.5)  # Centrar el título
+  ) 
+
+p7 <- ggplot() +
   geom_tile(data = Hotsp_df, aes(x = x, y = y, fill = layer)) +
-  scale_fill_manual(values = c("white", "red"), guide = "none") +
+  scale_fill_manual(values = c("white", "darkred"), guide = "none") +
   geom_sf(data = AC, fill = NA, color = "black") +
   ggtitle("Prioritization TD-FD-PD") +
   theme_void() +
   theme(
     plot.title = element_text(size = 30, face = "bold", hjust = 0.5)  # Centrar el título
   ) +
-  annotation_scale(location = "br", width_hint = 0.5, height = unit(0.8, "cm"), 
+  annotation_scale(location = "br", width_hint = 0.4, height = unit(0.5, "cm"), 
                    text_cex = 2, bar_cols = c("black", "white"), pad_x = unit(0.5, "cm"), 
-                   pad_y = unit(0.5, "cm"), dist = 100, dist_unit = "km")
+                   pad_y = unit(0.5, "cm"), dist = 50, dist_unit = "km")
 
 # Prioritization maps for TD, FD, PD, and TD-FD-PD scenarios 
-png("Figures/Prioritization_scenarios.png", width = 1600, height = 1600)
-grid.arrange(p1, p2, p3, p4, nrow = 2)
+png("Figures/Prioritization_scenarios.png", width = 1000, height = 1600)
+grid.arrange(p1, p2, p3, p4, p5, p6, p7, nrow = 4)
 dev.off()
 
-pdf("Figures/Prioritization_scenarios.pdf", width = 16, height = 16) 
-grid.arrange(p1, p2, p3, p4, nrow = 2) 
+pdf("Figures/Prioritization_scenarios.pdf", width = 10, height = 16) 
+grid.arrange(p1, p2, p3, p4, p5, p6, p7, nrow = 4) 
 dev.off ()
 
 #I want to know the percentage of individual facet scenarios covered under all seven scenarios
