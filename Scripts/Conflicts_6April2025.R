@@ -326,7 +326,6 @@ cat("Cobertura relativa de FD:", FD_coverage, "%\n") # 75.5%
 cat("Cobertura relativa de PD:", PD_coverage, "%\n") # 59.7%
 
 #Now creating a bivariate map to intersect PV occupancy and Conservation value (given by the TD+FD+PD scenario).
-# Crea un raster vacío (con resolución 10km en la proyección UTM 30N)
 template_raster <- rast(ext(facets), resolution = 10000, crs = st_crs(facets)$wkt)
 
 PV <- rasterize(vect(facets), template_raster, field = "PrcPV_c", fun = "mean")
@@ -342,9 +341,9 @@ Hotsp_Zonation <- resample(Hotsp_Zonation, PV, method = "bilinear")
 dataf <- as.data.frame(Hotsp_Zonation, xy = TRUE)
 
 pv_df <- as.data.frame(PV, xy = TRUE)
-dataf$PV <- pv_df$PrcPV_c  # Asegúrate de asignar solo la columna PrcPV_c
+dataf$PV <- pv_df$PrcPV_c  
 
-print(class(dataf$PV))  # Debería ser "numeric"
+print(class(dataf$PV)) 
 
 dataf <- dataf %>%
   rename(Conservation = names(Hotsp_Zonation), PV = PV) %>%
@@ -352,19 +351,6 @@ dataf <- dataf %>%
 
 print(class(dataf$Conservation))
 print(class(dataf$PV))
-
-# PV in "Low", "Medium", "High" [0, 0.33, 0.67, 1]
-dataf <- dataf %>%
-  mutate(PV_cat = cut(PV, 
-                      breaks = c(-1e-10, 0.33, 0.67, 1), 
-                      labels = c("Low", "Medium", "High"), 
-                      include.lowest = TRUE)) %>%
-  mutate(PV_cat = if_else(PV == 0, "Low", as.character(PV_cat)),  # Asegurar que PV = 0 sea "Low"
-         PV_cat = factor(PV_cat, levels = c("Low", "Medium", "High")))
-
-print(table(dataf$PV_cat))
-
-print(class(dataf$PV_cat))  # Debería ser "factor"
 
 # Calculating quantiles only for cells with values different from 0. Quantiles categorization using also cells 0 leads to inaccurate. 
 # Too many cells where PV does not exist.  
@@ -380,7 +366,7 @@ dataf <- dataf %>%
                       breaks = breaks, 
                       labels = c("Low", "Medium", "High"), 
                       include.lowest = TRUE)) %>%
-  mutate(PV_cat = if_else(PV == 0, "Low", as.character(PV_cat)),  # Asegurar que PV = 0 sea "Low"
+  mutate(PV_cat = if_else(PV == 0, "Low", as.character(PV_cat)),  # PV = 0 is included in "Low"
          PV_cat = factor(PV_cat, levels = c("Low", "Medium", "High")))
 
 print(table(dataf$PV_cat))
@@ -392,11 +378,11 @@ dataf <- bi_class(dataf, x = Conservation, y = PV_cat, style = "equal", dim = 3)
 dataf_sf <- st_as_sf(dataf, coords = c("x", "y"), crs = 25830)
 
 map <- ggplot() +
-  geom_sf(data = AC, fill = "gray95", color = "gray80") +  # Mapa de fondo
-  geom_tile(data = dataf, aes(x = x, y = y, fill = bi_class)) +  # sin bordes
-  bi_scale_fill(pal = "PurpleGrn", dim = 3) +  # Estilo de color
+  geom_sf(data = AC, fill = "gray95", color = "gray80") + 
+  geom_tile(data = dataf, aes(x = x, y = y, fill = bi_class)) + 
+  bi_scale_fill(pal = "PurpleGrn", dim = 3) + 
   theme_minimal() +
-  theme(legend.position = "none") +  # Ocultar leyenda por defecto
+  theme(legend.position = "none") +  
   geom_sf(data = AC, fill = NA, color = "black", linewidth = 0.5) +
   annotation_north_arrow(location = "tr", which_north = "grid", 
                          pad_x = unit(0, "in"), pad_y = unit(0.05, "in"),
@@ -411,8 +397,8 @@ legend <- bi_legend(
 )
 
 PVconflict <- ggdraw() +
-  draw_plot(map, 0, 0, 1, 1) +  # El mapa ocupa todo el espacio
-  draw_plot(legend, x = 0.72, y = 0.25, width = 0.3, height = 0.15)  # Ajusté la posición y aumenté el tamaño
+  draw_plot(map, 0, 0, 1, 1) +  
+  draw_plot(legend, x = 0.72, y = 0.25, width = 0.3, height = 0.15) 
 
 plot(PVconflict)
 
@@ -423,7 +409,7 @@ dataf_3_3 <- dataf %>%
   filter(bi_class == "3-3")
 
 map_3_3 <- ggplot() +
-  geom_sf(data = AC, fill = "gray95", color = "gray80") +  # Mapa de fondo
+  geom_sf(data = AC, fill = "gray95", color = "gray80") +
   geom_tile(data = dataf_3_3, aes(x = x, y = y, fill = bi_class)) +  
   bi_scale_fill(pal = "PurpleGrn", dim = 3) +  
   theme_minimal() +
