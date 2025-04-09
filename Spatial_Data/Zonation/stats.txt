@@ -1,0 +1,22 @@
+Arguments given: --gui --mode=CAZ2 -wb C:/Users/USUARIO/Documentos/GitHub/BiodiversityFacets/Spatial_Data/Zonation/project.spp C:/Users/USUARIO/Documentos/GitHub/BiodiversityFacets/Spatial_Data/Zonation
+Settings filename: C:/Users/USUARIO/Documentos/GitHub/BiodiversityFacets/Spatial_Data/Zonation/project.spp
+Feature list filename: C:\Users\USUARIO\Documentos\GitHub\BiodiversityFacets\Spatial_Data\Zonation\feature_list_PD.txt
+Map dimensions (width * height): 115*96
+Number of grid cells in map (width * height): 11040
+Number of grid cells in map with data: 3801
+Feature layer count: 1
+Positive weight feature count: 1
+Negative weight feature count: 0
+Zero weight feature count: 0
+Total number of pixels with data across features: 3801
+Mean feature extent across study area: 99.95%
+Memory usage of feature data: 51.91KB
+Mean quantization error: 0.00201960%
+Time used to read and preprocess layer data: 0s
+Time used in prioritization: 0s
+Number of iterations: 1
+Final convergence level: 0.0%
+Area under curve: 0.590610
+Total time used: 0s
+Number of errors: 0
+Number of warnings: 0

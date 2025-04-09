@@ -17,6 +17,7 @@ library(viridis)
 
 # clean environment
 rm(list = ls())
+setwd("~/GitHub/BiodiversityFacets")
 
 tree <- read.nexus("Data/consensustree150_05credibility.nex")
 
@@ -29,6 +30,8 @@ species <- c("Circus_pygargus", "Circus_cyaneus", "Burhinus_oedicnemus", "Alauda
              "Miliaria_calandra")
 
 tree <- keep.tip(tree, species)
+plot(tree, show.tip.label = TRUE, cex = 0.8)
+axisPhylo()
 
 # load Spanish UTM grid
 malla <- st_read("Spatial_Data/Malla_municipios/Malla10x10_Ter_p.shp") #peninsular
@@ -161,3 +164,4 @@ forcorrmatrix$geometry <- NULL
 corrmatrix <- cor(forcorrmatrix, use = "complete.obs") #Very high correlation between TD - FD = 81%, and TD - PD = 94%.
 
 write_sf(datosMAP, "Spatial_Data/3facets.shp")
+

@@ -49,6 +49,8 @@ PVint$area_int <- st_area(PVint)
 PVint <- drop_units(PVint)
 PVint$geometry <- NULL
 
+length(unique(PVint$UTMCODE))
+
 #Summing the total PV area per cell 
 PVint1 <- PVint %>% 
   group_by(UTMCODE) %>% 
@@ -177,6 +179,7 @@ PVint2_1$species <- basic_function(PVint2_1$species)
 # Replacing NAs by 0 in PV occupancy cells
 PVint2_1$PercPV_cell[is.na(PVint2_1$PercPV_cell)] <- 0
 #Also scaling PV occupancy from 0-1. However, maximum occupancy % per cell is around 12%
+PVint2_1$PercPV_cell0  <- PVint2_1$PercPV_cell #Keeping the PV percentage occupancy per cell before scaling 0-1
 PVint2_1$PercPV_cell <- basic_function(PVint2_1$PercPV_cell)
 
 # PV occupancy in tertiles
