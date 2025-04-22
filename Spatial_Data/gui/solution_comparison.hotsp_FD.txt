@@ -1,7 +1,0 @@
-Comparing present solution to C:\Users\USUARIO\Documentos\GitHub\BiodiversityFacets\Spatial_Data\Zonation\mapFD.png
-Priority rank range of interest in present solution is from 0.0 to 1.0
-Numeric range of interest in comparison file is from 0.0 to 1.0
-Number of grid cells chosen in both solutions is 0 (0.0% of analysis area)
-Number of grid cells chosen in neither solution is 0 (0.0% of analysis area)
-Number of grid cells chosen only in present solution is 26279 (100.0% of analysis area)
-Number of grid cells chosen only in comparison file is 0 (0.0% of analysis area)

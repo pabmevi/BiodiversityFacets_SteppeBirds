@@ -1,6 +1,0 @@
-Area 1
-2.71383 0 "" C:\Users\USUARIO\Documentos\GitHub\BiodiversityFacets\Spatial_Data\Zonation\taxonomic_diversity.asc
-2.19467 1 "" C:\Users\USUARIO\Documentos\GitHub\BiodiversityFacets\Spatial_Data\Zonation\functional_diversity.asc
-1.90133 2 "" C:\Users\USUARIO\Documentos\GitHub\BiodiversityFacets\Spatial_Data\Zonation\phylogenetic_diversity.asc
-0.590548 3 "" C:\Users\USUARIO\Documentos\GitHub\BiodiversityFacets\Spatial_Data\Zonation\pvoccupancy_scaled.asc
-
