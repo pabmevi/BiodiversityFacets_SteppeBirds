@@ -129,15 +129,16 @@ comm <- st_transform(comm, st_crs(Hotsp_Zonation))
 
 TDFDPD <- ggplot() +
   geom_raster(data = df, aes(x = x, y = y, fill = factor(category))) +
-  geom_sf(data = comm, fill = NA, color = "gray", linewidth = 0.5) +  # Agregar límites de comunidades en gris claro
-  scale_fill_manual(values = custom_colors, labels = categories, name = "Hotspot Level") +
+  geom_sf(data = comm, fill = NA, color = "gray", linewidth = 0.5) +  
+  scale_fill_manual(values = custom_colors, labels = categories, name = "") +
   theme_minimal() +
-  labs(title = "Hotspot Prioritization Levels",
+  labs(title = "TD + FD + PD",
        x = "Longitude",
        y = "Latitude") +
-  theme(legend.position = "right")
+  theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+        legend.position = "right")  
 
-ggsave("Figures/TDFDPD_tops.tiff", plot = TDFDPD, width = 10, height = 8, dpi = 300, compression = "lzw")
+ggsave("Figures/TDFDPD_tops.tiff", plot = TDFDPD, width = 10, height = 8, dpi = 400, compression = "lzw")
 
 #Now the map that contains TD
 TD_Zonation <- raster("Spatial_Data/Zonation/rankmap_TD.tif")
@@ -165,12 +166,13 @@ TD <- ggplot() +
   geom_sf(data = comm, fill = NA, color = "gray", linewidth = 0.5) +
   scale_fill_manual(values = custom_colors, labels = categories, name = "") +
   theme_minimal() +
-  labs(title = "Taxonomic diversity",
+  labs(title = "Taxonomic Diversity (TD)",
        x = "Longitude",
        y = "Latitude") +
-  theme(legend.position = "left")
+  theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+        legend.position = "none")                
 
-ggsave("Figures/TD_tops.tiff", plot = TD, width = 10, height = 8, dpi = 300, compression = "lzw")
+ggsave("Figures/TD_tops.tiff", plot = TD, width = 10, height = 8, dpi = 400, compression = "lzw")
 
 #Now the map that contains FD
 FD_Zonation <- raster("Spatial_Data/Zonation/rankmap_FD.tif")
@@ -198,11 +200,13 @@ FD <- ggplot() +
   geom_sf(data = comm, fill = NA, color = "gray", linewidth = 0.5) +
   scale_fill_manual(values = custom_colors, labels = categories, name = "") +
   theme_minimal() +
-  labs(title = "Functional diversity",
+  labs(title = "Functional diversity(FD)",
        x = "Longitude",
        y = "Latitude") +
-  theme(legend.position = "left")
-ggsave("Figures/FD_tops.tiff", plot = FD, width = 10, height = 8, dpi = 300, compression = "lzw")
+  theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+                              legend.position = "none")  
+
+ggsave("Figures/FD_tops.tiff", plot = FD, width = 10, height = 8, dpi = 400, compression = "lzw")
 
 #Now the map that contains PD
 PD_Zonation <- raster("Spatial_Data/Zonation/rankmap_PD.tif")
@@ -233,8 +237,10 @@ PD <- ggplot() +
   labs(title = "Phylogenetic diversity",
        x = "Longitude",
        y = "Latitude") +
-  theme(legend.position = "left")
-ggsave("Figures/PD_tops.tiff", plot = PD, width = 10, height = 8, dpi = 300, compression = "lzw")
+  theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
+        legend.position = "none")  
+
+ggsave("Figures/PD_tops.tiff", plot = PD, width = 10, height = 8, dpi = 400, compression = "lzw")
 
 Hotsp_top30 <- calc(Hotsp_Zonation, fun = function(x) { ifelse(x >= Hotsp_percentil30, 1, 0) })
 TD_top30 <- calc(TD_Zonation, fun = function(x) { ifelse(x >= TD_percentil30, 1, 0) })
