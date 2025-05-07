@@ -136,7 +136,8 @@ TDFDPD <- ggplot() +
        x = "Longitude",
        y = "Latitude") +
   theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
-        legend.position = "right")  
+        legend.position = "right",
+        legend.text = element_text(size = 14))  
 
 ggsave("Figures/TDFDPD_tops.tiff", plot = TDFDPD, width = 10, height = 8, dpi = 400, compression = "lzw")
 
@@ -381,6 +382,8 @@ print(class(dataf$PV_cat))
 dataf <- bi_class(dataf, x = Conservation, y = PV_cat, style = "equal", dim = 3)
 
 dataf_sf <- st_as_sf(dataf, coords = c("x", "y"), crs = 25830)
+dataf_sf1 <- st_join(malla, dataf_sf, join = st_contains)
+write_sf(dataf_sf1, "Spatial_Data/Conflict_Nogo.shp")
 
 map <- ggplot() +
   geom_sf(data = AC, fill = "gray95", color = "gray80") + 
@@ -467,7 +470,7 @@ map_3_3 <- ggplot() +
   annotation_scale(location = "bl", width_hint = 0.3)
 
 print(map_3_3)
-ggsave("Figures/3_3_Conflict_April25.tiff", map_3_3, wi = 20, he = 20, un = "cm", dpi = 300)
+ggsave("Figures/Fig3_Exposure_April25.tiff", map_3_3, wi = 20, he = 20, un = "cm", dpi = 300)
 
 # Filtering the 3-1 cells (high conservation value + low PV)
 dataf_3_1 <- dataf %>%
