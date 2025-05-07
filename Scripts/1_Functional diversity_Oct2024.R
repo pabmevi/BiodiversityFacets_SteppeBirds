@@ -1,4 +1,4 @@
-# Installing packages
+# Loading packages
 library(sf)
 library(dplyr)
 library(mFD)
