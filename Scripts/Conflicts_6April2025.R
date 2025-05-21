@@ -254,7 +254,7 @@ FD_df <- as.data.frame(as(FD_top30, "SpatialPixelsDataFrame"))
 PD_df <- as.data.frame(as(PD_top30, "SpatialPixelsDataFrame"))
 Hotsp_df <- as.data.frame(as(Hotsp_top30, "SpatialPixelsDataFrame"))
 
-#I want to know the percentage of individual facet scenarios covered under all seven scenarios
+#I want to know the percentage of individual facet scenarios covered under all scenarios
 
 # First we calculate for the TD scenario
 
@@ -358,6 +358,17 @@ dataf <- dataf %>%
 print(class(dataf$Conservation))
 print(class(dataf$PV))
 
+# categorizing Conservation value into low, medium and high
+quantilesC <- quantile(dataf$Conservation, probs = c(0, 0.33, 0.67, 1))
+
+# Clasificar en low, medium, high
+dataf$conservation_class <- cut(
+  dataf$Conservation,
+  breaks = quantilesC,
+  labels = c("low", "medium", "high"),
+  include.lowest = TRUE
+)
+
 # Calculating quantiles only for cells with values different from 0. Quantiles categorization using also cells 0 leads to inaccurate. 
 # Too many cells where PV does not exist.  
 non_zero_pv <- dataf$PV[dataf$PV > 0]
@@ -379,8 +390,17 @@ print(table(dataf$PV_cat))
 
 print(class(dataf$PV_cat))  
 
-dataf <- bi_class(dataf, x = Conservation, y = PV_cat, style = "equal", dim = 3)
+# Counting the number of cells where PV are present 
+sum(dataf$PV != 0) #PV infrastructure is present in 1540 out of the 3801 cells, this means 40.5% of total cells.  
 
+#Lets count the number of High conservation value cells
+sum(dataf$conservation_class == "high") # There are 1254 high conservation value cells
+
+# Now counting the number of High conservation value cells where PV are present 
+sum(dataf$PV != 0 & dataf$conservation_class == "high") # PV are present in 666 high conservation value
+#This means that PV infrastructure is already present in 53.1% of High conservation value cells.
+
+dataf <- bi_class(dataf, x = conservation_class, y = PV_cat, style = "equal", dim = 3)
 dataf_sf <- st_as_sf(dataf, coords = c("x", "y"), crs = 25830)
 dataf_sf1 <- st_join(malla, dataf_sf, join = st_contains)
 write_sf(dataf_sf1, "Spatial_Data/Conflict_Nogo.shp")
@@ -716,3 +736,33 @@ cat("Cobertura relativa de Threatened under TD+FD+PD:", Threat_coverage, "%\n") 
 cat("Cobertura relativa de Threatened under TD:", Threat_coverageTD, "%\n") # 73.3%
 cat("Cobertura relativa de Threatened under FD:", Threat_coverageFD, "%\n") # 49.4%
 cat("Cobertura relativa de Threatened under PD:", Threat_coveragePD, "%\n") # 37.1%
+
+
+# Map of Threatened species areas
+p <- ggplot() +
+  geom_sf(data = AC, fill = "gray95", color = "gray80") +
+  geom_sf(data = Threats1_top30, fill = "#B35831", color = NA) +
+  geom_sf(data = AC, fill = NA, color = "black", linewidth = 0.5) +
+  labs(title = "Threatened species areas") +
+  annotation_north_arrow(
+    location = "tr", which_north = "grid",
+    pad_x = unit(0, "in"), pad_y = unit(0.05, "in"),
+    style = north_arrow_fancy_orienteering()
+  ) +
+  annotation_scale(location = "bl", width_hint = 0.3) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+    legend.position = "none",
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+print(p)
+
+ggsave("Figures/Threatened species areas.tiff", p, wi = 20, he = 20, un = "cm", dpi = 300)
+
+
+
