@@ -309,3 +309,83 @@ FDindex_SES <- left_join(malla[, c("UTMCODE", "CUADRICULA", "XCENTROIDE", "YCENT
 
 # Saving FD indexes as spatial data
 write_sf(FDindex_SES, "Spatial_Data/Richness/FDindex_SES.shp")
+
+##################################################################
+# Calculating the contribution of each species to FRic
+##################################################################
+
+# Names and communities
+species <- colnames(Communities2)
+communities <- rownames(Communities2)
+
+# Table to save contributions for each species 
+contrib_df <- data.frame(
+  species = species,
+  delta_FRic = NA  # Reduction in FRic when removing that species
+)
+
+# Calculating FRic with all species (summing all cells)
+total_species_present <- colSums(Communities2) > 0
+species_total <- species[total_species_present]
+
+# Subset coordinates
+sp_coords_all <- sp_faxes_coord_birds[species_total, c("PC1", "PC2", "PC3", "PC4")]
+
+total_FRic_raw <- tryCatch({
+  convhulln(sp_coords_all, "FA")
+}, error = function(e) NA)
+
+total_FRic <- NA_real_
+if (is.list(total_FRic_raw) && "vol" %in% names(total_FRic_raw)) {
+  total_FRic <- total_FRic_raw$vol
+}
+
+cat("FRic total volume with all species =", total_FRic, "\n")
+
+# Bucle to caculate FRic withouth each species and hence to calculate their contribution
+for (i in seq_along(species_total)) {
+  
+  sp_subset <- species_total[-i]  
+  
+  fric_drop_raw <- tryCatch({
+    convhulln(sp_faxes_coord_birds[sp_subset, c("PC1", "PC2", "PC3", "PC4")], "FA")
+  }, error = function(e) NA)
+  
+  fric_drop <- NA_real_
+  
+  if (is.list(fric_drop_raw) && "vol" %in% names(fric_drop_raw)) {
+    fric_drop <- fric_drop_raw$vol
+  }
+  
+  # Difference with total volume (all species)
+  if (!is.na(total_FRic) && !is.na(fric_drop)) {
+    delta <- total_FRic - fric_drop
+    if (delta < 0) delta <- 0  # evitar negativos
+    contrib_df$delta_FRic[contrib_df$species == species_total[i]] <- delta
+  } else {
+    contrib_df$delta_FRic[contrib_df$species == species_total[i]] <- NA_real_
+  }
+  
+  cat("fric_drop for species", species_total[i], "=", fric_drop, "\n")
+}
+
+print(contrib_df)
+
+# Sorting values
+contrib_df <- contrib_df[order(contrib_df$delta_FRic, decreasing = TRUE), ]
+
+c <-ggplot(contrib_df, aes(x = reorder(species, delta_FRic), y = delta_FRic)) +
+  geom_bar(stat = "identity", fill = "grey") +
+  coord_flip() +  
+  labs(
+    title = "",
+    x = "",
+    y = "FD contribution"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(family = "Arial"),
+    axis.text.y = element_text(family = "Arial", face = "italic", size = 12, color = "black"),
+  )
+
+ggsave("Figures/Species contribution to FRic.png", c, wi = 20, he = 20, un = "cm", dpi = 300)
