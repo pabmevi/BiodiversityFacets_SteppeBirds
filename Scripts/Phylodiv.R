@@ -165,3 +165,57 @@ corrmatrix <- cor(forcorrmatrix, use = "complete.obs") #Very high correlation be
 
 write_sf(datosMAP, "Spatial_Data/3facets.shp")
 
+##################################################################
+# Calculating the contribution of each species to FRic
+##################################################################
+
+# Calculate total PD
+total_PD <- sum(tree$edge.length)
+
+# Species list
+species_list <- tree$tip.label
+
+contribuciones <- data.frame(
+  species = species_list,
+  PD_total = NA,
+  PD_sin_especie = NA,
+  contrib = NA
+)
+
+# Calculate each species' contribution
+for (i in seq_along(species_list)) {
+  sp <- species_list[i]
+  tree_sin_sp <- drop.tip(tree, sp)
+  PD_sin_sp <- sum(tree_sin_sp$edge.length)
+  
+  contribuciones$PD_total[i] <- total_PD
+  contribuciones$PD_sin_especie[i] <- PD_sin_sp
+  contribuciones$contrib[i] <- total_PD - PD_sin_sp
+}
+
+# Remove underscores from species names
+contribuciones$species_clean <- gsub("_", " ", contribuciones$species)
+
+# Order data by contribution for better visualization
+contribuciones_sorted <- contribuciones[order(contribuciones$contrib), ]
+
+phy <- ggplot(contribuciones_sorted, aes(x = reorder(species_clean, contrib), y = contrib)) +
+  geom_bar(stat = "identity", fill = "grey") +
+  coord_flip() +  
+  labs(
+    x = "Species",
+    y = "PD Contribution",
+    title = ""
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(family = "Arial"),
+    axis.text.y = element_text(family = "Arial", face = "italic", size = 12),
+  )
+
+ggsave("Figures/Species contribution to PD.png", phy, wi = 20, he = 20, un = "cm", dpi = 300)
+
+#Plotting the phylogenetic tree
+png("Figures/phylotree.png", width = 1000, height = 1000, res = 150, family = "Arial")
+plot(tree, show.tip.label = TRUE, cex = 1.2, font = 3)
+dev.off()
