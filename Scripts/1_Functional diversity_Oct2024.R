@@ -360,7 +360,7 @@ for (i in seq_along(species_total)) {
   # Difference with total volume (all species)
   if (!is.na(total_FRic) && !is.na(fric_drop)) {
     delta <- total_FRic - fric_drop
-    if (delta < 0) delta <- 0  # evitar negativos
+    if (delta < 0) delta <- 0  
     contrib_df$delta_FRic[contrib_df$species == species_total[i]] <- delta
   } else {
     contrib_df$delta_FRic[contrib_df$species == species_total[i]] <- NA_real_
